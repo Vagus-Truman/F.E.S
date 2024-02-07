@@ -4,8 +4,7 @@
 public class Cards {
 	
 	// CLASS FIELDS
-	
-	
+	private int majorArcanaNumber = 22; //note, will make limit from 0 to 21, making a total of 22 major Arcana
 	
 	public static void main(String[] args) {
 		
