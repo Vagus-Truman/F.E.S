@@ -3,6 +3,9 @@
 public class Player {
 	
 	// CLASS FIELDS
+	private int baseHealth = 100;
+	private int handLimit = 8;
+	
 	
 	public static void main(String[] args) {
 		
