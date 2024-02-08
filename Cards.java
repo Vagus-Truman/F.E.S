@@ -6,58 +6,58 @@ public class Cards {
 	// CLASS FIELDS
 
 	public static String majorArcana(int value) {
-		String majorArcana = "";
+		String majorArcana = "The Arcana is the means by which all is revealed";
 
 		if (value == 0) {
-			majorArcana = "Fool";
+			majorArcana = majorArcanaReadings("Fool", value);
 		} else if (value == 1) {
-			majorArcana = "Magician";
+			majorArcana = majorArcanaReadings("Magician", value);
 		} else if (value == 2) {
-			majorArcana = "High Priestess";
+			majorArcana = majorArcanaReadings("High Priestess", value);
 		} else if (value == 3) {
-			majorArcana = "Empress";
+			majorArcana = majorArcanaReadings("Empress", value);
 		} else if (value == 4) {
-			majorArcana = "Emperor";
+			majorArcana = majorArcanaReadings("Emperor", value);
 		} else if (value == 5) {
-			majorArcana = "Heirophant";
+			majorArcana = majorArcanaReadings("Heirophant", value);
 		} else if (value == 6) {
-			majorArcana = "Lovers";
+			majorArcana = majorArcanaReadings("Lovers", value);
 		} else if (value == 7) {
-			majorArcana = "Chariot";
+			majorArcana = majorArcanaReadings("Chariot", value);
 		} else if (value == 8) {
-			majorArcana = "Strength";
+			majorArcana = majorArcanaReadings("Strength", value);
 		} else if (value == 9) {
-			majorArcana = "Hermit";
+			majorArcana = majorArcanaReadings("Hermit", value);
 		} else if (value == 10) {
-			majorArcana = "Wheel of Fortune";
+			majorArcana = majorArcanaReadings("Wheel of Fortune", value);
 		} else if (value == 11) {
-			majorArcana = "Justice";
+			majorArcana = majorArcanaReadings("Justice", value);
 		} else if (value == 12) {
-			majorArcana = "Hanged Man";
+			majorArcana = majorArcanaReadings("Hanged Man", value);
 		} else if (value == 13) {
-			majorArcana = "Death";
+			majorArcana = majorArcanaReadings("Death", value);
 		} else if (value == 14) {
-			majorArcana = "Temperance";
+			majorArcana = majorArcanaReadings("Temperance", value);
 		} else if (value == 15) {
-			majorArcana = "Devil";
+			majorArcana = majorArcanaReadings("Devil", value);
 		} else if (value == 16) {
-			majorArcana = "Tower";
+			majorArcana = majorArcanaReadings("Tower", value);
 		} else if (value == 17) {
-			majorArcana = "Star";
+			majorArcana = majorArcanaReadings("Star", value);
 		} else if (value == 18) {
-			majorArcana = "Moon";
+			majorArcana = majorArcanaReadings("Moon", value);
 		} else if (value == 19) {
-			majorArcana = "Sun";
+			majorArcana = majorArcanaReadings("Sun", value);
 		} else if (value == 20) {
-			majorArcana = "Judgement";
+			majorArcana = majorArcanaReadings("Judgement", value);
 		} else if (value == 21) {
-			majorArcana = "World";
+			majorArcana = majorArcanaReadings("World", value);
 		}
 
 		return majorArcana;
 	}
 
-	private static String majorArcanaReadings(int value) {
+	private static String majorArcanaReadings(String card, int value) {
 		String arcanaMeaning = "The Arcana is the means by which all is revealed";
 
 		if (value == 0) {
@@ -106,7 +106,7 @@ public class Cards {
 			arcanaMeaning = "One's story has come to an end. One's story is how one shall be remembered";
 		}
 
-		return String.format("The Arcana is the means by which all is revealed. ", arcanaMeaning);
+		return String.format("The Arcana is the means by which all is revealed. " + card + " | " + arcanaMeaning);
 
 	}
 }
