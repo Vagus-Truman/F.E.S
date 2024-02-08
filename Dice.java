@@ -3,6 +3,7 @@
 public class Dice {
 	// CLASS FIELDS
 	public static String getTarotCard(int category, int value) {
+		//a string that represents the card
 	        String card = "";
 	        if(category == 1) {  // cursed destiny
 	            card =  minorArcana("Cups", value);
@@ -10,7 +11,7 @@ public class Dice {
 	          		  card = minorArcana("Wands", value);
 	       			 }else if(category==3) { // villains destiny
 	           			 card = minorArcana("Coins", value);
-	       					 }else if(category==4) {  // heroes destiny
+	       					 }else if(category==4) {  
 	           					 card = minorArcana("Swords", value);
 	     							   }else {
 	        							    card = majorArcana(value);
@@ -18,6 +19,7 @@ public class Dice {
 	      								  return card; 
 										}
 
+	// The parameter deck in the minorArcana method represents the suit or type of deck to which the card belongs
 	private static String minorArcana(String deck, int value) {
 		  String cardName = "";
 	        if(value <= 2) {
@@ -41,13 +43,13 @@ public class Dice {
 		        }	else if(value <= 20) {
 	        	cardName = "Ten";
 		        }	else if(value <= 22) {
-	        	cardName = "Page";     //Jack but cooler
+	        	cardName = "Page"; 
 		        }	else if(value <= 26) {
 	        	cardName = "Knight";   
 		        }	else if(value <= 28) {
 	        	cardName = "king";
 		        }	else {
-	        	cardName = "Queebn";
+	        	cardName = "Queen";
 		        }
 		        return String.format("=== %s of %s ===%n", cardName, deck);
 	 		   }
