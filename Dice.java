@@ -3,6 +3,18 @@ import java.util.Random;
 
 public class Dice {
 
+// tester
+	public static int rollDiceSuit() {
+            Random rand = new Random();
+            return rand.nextInt(4) + 1; // Returns a random number between 1 and 4
+        }
+
+        // Simulate rolling an arcana number
+        public static int rollDiceNumber() {
+            Random rand = new Random();
+            return rand.nextInt(13) + 1; // Returns a random number between 1 and 13
+        }
+//tester (dont know if this works)
 public class TarotDice {
     // Simulate rolling a single six-sided dice
     public static int rollDice() {
@@ -51,6 +63,7 @@ public class TarotDice {
 }
 
 }
+//end of tester dice...
 	// CLASS FIELDS
 	public static String getTarotCard(int category, int value) {
 		//a string that represents the card
