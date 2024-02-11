@@ -1597,8 +1597,19 @@ public class Player {
 			
 			
 		}
-
 	}
+	
+	public static int cardCounter(int startingCount, int handLimit) {
+		
+		int cardCount = startingCount;
+		
+		if (cardCount > handLimit) {
+			cardCount = handLimit;
+		}
+		
+		return cardCount;
+	}
+
 
 	public static void main(String[] args) {
 
