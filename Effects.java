@@ -7,65 +7,61 @@ public class Effect {
     private boolean stunned = false;
     private boolean burning = false;
     private boolean shocked = false;
+    private double fireDamage;
+    private double electricDamage;
+    private double psychicDamage;
+    private double windDamage;
 
     public Effect() {
 	    //deafauly constructosrs
     }
-    public Effect(double multiplier, double nerf, boolean stunned, boolean burning, boolean shocked) {
-        this.multiplier = multiplier;
-        this.nerf = nerf;
-        this.stunned = stunned;
-        this.burning = burning;
-        this.shocked = shocked;
+   
+    public Effect(double fireDamage, double electricDamage, double psychicDamage, double windDamage) {
+        this.fireDamage = fireDamage;
+        this.electricDamage = electricDamage;
+        this.psychicDamage = psychicDamage;
+        this.windDamage = windDamage;
+        //no effects applied in intial turn
+        this.isBurning = false;
+        this.isShocked = false;
+        this.isStunned = false;
     }
 
-    // Getters and setters
-    public double getMultiplier() {
-        return multiplier;
-    }
+    // Getters and setters for damage fields omitted for brevity
 
-    public void setMultiplier(double multiplier) {
-        this.multiplier = multiplier;
-    }
-
-    public double getNerf() {
-        return nerf;
-    }
-
-    public void setNerf(double nerf) {
-        this.nerf = nerf;
-    }
-
-    public boolean isStunned() {
-        return stunned;
-    }
-
-    public void setStunned(boolean stunned) {
-        this.stunned = stunned;
-    }
-
+    // Getters and setters for effect fields
     public boolean isBurning() {
-        return burning;
+        return isBurning;
     }
 
     public void setBurning(boolean burning) {
-        this.burning = burning;
+        isBurning = burning;
     }
 
     public boolean isShocked() {
-        return shocked;
+        return isShocked;
     }
 
     public void setShocked(boolean shocked) {
-        this.shocked = shocked;
+        isShocked = shocked;
     }
 
-    // Method to reset effects
-    public void resetEffects() {
-        this.multiplier = 1.0;
-        this.nerf = 0.5;
-        this.stunned = false;
-        this.burning = false;
-        this.shocked = false;
+    public boolean isStunned() {
+        return isStunned;
+    }
+
+    public void setStunned(boolean stunned) {
+        isStunned = stunned;
+    }
+
+    // Method to reset damage values and effects
+    public void reset() {
+        this.fireDamage = 0;
+        this.electricDamage = 0;
+        this.psychicDamage = 0;
+        this.windDamage = 0;
+        this.isBurning = false;
+        this.isShocked = false;
+        this.isStunned = false;
     }
 }
