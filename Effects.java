@@ -78,4 +78,16 @@ public double getMultiplier() {
         this.isShocked = false;
         this.isStunned = false;
     }
+
+public class TarotEffect {
+    public void applyFoolEffect(int diceValue, Player player) {
+        if (diceValue <= 6) {
+            // If dice is 6 or below, refill player's HP to 50% of total HP
+            player.refillHP(player.getTotalHP() * 0.5);
+        } else if (diceValue >= 8) {
+            // If dice is 8 or above, refill player's HP to 100% of total HP
+            player.refillHP(player.getTotalHP());
+        }
+        // If dice is 7, nothing happens
+    }
 }
