@@ -53,7 +53,21 @@ public class Effect {
     public void setStunned(boolean stunned) {
         isStunned = stunned;
     }
+public double getMultiplier() {
+        return multiplier;
+    }
 
+    public void setMultiplier(double multiplier) {
+        this.multiplier = multiplier;
+    }
+
+    public double getNerf() {
+        return nerf;
+    }
+
+    public void setNerf(double nerf) {
+        this.nerf = nerf;
+    }
     // Method to reset damage values and effects
     public void reset() {
         this.fireDamage = 0;
