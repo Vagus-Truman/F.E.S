@@ -74,7 +74,7 @@ public class Player {
 
 		// Fool
 		case 0: // cups 1
-			// insert code here
+			 tarotEffect.applyFoolEffect(diceValue, user);
 		case 1: // cups 2
 			// insert code here
 		case 2: // cups 3
