@@ -3,6 +3,12 @@
 import java.util.*;
 
 public class Player {
+	
+  private TarotEffect tarotEffect; // Instance of TarotEffect
+
+    public Player() {
+        this.tarotEffect = new TarotEffect(); // Initialize TarotEffect
+    }
 
 	// CLASS FIELDS
 	private static final int baseHealth = 100;
@@ -69,37 +75,36 @@ public class Player {
 	}
 
 	public static void indexAndAffect(int indexOfCombos) {
-
+ 	 int currentHp = user.healthCount;
 		switch (indexOfCombos) {
 
 		// Fool
 		case 0: // cups 1
 			 tarotEffect.applyFoolEffect(diceValue, user);
 		case 1: // cups 2
-			// insert code here
+			 user.healthCount = (int) Math.round(currentHp * 1.5);
 		case 2: // cups 3
-			// insert code here
+			 user.healthCount = (int) Math.round(currentHp * 1.5);
 		case 3: // cups 4
-			// insert code here
+			 user.healthCount = (int) Math.round(currentHp * 1.5);
 		case 4: // cups 5
-			// insert code here
+			 user.healthCount = (int) Math.round(currentHp * 1.5);
 		case 5: // cups 6
-			// insert code here
+			 user.healthCount = (int) Math.round(currentHp * 1.5);
 		case 6: // cups 7
-			// insert code here
+			//nothing happens
 		case 7: // cups 8
-			// insert code here
+			 user.healthCount += 50;
 		case 8: // cups 9
-			// insert code here
+			 user.healthCount += 50;
 		case 9: // cups 10
-			// insert code here
+			 user.healthCount += 50;
 		case 10: // cups 11
-			// insert code here
+			 user.healthCount += 50;
 		case 11: // cups 12
-			// insert code here
+			 user.healthCount += 50;
 		case 12: // cups 13
-			// insert code here
-
+			 user.healthCount += 50;
 		case 13: // swords 1
 			// insert code here
 		case 14: // swords 2
