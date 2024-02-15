@@ -18,6 +18,10 @@ public class Player {
 	private static final int MINORNUMMIN = 1;
 	private static final int MINORNUMMAX = 13;
 
+    public Player() {
+        this.effect = new Effect(); // Initialize with default effect
+    }
+	
 	public static List<String> cardInfoAndEffect() {
 		List<Integer> cardDataRef = new ArrayList<Integer>(3);
 		List<String> cardDataCollection = new ArrayList<String>();
