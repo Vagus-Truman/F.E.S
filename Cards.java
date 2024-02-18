@@ -167,6 +167,14 @@ public class Cards {
 					+ "If dice is 8 and above, player is deals 50 points of damage";
 
 		}
+		
+		String[] dataCollection = {};
+		dataCollection[0] = card;
+		dataCollection[1] = arcanaMeaning;
+		dataCollection[2] = cupEffects;
+		dataCollection[3] = swordEffects;
+		dataCollection[4] = coinEffects;
+		dataCollection[5] = wandEffects;		
 
 		return String.format("The Arcana is the means by which all is revealed. " + card + " | " + arcanaMeaning
 				+ "\n The Cups: " + cupEffects + "\n The Swords: " + swordEffects + "\n The Coins: " + coinEffects
