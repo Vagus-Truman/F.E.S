@@ -139,7 +139,7 @@ public class Cards {
 			coinEffects = "Deals electrical, fire, or psychic damage based on value. 1, 2, 3, 4 deals electrical damage ranging from 0 to 25 with "
 					+ "4 dealing shocked status for three turns | 5, 6, 7, 8 deals fire damage ranging from 0 to 25 with 8 dealing burned status "
 					+ "for three turns | 9, 10, 11, 12 deals psychic damage ranging from 0 to 25 with 12 dealing stunned status | 13 adds new card to hand";
-			wandEffects = "Deals wind damage based on a scale of 0 to 100, with 1 dealing 0, and 13 dealing 100";
+			wandEffects = "If dice returns an odd number, player has one new card added to their hand. If even, player has two new cards added to their hand. If dice is 7, hand is filled until limit is reached";
 
 		} else if (value == 11) { // justice
 			arcanaMeaning = "To find the one true path, one must seek guidance amidst uncertainty";
