@@ -3,12 +3,6 @@
 import java.util.*;
 
 public class Player {
-	
-  private TarotEffect tarotEffect; // Instance of TarotEffect
-
-    public Player() {
-        this.tarotEffect = new TarotEffect(); // Initialize TarotEffect
-    }
 
 	// CLASS FIELDS
 	private static final int baseHealth = 100;
@@ -24,10 +18,6 @@ public class Player {
 	private static final int MINORNUMMIN = 1;
 	private static final int MINORNUMMAX = 13;
 
-    public Player() {
-        this.effect = new Effect(); // Initialize with default effect
-    }
-	
 	public static List<String> cardInfoAndEffect() {
 		List<Integer> cardDataRef = new ArrayList<Integer>(3);
 		List<String> cardDataCollection = new ArrayList<String>();
@@ -40,13 +30,14 @@ public class Player {
 				for (int minorNum = MINORNUMMIN; minorNum <= MINORNUMMAX; minorNum++) { // minor arcana number selection
 					cardDataRef.add(2, minorNum);
 					
-					StringBuilder sb = new StringBuilder();
+					StringBuilder drawnCard = new StringBuilder(); // creates a string out of the given numbers
 					for (int i = cardDataRef.size() - 1; i >= 0; i--) {
-					  int num = cardDataRef.get(i);
-					  sb.append(num);
+					  int num = cardDataRef.get(i); 
+					  drawnCard.append(num);
 					}
 					
-					String dataString = sb.toString();
+					// assuming all goes well, the format of the card should be {mjArcn, mrArcn, mrArcnNum}
+					String dataString = drawnCard.toString(); 
 					cardDataCollection.add(dataString);
 	
 				}
@@ -62,130 +53,52 @@ public class Player {
 		cardData.add(minorArcana);
 		cardData.add(minorArcanaNumber);
 
-		StringBuilder sb = new StringBuilder();
+		StringBuilder selectedCard = new StringBuilder();
+		
 		for (int i = cardData.size() - 1; i >= 0; i--) {
 		  int num = cardData.get(i);
-		  sb.append(num);
+		  selectedCard.append(num);
 		}
 		
-		String dataCard = sb.toString();
+		String dataCard = selectedCard.toString();
 		
 		int indexOfMatchingCondition = code.indexOf(dataCard);
 		return indexOfMatchingCondition;
 	}
 
 	public static void indexAndAffect(int indexOfCombos) {
- 	 int currentHp = user.healthCount;
+
 		switch (indexOfCombos) {
 
 		// Fool
-		case 0: // cups 1
-			 tarotEffect.applyFoolEffect(diceValue, user);
-		case 1: // cups 2
-			 user.healthCount = (int) Math.round(currentHp * 1.5);
-		case 2: // cups 3
-			 user.healthCount = (int) Math.round(currentHp * 1.5);
-		case 3: // cups 4
-			 user.healthCount = (int) Math.round(currentHp * 1.5);
-		case 4: // cups 5
-			 user.healthCount = (int) Math.round(currentHp * 1.5);
-		case 5: // cups 6
-			 user.healthCount = (int) Math.round(currentHp * 1.5);
+		case 0, 1, 2, 3, 4, 5: // cups 1, 2, 3, 4, 5, 6
+			user.healthCount = (int) Math.round(currentHp * 1.5);
 		case 6: // cups 7
 			//nothing happens
-		case 7: // cups 8
-			 user.healthCount += 50;
-		case 8: // cups 9
-			 user.healthCount += 50;
-		case 9: // cups 10
-			 user.healthCount += 50;
-		case 10: // cups 11
-			 user.healthCount += 50;
-		case 11: // cups 12
-			 user.healthCount += 50;
-		case 12: // cups 13
-			 user.healthCount += 50;
-		case 13: // swords 1
-			// insert code here
-		case 14: // swords 2
-			// insert code here
-		case 15: // swords 3
-			// insert code here
-		case 16: // swords 4
-			// insert code here
-		case 17: // swords 5
-			// insert code here
-		case 18: // swords 6
+		case 7, 8, 9, 10, 11, 12: // cups 8, 9, 10, 11, 12, 13
+			user.healthCount += 50;
+
+		case 13, 14, 15, 16, 17, 18: // swords 1, 2, 3, 4, 5, 6
 			// insert code here
 		case 19: // swords 7
 			// insert code here
-		case 20: // swords 8
-			// insert code here
-		case 21: // swords 9
-			// insert code here
-		case 22: // swords 10
-			// insert code here
-		case 23: // swords 11
-			// insert code here
-		case 24: // swords 12
-			// insert code here
-		case 25: // swords 13
+		case 20, 21, 22, 23, 24, 25: // swords 8, 9, 10, 11, 12, 13
 			// insert code here
 
-		case 26: // coins 1
-			// insert code here
-		case 27: // coins 2
-			// insert code here
-		case 28: // coins 3
-			// insert code here
-		case 29: // coins 4
-			// insert code here
-		case 30: // coins 5
-			// insert code here
-		case 31: // coins 6
+		case 26, 27, 28, 29, 30, 31: // coins 1, 2, 3, 4, 5, 6
 			// insert code here
 		case 32: // coins 7
 			// insert code here
-		case 33: // coins 8
-			// insert code here
-		case 34: // coins 9
-			// insert code here
-		case 35: // coins 10
-			// insert code here
-		case 36: // coins 11
-			// insert code here
-		case 37: // coins 12
-			// insert code here
-		case 38: // coins 13
+		case 33, 34, 35, 36, 37, 38: // coins 8, 9, 10, 11, 12, 13
 			// insert code here
 
-		case 39: // wand 1
-			// insert code here
-		case 40: // wand 2
-			// insert code here
-		case 41: // wand 3
-			// insert code here
-		case 42: // wand 4
-			// insert code here
-		case 43: // wand 5
-			// insert code here
-		case 44: // wand 6
+		case 39, 40, 41, 42, 43, 44: // wand 1, 2, 3, 4, 5, 6
 			// insert code here
 		case 45: // wand 7
 			// insert code here
-		case 46: // wand 8
+		case 46, 47, 48, 49, 50, 51: // wand 8, 9, 10, 11, 12, 13
 			// insert code here
-		case 47: // wand 9
-			// insert code here
-		case 48: // wand 10
-			// insert code here
-		case 49: // wand 11
-			// insert code here
-		case 50: // wand 12
-			// insert code here
-		case 51: // wand 13
-			// insert code here
-
+		
 		// Magician
 		case 52: // cups 1
 			// insert code here
@@ -487,31 +400,9 @@ public class Player {
 		case 194: // coins 13
 			// insert code here
 
-		case 195: // wand 1
+		case 195, 197, 199, 201, 203, 205, 207: // wand 1, 3, 5, 7, 9, 11, 13
 			// insert code here
-		case 196: // wand 2
-			// insert code here
-		case 197: // wand 3
-			// insert code here
-		case 198: // wand 4
-			// insert code here
-		case 199: // wand 5
-			// insert code here
-		case 200: // wand 6
-			// insert code here
-		case 201: // wand 7
-			// insert code here
-		case 202: // wand 8
-			// insert code here
-		case 203: // wand 9
-			// insert code here
-		case 204: // wand 10
-			// insert code here
-		case 205: // wand 11
-			// insert code here
-		case 206: // wand 12
-			// insert code here
-		case 207: // wand 13
+		case 196, 198, 200, 202, 204, 206: // wand 2, 4, 6, 8, 10, 12
 			// insert code here
 			
 		// Emperor
@@ -596,140 +487,30 @@ public class Player {
 		case 246: // coins 13
 			// insert code here
 
-		case 247: // wand 1
+		case 247, 249, 251, 253, 255, 257, 259: // wand 1, 3, 5, 7, 9, 11, 13
 			// insert code here
-		case 248: // wand 2
-			// insert code here
-		case 249: // wand 3
-			// insert code here
-		case 250: // wand 4
-			// insert code here
-		case 251: // wand 5
-			// insert code here
-		case 252: // wand 6
-			// insert code here
-		case 253: // wand 7
-			// insert code here
-		case 254: // wand 8
-			// insert code here
-		case 255: // wand 9
-			// insert code here
-		case 256: // wand 10
-			// insert code here
-		case 257: // wand 11
-			// insert code here
-		case 258: // wand 12
-			// insert code here
-		case 259: // wand 13
+		case 248, 250, 252, 254, 256, 258: // wand 2, 4, 6, 8, 10, 12
 			// insert code here
 
 		// Heirophant
-		case 260: // cups 1
+		case 260, 262, 264, 266, 268, 270, 272: // cups 1, 3, 5, 7, 9, 11, 13
 			// insert code here
-		case 261: // cups 2
-			// insert code here
-		case 262: // cups 3
-			// insert code here
-		case 263: // cups 4
-			// insert code here
-		case 264: // cups 5
-			// insert code here
-		case 265: // cups 6
-			// insert code here
-		case 266: // cups 7
-			// insert code here
-		case 267: // cups 8
-			// insert code here
-		case 268: // cups 9
-			// insert code here
-		case 269: // cups 10
-			// insert code here
-		case 270: // cups 11
-			// insert code here
-		case 271: // cups 12
-			// insert code here
-		case 272: // cups 13
+		case 261, 263, 265, 267, 269, 271: // cups 2, 4, 6, 8, 10, 12
 			// insert code here
 
-		case 273: // swords 1
+		case 273, 275, 277, 279, 281, 283, 285: // swords 1, 3, 5, 7, 9, 11, 13
 			// insert code here
-		case 274: // swords 2
-			// insert code here
-		case 275: // swords 3
-			// insert code here
-		case 276: // swords 4
-			// insert code here
-		case 277: // swords 5
-			// insert code here
-		case 278: // swords 6
-			// insert code here
-		case 279: // swords 7
-			// insert code here
-		case 280: // swords 8
-			// insert code here
-		case 281: // swords 9
-			// insert code here
-		case 282: // swords 10
-			// insert code here
-		case 283: // swords 11
-			// insert code here
-		case 284: // swords 12
-			// insert code here
-		case 285: // swords 13
+		case 274, 276, 278, 280, 282, 284: // swords 2, 4, 6, 8, 10, 12
 			// insert code here
 
-		case 286: // coins 1
+		case 286, 288, 290, 292, 294, 296, 298: // coins 1, 3, 5, 7, 9, 11, 13
 			// insert code here
-		case 287: // coins 2
-			// insert code here
-		case 288: // coins 3
-			// insert code here
-		case 289: // coins 4
-			// insert code here
-		case 290: // coins 5
-			// insert code here
-		case 291: // coins 6
-			// insert code here
-		case 292: // coins 7
-			// insert code here
-		case 293: // coins 8
-			// insert code here
-		case 294: // coins 9
-			// insert code here
-		case 295: // coins 10
-			// insert code here
-		case 296: // coins 11
-			// insert code here
-		case 297: // coins 12
-			// insert code here
-		case 298: // coins 13
+		case 287, 289, 291, 293, 295, 297: // coins 2, 4, 6, 8, 10, 12
 			// insert code here
 
-		case 299: // wand 1
+		case 299, 301, 303, 305, 307, 309, 311: // wand 1, 3, 5, 7, 9, 11, 13
 			// insert code here
-		case 300: // wand 2
-			// insert code here
-		case 301: // wand 3
-			// insert code here
-		case 302: // wand 4
-			// insert code here
-		case 303: // wand 5
-			// insert code here
-		case 304: // wand 6
-			// insert code here
-		case 305: // wand 7
-			// insert code here
-		case 306: // wand 8
-			// insert code here
-		case 307: // wand 9
-			// insert code here
-		case 308: // wand 10
-			// insert code here
-		case 309: // wand 11
-			// insert code here
-		case 310: // wand 12
-			// insert code here
-		case 311: // wand 13
+		case 300, 302, 304, 306, 308, 310: // wand 2, 4, 6, 8, 10, 12
 			// insert code here
 			
 		// Lovers
@@ -923,31 +704,9 @@ public class Player {
 		case 402: // coins 13
 			// insert code here
 
-		case 403: // wand 1
+		case 403, 405, 407, 409, 411, 413, 415: // wand 1, 3, 5, 7, 9, 11, 13
 			// insert code here
-		case 404: // wand 2
-			// insert code here
-		case 405: // wand 3
-			// insert code here
-		case 406: // wand 4
-			// insert code here
-		case 407: // wand 5
-			// insert code here
-		case 408: // wand 6
-			// insert code here
-		case 409: // wand 7
-			// insert code here
-		case 410: // wand 8
-			// insert code here
-		case 411: // wand 9
-			// insert code here
-		case 412: // wand 10
-			// insert code here
-		case 413: // wand 11
-			// insert code here
-		case 414: // wand 12
-			// insert code here
-		case 415: // wand 13
+		case 404, 406, 408, 410, 412, 414: // wand 2, 4, 6, 8, 10, 12
 			// insert code here
 		
 		// Strength
@@ -1060,114 +819,34 @@ public class Player {
 			// insert code here
 
 		// Hermit
-		case 468: // cups 1
-			// insert code here
-		case 469: // cups 2
-			// insert code here
-		case 470: // cups 3
-			// insert code here
-		case 471: // cups 4
-			// insert code here
-		case 472: // cups 5
-			// insert code here
-		case 473: // cups 6
+		case 468, 469, 470, 471, 472, 473: // cups 1, 2, 3, 4, 5, 6
 			// insert code here
 		case 474: // cups 7
 			// insert code here
-		case 475: // cups 8
-			// insert code here
-		case 476: // cups 9
-			// insert code here
-		case 477: // cups 10
-			// insert code here
-		case 478: // cups 11
-			// insert code here
-		case 479: // cups 12
-			// insert code here
-		case 480: // cups 13
+		case 475, 476, 477, 478, 479, 480: // cups 8, 9, 10, 11, 12, 13
 			// insert code here
 
-		case 481: // swords 1
-			// insert code here
-		case 482: // swords 2
-			// insert code here
-		case 483: // swords 3
-			// insert code here
-		case 484: // swords 4
-			// insert code here
-		case 485: // swords 5
-			// insert code here
-		case 486: // swords 6
+		case 481, 482, 483, 484, 485, 486: // swords 1, 2, 3, 4, 5, 6
 			// insert code here
 		case 487: // swords 7
 			// insert code here
-		case 488: // swords 8
+		case 488, 489, 490, 491, 492, 493: // swords 8, 9, 10, 11, 12, 13
 			// insert code here
-		case 489: // swords 9
-			// insert code here
-		case 490: // swords 10
-			// insert code here
-		case 491: // swords 11
-			// insert code here
-		case 492: // swords 12
-			// insert code here
-		case 493: // swords 13
-			// insert code here
-
-		case 494: // coins 1
-			// insert code here
-		case 495: // coins 2
-			// insert code here
-		case 496: // coins 3
-			// insert code here
-		case 497: // coins 4
-			// insert code here
-		case 498: // coins 5
-			// insert code here
-		case 499: // coins 6
+		
+		case 494, 495, 496, 497, 498, 499: // coins 1, 2, 3, 4, 5, 6
 			// insert code here
 		case 500: // coins 7
 			// insert code here
-		case 501: // coins 8
-			// insert code here
-		case 502: // coins 9
-			// insert code here
-		case 503: // coins 10
-			// insert code here
-		case 504: // coins 11
-			// insert code here
-		case 505: // coins 12
-			// insert code here
-		case 506: // coins 13
+		case 501, 502, 503, 504, 505, 506: // coins 8, 9, 10, 11, 12, 13
 			// insert code here
 
-		case 507: // wand 1
-			// insert code here
-		case 508: // wand 2
-			// insert code here
-		case 509: // wand 3
-			// insert code here
-		case 510: // wand 4
-			// insert code here
-		case 511: // wand 5
-			// insert code here
-		case 512: // wand 6
+		case 507, 508, 509, 510, 511, 512: // wand 1, 2, 3, 4, 5, 6
 			// insert code here
 		case 513: // wand 7
 			// insert code here
-		case 514: // wand 8
+		case 514, 515, 516, 517, 518, 519: // wand 8, 9, 10, 11, 12, 13
 			// insert code here
-		case 515: // wand 9
-			// insert code here
-		case 516: // wand 10
-			// insert code here
-		case 517: // wand 11
-			// insert code here
-		case 518: // wand 12
-			// insert code here
-		case 519: // wand 13
-			// insert code here
-			
+		
 		// Fortune
 		case 520: // cups 1
 			// insert code here
@@ -1250,140 +929,30 @@ public class Player {
 		case 558: // coins 13
 			// insert code here
 
-		case 559: // wand 1
+		case 559, 561, 563, 565, 567, 569, 571: // wand 1, 3, 5, 7, 9, 11, 13
 			// insert code here
-		case 560: // wand 2
-			// insert code here
-		case 561: // wand 3
-			// insert code here
-		case 562: // wand 4
-			// insert code here
-		case 563: // wand 5
-			// insert code here
-		case 564: // wand 6
-			// insert code here
-		case 565: // wand 7
-			// insert code here
-		case 566: // wand 8
-			// insert code here
-		case 567: // wand 9
-			// insert code here
-		case 568: // wand 10
-			// insert code here
-		case 569: // wand 11
-			// insert code here
-		case 570: // wand 12
-			// insert code here
-		case 571: // wand 13
+		case 560, 562, 564, 566, 568, 570: // wand 2, 4, 6, 8, 10, 12
 			// insert code here
 
 		// Justice
-		case 572: // cups 1
+		case 572, 573, 574, 575, 576, 577, 578: // cups 1, 2, 3, 4, 5, 6, 7
 			// insert code here
-		case 573: // cups 2
-			// insert code here
-		case 574: // cups 3
-			// insert code here
-		case 575: // cups 4
-			// insert code here
-		case 576: // cups 5
-			// insert code here
-		case 577: // cups 6
-			// insert code here
-		case 578: // cups 7
-			// insert code here
-		case 579: // cups 8
-			// insert code here
-		case 580: // cups 9
-			// insert code here
-		case 581: // cups 10
-			// insert code here
-		case 582: // cups 11
-			// insert code here
-		case 583: // cups 12
-			// insert code here
-		case 584: // cups 13
+		case 579, 580, 581, 582, 583, 584: // cups 8, 9, 10, 11, 12, 13
 			// insert code here
 
-		case 585: // swords 1
+		case 585, 586, 587, 588, 589, 590, 591: // swords 1, 2, 3, 4, 5, 6, 7
 			// insert code here
-		case 586: // swords 2
-			// insert code here
-		case 587: // swords 3
-			// insert code here
-		case 588: // swords 4
-			// insert code here
-		case 589: // swords 5
-			// insert code here
-		case 590: // swords 6
-			// insert code here
-		case 591: // swords 7
-			// insert code here
-		case 592: // swords 8
-			// insert code here
-		case 593: // swords 9
-			// insert code here
-		case 594: // swords 10
-			// insert code here
-		case 595: // swords 11
-			// insert code here
-		case 596: // swords 12
-			// insert code here
-		case 597: // swords 13
+		case 592, 593, 594, 595, 596, 597: // swords 8, 9, 10, 11, 12, 13
 			// insert code here
 
-		case 598: // coins 1
+		case 598, 599, 600, 601, 602, 603, 604: // coins 1, 2, 3, 4, 5, 6, 7
 			// insert code here
-		case 599: // coins 2
-			// insert code here
-		case 600: // coins 3
-			// insert code here
-		case 601: // coins 4
-			// insert code here
-		case 602: // coins 5
-			// insert code here
-		case 603: // coins 6
-			// insert code here
-		case 604: // coins 7
-			// insert code here
-		case 605: // coins 8
-			// insert code here
-		case 606: // coins 9
-			// insert code here
-		case 607: // coins 10
-			// insert code here
-		case 608: // coins 11
-			// insert code here
-		case 609: // coins 12
-			// insert code here
-		case 610: // coins 13
+		case 605, 606, 607, 608, 609, 610: // coins 8, 9, 10, 11, 12, 13
 			// insert code here
 
-		case 611: // wand 1
+		case 611, 612, 613, 614, 615, 616, 617: // wand 1, 2, 3, 4, 5, 6, 7
 			// insert code here
-		case 612: // wand 2
-			// insert code here
-		case 613: // wand 3
-			// insert code here
-		case 614: // wand 4
-			// insert code here
-		case 615: // wand 5
-			// insert code here
-		case 616: // wand 6
-			// insert code here
-		case 617: // wand 7
-			// insert code here
-		case 618: // wand 8
-			// insert code here
-		case 619: // wand 9
-			// insert code here
-		case 620: // wand 10
-			// insert code here
-		case 621: // wand 11
-			// insert code here
-		case 622: // wand 12
-			// insert code here
-		case 623: // wand 13
+		case 618, 619, 620, 621, 622, 623: // wand 8, 9, 10, 11, 12, 13
 			// insert code here
 			
 		// Hanged Man
@@ -1523,87 +1092,26 @@ public class Player {
 		case 688: // cups 13
 			// insert code here
 
-		case 689: // swords 1
-			// insert code here
-		case 690: // swords 2
-			// insert code here
-		case 691: // swords 3
-			// insert code here
-		case 692: // swords 4
-			// insert code here
-		case 693: // swords 5
-			// insert code here
-		case 694: // swords 6
+		case 689, 690, 691, 692, 693, 694: // swords 1, 2, 3, 4, 5, 6
 			// insert code here
 		case 695: // swords 7
 			// insert code here
-		case 696: // swords 8
-			// insert code here
-		case 697: // swords 9
-			// insert code here
-		case 698: // swords 10
-			// insert code here
-		case 699: // swords 11
-			// insert code here
-		case 700: // swords 12
-			// insert code here
-		case 701: // swords 13
+		case 696, 697, 698, 699, 700, 701: // swords 8, 9, 10, 11, 12, 13
 			// insert code here
 
-		case 702: // coins 1
-			// insert code here
-		case 703: // coins 2
-			// insert code here
-		case 704: // coins 3
-			// insert code here
-		case 705: // coins 4
-			// insert code here
-		case 706: // coins 5
-			// insert code here
-		case 707: // coins 6
+		case 702, 703, 704, 705, 706, 707: // coins 1, 2, 3, 4, 5, 6
 			// insert code here
 		case 708: // coins 7
 			// insert code here
-		case 709: // coins 8
-			// insert code here
-		case 710: // coins 9
-			// insert code here
-		case 711: // coins 10
-			// insert code here
-		case 712: // coins 11
-			// insert code here
-		case 713: // coins 12
-			// insert code here
-		case 714: // coins 13
+		case 709, 710, 711, 712, 713, 714: // coins 8, 9, 10, 11, 12, 13
 			// insert code here
 
-		case 715: // wand 1
-			// insert code here
-		case 716: // wand 2
-			// insert code here
-		case 717: // wand 3
-			// insert code here
-		case 718: // wand 4
-			// insert code here
-		case 719: // wand 5
-			// insert code here
-		case 720: // wand 6
+		case 715, 716, 717, 718, 719, 720: // wand 1, 2, 3, 4, 5, 6
 			// insert code here
 		case 721: // wand 7
 			// insert code here
-		case 722: // wand 8
+		case 722, 723, 724, 725, 726, 727: // wand 8, 9, 10, 11, 12, 13
 			// insert code here
-		case 723: // wand 9
-			// insert code here
-		case 724: // wand 10
-			// insert code here
-		case 725: // wand 11
-			// insert code here
-		case 726: // wand 12
-			// insert code here
-		case 727: // wand 13
-			// insert code here
-			
 			
 		}
 	}
@@ -1617,6 +1125,13 @@ public class Player {
 		}
 		
 		return cardCount;
+	}
+	
+	public static int healthCounter (int baseHealth) {
+		
+		int currentHealth = baseHealth;
+		
+		return currentHealth;
 	}
 
 
