@@ -90,6 +90,34 @@ public class TarotEffect {
         }
         // If dice is 7, nothing happens
     }
+	public static void applyMCupEffect(int cupNumber, Player player, Player opponent) {
+        // Constants for base psychic damage and scaling factor
+        final int BASE_DAMAGE = 20;
+        final int SCALING_FACTOR = 3;
+
+        // Calculate damage based on cup number
+        int damage;
+        if (cupNumber == 1) {
+            damage = BASE_DAMAGE;
+        } else {
+            damage = BASE_DAMAGE + (cupNumber - 1) * SCALING_FACTOR;
+        }
+
+        // Apply stunned psychic damage for cup numbers above 7
+        if (cupNumber > 7) {
+            opponent.healthCount -= damage;
+            // Apply stunned effect here
+        } else {
+            opponent.healthCount -= damage;
+        }
+
+        // End scaling at cup number 13
+        if (cupNumber == 13) {
+            opponent.healthCount -= 20; // Additional damage for stunning effect
+            // Apply stunned effect here
+        }
+    }
+}
 }
 	public class swordEffects{
     public void applyFoolEffect(int diceValue, Player player) {
