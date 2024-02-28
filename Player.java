@@ -112,33 +112,10 @@ public class Player {
 		
 		case 65,66,67,68,69,70,71,72,73,74,75,76,77: // swords 1
 		LightningEffect.applyLightningEffect(indexOfCombos + 1, user, opponent);
-		case 78: // coins 1
-			// insert code here
-		case 79: // coins 2
-			// insert code here
-		case 80: // coins 3
-			// insert code here
-		case 81: // coins 4
-			// insert code here
-		case 82: // coins 5
-			// insert code here
-		case 83: // coins 6
-			// insert code here
-		case 84: // coins 7
-			// insert code here
-		case 85: // coins 8
-			// insert code here
-		case 86: // coins 9
-			// insert code here
-		case 87: // coins 10
-			// insert code here
-		case 88: // coins 11
-			// insert code here
-		case 89: // coins 12
-			// insert code here
-		case 90: // coins 13
-			// insert code here
-
+				
+		case 78,79,80,81,82,83,84,85,86,87,88,89,90: // coins 1
+		WindEffect.applyWindEffect(indexOfCombos + 1, opponent);
+		
 		case 91: // wand 1
 			// insert code here
 		case 92: // wand 2
