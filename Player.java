@@ -110,33 +110,8 @@ public class Player {
 		case 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,64: // cups 1 to 13
 		CupEffect.applyCupEffect(indexOfCombos + 1, user, opponent); 
 		
-		case 65: // swords 1
-			// insert code here
-		case 66: // swords 2
-			// insert code here
-		case 67: // swords 3
-			// insert code here
-		case 68: // swords 4
-			// insert code here
-		case 69: // swords 5
-			// insert code here
-		case 70: // swords 6
-			// insert code here
-		case 71: // swords 7
-			// insert code here
-		case 72: // swords 8
-			// insert code here
-		case 73: // swords 9
-			// insert code here
-		case 74: // swords 10
-			// insert code here
-		case 75: // swords 11
-			// insert code here
-		case 76: // swords 12
-			// insert code here
-		case 77: // swords 13
-			// insert code here
-
+		case 65,66,67,68,69,70,71,72,73,74,75,76,77: // swords 1
+		LightningEffect.applyLightningEffect(indexOfCombos + 1, user, opponent);
 		case 78: // coins 1
 			// insert code here
 		case 79: // coins 2
