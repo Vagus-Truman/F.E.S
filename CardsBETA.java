@@ -40,34 +40,34 @@ public class Cards {
 		} else if (value == 2) { // the high priestess
 			arcanaTitle = "The High Priestess";
 			arcanaMeaning = "The silent voice within one's heart whispers the most profound wisdom";
-			cupEffects = "Delivers base healing of 10 HP";
-			swordEffects = "Deals base wind damage of 10";
-			coinEffects = "Deals base fire damage of 10 with burned";
-			wandEffects = "Deals base psychic damage of 10 with stunned";
+			cupEffects = "Delivers healing of 10 HP";
+			swordEffects = "Deals wind damage of 10";
+			coinEffects = "Deals fire damage of 10 with burned";
+			wandEffects = "Deals psychic damage of 10 with stunned";
 
 		} else if (value == 3) { // the empress
 			arcanaTitle = "The Empress";
 			arcanaMeaning = "Celebrate life's grandeur. Its brilliance. Its magnificence";
-			cupEffects = "Delivers base HP of 50. Scales down with ascending dice value, with 13 delivering 0 HP";
-			swordEffects = "Deals base damage of 50. Scales down with ascending dice value, with 13 dealing 0 damage";
-			coinEffects = "Deals base wind damage of 50. Scales down with ascending dice value, with 13 dealing 0 damage";
-			wandEffects = "If dice returns an odd number, player has two new cards added to their hand. If even, player has one new card added to their hand";
+			cupEffects = "Delivers HP of 25";
+			swordEffects = "Deals damage of 50";
+			coinEffects = "Deals psychic damage of 50 with stunned";
+			wandEffects = "Player has two new cards added to their hand";
 
 		} else if (value == 4) { // the emperor
 			arcanaTitle = "The Emperor";
 			arcanaMeaning = "Only courage in the face of doubt can lead one to the answer";
-			cupEffects = "Delivers base HP of 0. Scales down with ascending dice value, with 13 delivering 50 HP";
-			swordEffects = "Deals base damage of 0. Scales down with ascending dice value, with 13 dealing 50 damage";
-			coinEffects = "Deals base wind damage of 0. Scales down with ascending dice value, with 13 dealing 50 damage";
-			wandEffects = "If dice returns an odd number, player has one new card added to their hand. If even, player has two new cards added to their hand";
+			cupEffects = "Delivers HP of 25";
+			swordEffects = "Deals base damage of 25";
+			coinEffects = "Deals base fire damage of 25 with burned";
+			wandEffects = "Player has one new card added to their hand";
 
 		} else if (value == 5) { // the heirophant
 			arcanaTitle = "The Heirophant";
 			arcanaMeaning = "It is indeed a precious gift to understand the forces that guide oneself";
-			cupEffects = "If dice is odd, nothing happens. If dice is even, HP of 5 times the value of the dice is delivered";
-			swordEffects = "If dice is odd, nothing happens. If dice is even, damage of 5 times the value of the dice is delivered";
-			coinEffects = "If dice is odd, nothing happens. If dice is even, fire damage of 5 times the value of the dice is delivered";
-			wandEffects = "If dice is odd, nothing happens. If dice is even, wind of 5 times the value of the dice is delivered";
+			cupEffects = "Delivers HP of 1.5 times current HP";
+			swordEffects = "Deals damage of 1.5 times current HP";
+			coinEffects = "Deals fire damage of 1.5 times current HP with burned";
+			wandEffects = "Deals electric damage of 1.5 times current HP with shocked";
 
 		} else if (value == 6) { // the lovers
 			arcanaTitle = "The Lovers";
