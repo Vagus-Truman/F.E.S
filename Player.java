@@ -77,7 +77,7 @@ public class Player {
 
 		switch (indexOfCombos) {
 
-		// Fool
+	// Fool
 		case 0, 1, 2, 3, 4, 5: // cups 1, 2, 3, 4, 5, 6
 			user.healthCount = (int) Math.round(currentHp * 1.5);
 		case 6: // cups 7
@@ -86,26 +86,26 @@ public class Player {
 			user.healthCount += 50;
 
 		case 13, 14, 15, 16, 17, 18: // swords 1, 2, 3, 4, 5, 6
-			// insert code here
+			SwordEffects.applyEffect(diceValue, opponent);
 		case 19: // swords 7
-			// insert code here
+			// nothing
 		case 20, 21, 22, 23, 24, 25: // swords 8, 9, 10, 11, 12, 13
-			// insert code here
+			SwordEffects.applyEffect(diceValue, opponent);
 
 		case 26, 27, 28, 29, 30, 31: // coins 1, 2, 3, 4, 5, 6
-			// insert code here
+		drawCard(player, deck);
 		case 32: // coins 7
-			// insert code here
+			//nothing
 		case 33, 34, 35, 36, 37, 38: // coins 8, 9, 10, 11, 12, 13
-			// insert code here
+		drawCard(player, deck);
 
 		case 39, 40, 41, 42, 43, 44: // wand 1, 2, 3, 4, 5, 6
-			// insert code here
+		int damage = (int) (enemy.healthCount * 0.5); // 50% of enemy's current health
+		enemy.healthCount -= damage;
 		case 45: // wand 7
-			// insert code here
+			// nothing
 		case 46, 47, 48, 49, 50, 51: // wand 8, 9, 10, 11, 12, 13
-			// insert code here
-		
+		enemy.healthCount -= 50; // 50 points of damage
 		// Magician
 		case 52: // cups 1
 			// insert code here
