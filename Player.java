@@ -107,33 +107,9 @@ public class Player {
 		case 46, 47, 48, 49, 50, 51: // wand 8, 9, 10, 11, 12, 13
 		enemy.healthCount -= 50; // 50 points of damage
 		// Magician
-		case 52: // cups 1
-			// insert code here
-		case 53: // cups 2
-			// insert code here
-		case 54: // cups 3
-			// insert code here
-		case 55: // cups 4
-			// insert code here
-		case 56: // cups 5
-			// insert code here
-		case 57: // cups 6
-			// insert code here
-		case 58: // cups 7
-			// insert code here
-		case 59: // cups 8
-			// insert code here
-		case 60: // cups 9
-			// insert code here
-		case 61: // cups 10
-			// insert code here
-		case 62: // cups 11
-			// insert code here
-		case 63: // cups 12
-			// insert code here
-		case 64: // cups 13
-			// insert code here
-
+		case 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,64: // cups 1 to 13
+		CupEffect.applyCupEffect(indexOfCombos + 1, user, opponent); 
+		
 		case 65: // swords 1
 			// insert code here
 		case 66: // swords 2
