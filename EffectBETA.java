@@ -3,23 +3,20 @@
 // the agreed upon effects are as listed: fire, electric, psychic, and wind
 import java.util.List;
 
-public class EffectBETA {
-	private boolean isStunned = false;
-	private boolean isBurning = false;
-	private boolean isShocked = false;
+public class Effect {
+	static boolean isStunned = false;
+	static boolean isBurning = false;
+	static boolean isShocked = false;
 	private double fireDamage;
 	private double electricDamage;
-	private double psychicDamage;
-	private double windDamage;
-	public EffectBETA() {
+	
+	public Effect() {
 		// deafauly constructosrs
 	}
 
-	public EffectBETA(double fireDamage, double electricDamage, double psychicDamage, double windDamage) {
-		this.fireDamage = fireDamage;
-		this.electricDamage = electricDamage;
-		this.psychicDamage = psychicDamage;
-		this.windDamage= windDamage;
+	public Effect(double fireDamage, double electricDamage) {
+		this.setFireDamage(fireDamage);
+		this.setElectricDamage(electricDamage);
 		// no effects applied in intial turn
 		this.isBurning = false;
 		this.isShocked = false;
@@ -37,12 +34,28 @@ public class EffectBETA {
 		isBurning = burning;
 	}
 
+	public double getFireDamage() {
+		return fireDamage;
+	}
+
+	public void setFireDamage(double fireDamage) {
+		this.fireDamage = fireDamage;
+	}
+
 	public boolean isShocked() {
 		return isShocked;
 	}
 
 	public void setShocked(boolean shocked) {
 		isShocked = shocked;
+	}
+
+	public double getElectricDamage() {
+		return electricDamage;
+	}
+
+	public void setElectricDamage(double electricDamage) {
+		this.electricDamage = electricDamage;
 	}
 
 	public boolean isStunned() {
@@ -55,43 +68,11 @@ public class EffectBETA {
 
 	// Method to reset damage values and effects
 	public void reset() {
-		this.fireDamage = 0;
-		this.electricDamage = 0;
-		this.psychicDamage = 0;
-		this.windDamage= 0;
+		this.setFireDamage(0);
+		this.setElectricDamage(0);
 		this.isBurning = false;
 		this.isShocked = false;
 		this.isStunned = false;
-	}
-
-	public void psychicDamage(int damage) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setElectricDamage(double lightningDamage) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void windDamage(int damage) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void fireDamageHP(double fireDamageAmount) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void fireDamageCoin(int damage) {
-		// TODO Auto-generated method stub
-		this.fireDamage= 20;
-	}
-
-	public void setFireDamage(int damagefire) {
-		// TODO Auto-generated method stub
-	 damagefire= 20;
 	}
 }
 	
