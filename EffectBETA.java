@@ -3,22 +3,23 @@
 // the agreed upon effects are as listed: fire, electric, psychic, and wind
 import java.util.List;
 
-public class Effect {
+public class EffectBETA {
 	private boolean isStunned = false;
 	private boolean isBurning = false;
 	private boolean isShocked = false;
 	private double fireDamage;
 	private double electricDamage;
 	private double psychicDamage;
-
-	public Effect() {
+	private double windDamage;
+	public EffectBETA() {
 		// deafauly constructosrs
 	}
 
-	public Effect(double fireDamage, double electricDamage, double psychicDamage, double windDamage) {
+	public EffectBETA(double fireDamage, double electricDamage, double psychicDamage, double windDamage) {
 		this.fireDamage = fireDamage;
 		this.electricDamage = electricDamage;
 		this.psychicDamage = psychicDamage;
+		this.windDamage= windDamage;
 		// no effects applied in intial turn
 		this.isBurning = false;
 		this.isShocked = false;
@@ -57,78 +58,41 @@ public class Effect {
 		this.fireDamage = 0;
 		this.electricDamage = 0;
 		this.psychicDamage = 0;
+		this.windDamage= 0;
 		this.isBurning = false;
 		this.isShocked = false;
 		this.isStunned = false;
 	}
 
-	public class TarotEffect {
-		public void applyFoolEffect(int diceValue, Player player) {
-			if (diceValue <= 6) {
-				// If dice is 6 or below, refill player's HP to 50% of total HP
-				player.refillHP(player.getTotalHP() * 0.5);
-			} else if (diceValue >= 8) {
-				// If dice is 8 or above, refill player's HP to 100% of total HP
-				player.refillHP(player.getTotalHP());
-			}
-			// If dice is 7, nothing happens
-		}
+	public void psychicDamage(int damage) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public class swordEffects {
-		public void applyFoolEffect(int diceValue, Player player) {
-			if (diceValue <= 6) {
-				opponent.healthCount -= currentHp / 2; // Removes 50% of current HP
-			} else if (diceValue >= 8) {
-				opponent.healthCount -= totalHp / 2; // Removes 50% of total HP
-			}
-		}
+	public void setElectricDamage(double lightningDamage) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public class CoinEffects {
-
-		public static void drawCard(Player player, List<Cards> deck) {
-			if (deck.isEmpty()) {
-				System.out.println("The deck is empty.");
-				return;
-			}
-
-			if (player.getCardCount() >= Player.handLimit) {
-				System.out.println("Cannot draw more cards, hand limit reached.");
-				return;
-			}
-
-			Cards card = deck.remove(0);
-			player.addCardToHand(card);
-			System.out.println("Player drew a card from the deck: " + card);
-		}
-
-		private static void drawCardsUntilHandLimit(Player player, List<Cards> deck) {
-			while (player.getCardCount() < Player.handLimit && !deck.isEmpty()) {
-				drawCard(player, deck);
-			}
-		}
+	public void windDamage(int damage) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public void applyWandEffect(Player player, Player opponent) {
-		int diceValue = rollDice(); // Roll the dice to get a random value
-
-		// Determine the effect based on the dice value
-		if (diceValue <= 6) {
-			// If dice is 6 or below, player deals damage that takes 50% of enemy's current
-			// health
-			int damage = opponent.healthCount / 2;
-			opponent.healthCount -= damage;
-			System.out.println("Player deals " + damage + " damage to the opponent.");
-		} else if (diceValue == 7) {
-			// If dice is 7, nothing happens
-			System.out.println("Nothing happens.");
-		} else {
-			// If dice is 8 and above, player deals 50 points of damage
-			int damage = 50;
-			opponent.healthCount -= damage;
-			System.out.println("Player deals " + damage + " damage to the opponent.");
-		}
+	public void fireDamageHP(double fireDamageAmount) {
+		// TODO Auto-generated method stub
+		
 	}
 
+	public void fireDamageCoin(int damage) {
+		// TODO Auto-generated method stub
+		this.fireDamage= 20;
+	}
+
+	public void setFireDamage(int damagefire) {
+		// TODO Auto-generated method stub
+	 damagefire= 20;
+	}
 }
+	
+		
