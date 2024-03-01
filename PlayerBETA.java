@@ -68,119 +68,244 @@ public class Player {
 		return indexOfMatchingCondition;
 	}
 
-	public static void indexAndAffect(int indexOfCombos) {
+public static void indexAndAffect(int indexOfCombos) {
 
 		switch (indexOfCombos) {
 
 		// Fool
 		case 0:
-			// cups
+		player.healthCount = (int)(0.5 * player.baseHealth);
+		System.out.println("Player's health is refilled to " + player.healthCount);
 		case 1:
-			// swords
+		opponent.healthCount -= (int)(0.5 * opponent.healthCount);
+		System.out.println("Opponent loses 0.5 of their current HP. Current HP: " + opponent.healthCount);
 		case 2:
-			// coins
+		
 		case 3:
-			// wands
+		int hpToRemove = (int)(0.5 * opponent.baseHealth);
+		opponent.healthCount -= hpToRemove;
+		System.out.println("Opponent loses " + hpToRemove + " HP. Current HP: " + opponent.healthCount);
 
 			// Magician
 		case 4:
-			// cups
+		int damage = 20;
+		System.out.println("Deals psychic damage of " + damage + " with stun to the opponent.");
+		opponentEffect.setStunned(true);
+		System.out.println("Opponent is stunned.");
 		case 5:
-			// swords
+		double lightningDamage = 20;
+		opponentEffect.setElectricDamage(lightningDamage);
+		opponentEffect.setShocked(true);
+		System.out.println("Deals lightning damage of " + lightningDamage + " with shocked to the opponent.");
 		case 6:
-			// coins
+		WindDamage windDamage = new WindDamage(20);
+            windDamage.applyWindDamage(opponent);
 		case 7:
-			// wands
+		double fireDamage = 20;
+		opponentEffect.setFireDamage(fireDamage);
+		opponentEffect.setBurned(true);
+		System.out.println("Deals fire damage of " + fireDamage + " with burned to the opponent.");
 
 			// High Priestess
 		case 8:
-			// cups
+		int healingAmount = 10;
+		player.healthCount += healingAmount;
+		System.out.println("Delivers healing of " + healingAmount + " HP to the player. Current HP: " + player.healthCount);
 		case 9:
-			// swords
+		int windDamageAmount = 10;
+		opponentEffect.setWindDamage(windDamageAmount);
+		System.out.println("Deals wind damage of " + windDamageAmount + " to the opponent.");
 		case 10:
-			// coins
+		double fireDamageAmount = 10;
+		opponentEffect.setFireDamage(fireDamageAmount);
+		opponentEffect.setBurned(true);
+		System.out.println("Deals fire damage of " + fireDamageAmount + " with burned to the opponent.");
 		case 11:
-			// wands
+		int psychicDamageAmount = 10;
+		opponentEffect.setPsychicDamage(psychicDamageAmount);
+		opponentEffect.setStunned(true);
+		System.out.println("Deals psychic damage of " + psychicDamageAmount + " with stunned to the opponent.");
+		
 
 			// Empress
 		case 12:
-			// cups
+		int hpDelivered = 25;
+		player.healthCount += hpDelivered;
+		System.out.println("Delivers " + hpDelivered + " HP to the player. Current HP: " + player.healthCount);
 		case 13:
-			// swords
+		int damageAmount = 50;
+		opponent.healthCount -= damageAmount;
+		System.out.println("Deals damage of " + damageAmount + " to the opponent. Current HP: " + opponent.healthCount);
+	   
 		case 14:
-			// coins
+		int psychicDamageAmountCoin = 50;
+		opponentEffect.setPsychicDamage(psychicDamageAmountCoin);
+		opponentEffect.setStunned(true);
+		System.out.println("Deals psychic damage of " + psychicDamageAmountCoin + " with stunned to the opponent.");
+	  
 		case 15:
-			// wands
+		int cardsAdded = 2;
+		player.cardCount += cardsAdded;
+		System.out.println("Player has " + cardsAdded + " new cards added to their hand. Current card count: " + player.cardCount);
 
 			// Emperor
 		case 16:
-			// cups
+		int hpDeliveredCup = 25;
+		player.healthCount += hpDeliveredCup;
+		System.out.println("Delivers " + hpDeliveredCup + " HP to the player. Current HP: " + player.healthCount);
 		case 17:
-			// swords
+		int baseDamage = 25;
+    opponent.healthCount -= baseDamage;
+    System.out.println("Deals base damage of " + baseDamage + " to the opponent. Current HP: " + opponent.healthCount);
+  
 		case 18:
-			// coins
+		int baseFireDamage = 25;
+		opponentEffect.setBaseFireDamage(baseFireDamage);
+		opponentEffect.setBurned(true);
+		System.out.println("Deals base fire damage of " + baseFireDamage + " with burned to the opponent.");
+	 
 		case 19:
-			// wands
+		int cardsAddedWand = 1;
+		player.cardCount += cardsAddedWand;
+		System.out.println("Player has " + cardsAddedWand + " new card added to their hand. Current card count: " + player.cardCount);
 
 			// Heirophant
 		case 20:
-			// cups
+		double healingMultiplier = 1.5;
+		int newHealth = (int) (player.healthCount * healingMultiplier);
+		int healthIncrease = newHealth - player.healthCount;
+		player.healthCount = newHealth;
+		System.out.println("Delivers healing of " + healingMultiplier + " times current HP to the player. Current HP: " + player.healthCount + ". HP increased by: " + healthIncrease);
 		case 21:
-			// swords
+		double damageMultiplier = 1.5;
+		int damageDealt = (int) (player.healthCount * damageMultiplier);
+		opponent.healthCount -= damageDealt;
+		System.out.println("Deals damage of " + damageMultiplier + " times current HP to the opponent. Current HP: " + opponent.healthCount);
+	 
 		case 22:
-			// coins
+		double damageMultiplierCoin = 1.5;
+		int fireDamageDealt = (int) (player.healthCount * damageMultiplierCoin);
+		opponentEffect.setBaseFireDamage(fireDamageDealt);
+		opponentEffect.setBurned(true);
+		System.out.println("Deals fire damage of " + damageMultiplierCoin + " times current HP with burned to the opponent.");
+	 
 		case 23:
-			// wands
+		double damageMultiplierWand = 1.5;
+		int electricDamageDealt = (int) (player.healthCount * damageMultiplierWand);
+		opponentEffect.setElectricDamage(electricDamageDealt);
+		opponentEffect.setShocked(true);
+		System.out.println("Deals electric damage of " + damageMultiplierWand + " times current HP with shocked to the opponent.");
+	
 
 			// Lovers
 		case 24:
-			// cups
+		int healingAmountCup = 26;
+		player.healthCount += healingAmountCup;
+		System.out.println("Delivers healing of " + healingAmountCup + " HP to the player. Current HP: " + player.healthCount);
 		case 25:
-			// swords
+		int damageAmountSword = 39;
+		opponent.healthCount -= damageAmountSword;
+		System.out.println("Deals damage of " + damageAmountSword + " to the opponent. Current HP: " + opponent.healthCount);
+	   
 		case 26:
-			// coins
+		int psychicDamageAmountCoins = 39;
+		opponentEffect.setPsychicDamage(psychicDamageAmountCoins);
+		opponentEffect.setStunned(true);
+		System.out.println("Deals psychic damage of " + psychicDamageAmountCoins + " with stunned to the opponent.");
+	 
 		case 27:
-			// wands
+		int cardsAddedWands = 1;
+		player.cardCount += cardsAddedWands;
+		System.out.println("Player has " + cardsAddedWands + " new card added to their hand. Current card count: " + player.cardCount);
 
 			// Chariot
 		case 28:
-			// cups
+		int healingAmountCups = 7;
+    	player.healthCount += healingAmountCups;
+   		 System.out.println("Delivers healing of " + healingAmountCups + " HP to the player. Current HP: " + player.healthCount);
 		case 29:
-			// swords
+		int damageAmountChariot = 7;
+		opponent.healthCount -= damageAmount;
+		System.out.println("Deals damage of " + damageAmountChariot + " to the opponent. Current HP: " + opponent.healthCount);
+	 
 		case 30:
-			// coins
+		int PsychicDamageChariot = 39;
+		opponentEffect.setPsychicDamage(PsychicDamageChariot);
+		opponentEffect.setStunned(true);
+		System.out.println("Deals psychic damage of " + PsychicDamageChariot + " with stunned to the opponent.");
+
 		case 31:
-			// wands
+		int cardsAddedChariot = 2;
+		player.cardCount += cardsAddedChariot;
+		System.out.println("Player has " + cardsAddedChariot + " new cards added to their hand. Current card count: " + player.cardCount);
+	  
 
 			// Strength
 		case 32:
-			// cups
+		int healingAmountStr = 26;
+		player.healthCount += healingAmountStr;
+		System.out.println("Delivers healing of " + healingAmountStr + " HP to the player. Current HP: " + player.healthCount);
 		case 33:
-			// swords
+		int windDamageStr = 26;
+		opponentEffect.setWindDamage(windDamageStr);
+		System.out.println("Deals wind damage of " + windDamageStr + " to the opponent.");
 		case 34:
-			// coins
+		int damageStr = 26;
+		opponent.healthCount -= damageStr;
+		System.out.println("Deals damage of " + damageStr + " to the opponent. Current HP: " + opponent.healthCount);
 		case 35:
-			// wands
+		int electricDamage = 26;
+		opponentEffect.setElectricDamage(electricDamage);
+		opponentEffect.setShocked(true);
+		System.out.println("Deals electric damage of " + electricDamage + " with shocked to the opponent.");
+	 
 
 			// Hermit
 		case 36:
-			// cups
+		int healingHermit = 50;
+    player.healthCount += healingHermit;
+    System.out.println("Delivers healing of " + healingHermit + " HP to the player. Current HP: " + player.healthCount);
+ 
 		case 37:
-			// swords
+		int damageHermit = 50;
+		opponent.healthCount -= damageHermit;
+		System.out.println("Deals damage of " + damageHermit + " to the opponent. Current HP: " + opponent.healthCount);
+	 
 		case 38:
-			// coins
+		int electricHermit = 50;
+		opponentEffect.setElectricDamage(electricHermit);
+		opponentEffect.setShocked(true);
+		System.out.println("Deals electric damage of " + electricHermit + " with shocked to the opponent.");
+	 
 		case 39:
-			// wands
+		int windDamageHermit = 50;
+		opponentEffect.setWindDamage(windDamageHermit);
+		System.out.println("Deals wind damage of " + windDamageHermit + " to the opponent.");
+	  
 
 			// Wheel Of Fortune
 		case 40:
-			// cups
+		double damageMultiplierWOF = 1.5;
+		int damageDealtWOF = (int) (player.healthCount * damageMultiplierWOF);
+		opponent.healthCount -= damageDealtWOF;
+		System.out.println("Deals damage of " + damageMultipdamageMultiplierWOFlier + " times current HP to the opponent. Current HP: " + opponent.healthCount);
 		case 41:
-			// swords
+		double damageMultiplierWOFS = 2.0;
+		int damageDealtWOFS = (int) (player.healthCount * damageMultiplierWOFS);
+		opponent.healthCount -= damageDealtWOFS;
+		System.out.println("Deals damage of " + damageMultiplierWOFS + " times current HP to the opponent. Current HP: " + opponent.healthCount);
 		case 42:
-			// coins
+		double damageMultipliercoin = 1.5;
+		int fireDamageDealtcoin = (int) (player.healthCount * damageMultipliercoin);
+		opponentEffect.setFireDamage(fireDamageDealtcoin);
+		opponentEffect.setBurned(true);
+		System.out.println("Deals fire damage of " + damageMultipliercoin + " times current HP with burned to the opponent.");
+	
 		case 43:
-			// wands
+		int cardsAddedWOF = 2;
+		player.cardCount += cardsAddedWOF;
+		System.out.println("Player has " + cardsAddedWOF + " new cards added to their hand. Current card count: " + player.cardCount);
+	 
 			
 			// Justice
 		case 44:
