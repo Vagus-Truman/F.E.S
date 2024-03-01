@@ -2,8 +2,24 @@
 // it should be stated now that the board game will be based on a simple card combat system using dice to determine results
 import java.util.*;
 
-public class Player {
+public class PlayerBETA {
+	
+	 private EffectBETA effect;
 
+	    public PlayerBETA() {
+	        // Initialize the effect instance
+	        this.effect = new EffectBETA();
+	    }
+
+	    // Getters and setters for the effect field
+	    public EffectBETA getEffect() {
+	        return effect;
+	    }
+
+	    public void setEffect(EffectBETA effect) {
+	        this.effect = effect;
+	    }
+	
 	// CLASS FIELDS
 	private static final int baseHealth = 100;
 	private static final int handLimit = 8;
@@ -68,43 +84,50 @@ public class Player {
 		return indexOfMatchingCondition;
 	}
 
-public static void indexAndAffect(int indexOfCombos) {
+	public static void indexAndAffect(int indexOfCombos) {
 
+		PlayerBETA opponent = null;
+		EffectBETA opponentEffect = opponent.getEffect();
+		 PlayerBETA player = null;
+		EffectBETA playerEffect = player.getEffect();
 		switch (indexOfCombos) {
 
 		// Fool
 		case 0:
-		player.healthCount = (int)(0.5 * player.baseHealth);
+		player.healthCount = (int)(0.5 * PlayerBETA.baseHealth);
 		System.out.println("Player's health is refilled to " + player.healthCount);
+		
 		case 1:
 		opponent.healthCount -= (int)(0.5 * opponent.healthCount);
 		System.out.println("Opponent loses 0.5 of their current HP. Current HP: " + opponent.healthCount);
 		case 2:
 		
 		case 3:
-		int hpToRemove = (int)(0.5 * opponent.baseHealth);
+		int hpToRemove = (int)(0.5 * PlayerBETA.baseHealth);
 		opponent.healthCount -= hpToRemove;
 		System.out.println("Opponent loses " + hpToRemove + " HP. Current HP: " + opponent.healthCount);
 
 			// Magician
 		case 4:
-		int damage = 20;
-		System.out.println("Deals psychic damage of " + damage + " with stun to the opponent.");
-		opponentEffect.setStunned(true);
-		System.out.println("Opponent is stunned.");
+			int damage = 20;
+            opponentEffect.psychicDamage(damage);
+            opponentEffect.setStunned(true);
+            System.out.println("Deals psychic damage of " + damage + " with stun to the opponent.");
+            System.out.println("Opponent is stunned.");
+            break;
 		case 5:
 		double lightningDamage = 20;
 		opponentEffect.setElectricDamage(lightningDamage);
 		opponentEffect.setShocked(true);
 		System.out.println("Deals lightning damage of " + lightningDamage + " with shocked to the opponent.");
 		case 6:
-		WindDamage windDamage = new WindDamage(20);
-            windDamage.applyWindDamage(opponent);
+		int winddamage= 20;
+		 opponentEffect.windDamage(winddamage);
 		case 7:
-		double fireDamage = 20;
-		opponentEffect.setFireDamage(fireDamage);
-		opponentEffect.setBurned(true);
-		System.out.println("Deals fire damage of " + fireDamage + " with burned to the opponent.");
+		int damagefire = 20;
+		opponentEffect.setFireDamage(damagefire);
+		opponentEffect.setBurning(true);
+		System.out.println("Deals fire damage of " + damagefire + " with burned to the opponent.");
 
 			// High Priestess
 		case 8:
@@ -113,16 +136,16 @@ public static void indexAndAffect(int indexOfCombos) {
 		System.out.println("Delivers healing of " + healingAmount + " HP to the player. Current HP: " + player.healthCount);
 		case 9:
 		int windDamageAmount = 10;
-		opponentEffect.setWindDamage(windDamageAmount);
+		opponentEffect.windDamage(windDamageAmount);
 		System.out.println("Deals wind damage of " + windDamageAmount + " to the opponent.");
 		case 10:
 		double fireDamageAmount = 10;
-		opponentEffect.setFireDamage(fireDamageAmount);
-		opponentEffect.setBurned(true);
+		opponentEffect.fireDamageHP(fireDamageAmount);
+		opponentEffect.setBurning(true);
 		System.out.println("Deals fire damage of " + fireDamageAmount + " with burned to the opponent.");
 		case 11:
 		int psychicDamageAmount = 10;
-		opponentEffect.setPsychicDamage(psychicDamageAmount);
+		opponentEffect.psychicDamage(psychicDamageAmount);
 		opponentEffect.setStunned(true);
 		System.out.println("Deals psychic damage of " + psychicDamageAmount + " with stunned to the opponent.");
 		
@@ -139,7 +162,7 @@ public static void indexAndAffect(int indexOfCombos) {
 	   
 		case 14:
 		int psychicDamageAmountCoin = 50;
-		opponentEffect.setPsychicDamage(psychicDamageAmountCoin);
+		opponentEffect.psychicDamage(psychicDamageAmountCoin);
 		opponentEffect.setStunned(true);
 		System.out.println("Deals psychic damage of " + psychicDamageAmountCoin + " with stunned to the opponent.");
 	  
@@ -160,8 +183,8 @@ public static void indexAndAffect(int indexOfCombos) {
   
 		case 18:
 		int baseFireDamage = 25;
-		opponentEffect.setBaseFireDamage(baseFireDamage);
-		opponentEffect.setBurned(true);
+		opponentEffect.setFireDamage(baseFireDamage);
+		opponentEffect.setBurning(true);
 		System.out.println("Deals base fire damage of " + baseFireDamage + " with burned to the opponent.");
 	 
 		case 19:
@@ -185,8 +208,8 @@ public static void indexAndAffect(int indexOfCombos) {
 		case 22:
 		double damageMultiplierCoin = 1.5;
 		int fireDamageDealt = (int) (player.healthCount * damageMultiplierCoin);
-		opponentEffect.setBaseFireDamage(fireDamageDealt);
-		opponentEffect.setBurned(true);
+		opponentEffect.setFireDamage(fireDamageDealt);
+		opponentEffect.setBurning(true);
 		System.out.println("Deals fire damage of " + damageMultiplierCoin + " times current HP with burned to the opponent.");
 	 
 		case 23:
@@ -209,7 +232,7 @@ public static void indexAndAffect(int indexOfCombos) {
 	   
 		case 26:
 		int psychicDamageAmountCoins = 39;
-		opponentEffect.setPsychicDamage(psychicDamageAmountCoins);
+		opponentEffect.psychicDamage(psychicDamageAmountCoins);
 		opponentEffect.setStunned(true);
 		System.out.println("Deals psychic damage of " + psychicDamageAmountCoins + " with stunned to the opponent.");
 	 
@@ -225,12 +248,12 @@ public static void indexAndAffect(int indexOfCombos) {
    		 System.out.println("Delivers healing of " + healingAmountCups + " HP to the player. Current HP: " + player.healthCount);
 		case 29:
 		int damageAmountChariot = 7;
-		opponent.healthCount -= damageAmount;
+		opponent.healthCount -= damageAmountChariot;
 		System.out.println("Deals damage of " + damageAmountChariot + " to the opponent. Current HP: " + opponent.healthCount);
 	 
 		case 30:
 		int PsychicDamageChariot = 39;
-		opponentEffect.setPsychicDamage(PsychicDamageChariot);
+		opponentEffect.psychicDamage(PsychicDamageChariot);
 		opponentEffect.setStunned(true);
 		System.out.println("Deals psychic damage of " + PsychicDamageChariot + " with stunned to the opponent.");
 
@@ -247,7 +270,7 @@ public static void indexAndAffect(int indexOfCombos) {
 		System.out.println("Delivers healing of " + healingAmountStr + " HP to the player. Current HP: " + player.healthCount);
 		case 33:
 		int windDamageStr = 26;
-		opponentEffect.setWindDamage(windDamageStr);
+		opponentEffect.windDamage(windDamageStr);
 		System.out.println("Deals wind damage of " + windDamageStr + " to the opponent.");
 		case 34:
 		int damageStr = 26;
@@ -279,7 +302,7 @@ public static void indexAndAffect(int indexOfCombos) {
 	 
 		case 39:
 		int windDamageHermit = 50;
-		opponentEffect.setWindDamage(windDamageHermit);
+		opponentEffect.windDamage(windDamageHermit);
 		System.out.println("Deals wind damage of " + windDamageHermit + " to the opponent.");
 	  
 
@@ -288,7 +311,7 @@ public static void indexAndAffect(int indexOfCombos) {
 		double damageMultiplierWOF = 1.5;
 		int damageDealtWOF = (int) (player.healthCount * damageMultiplierWOF);
 		opponent.healthCount -= damageDealtWOF;
-		System.out.println("Deals damage of " + damageMultipdamageMultiplierWOFlier + " times current HP to the opponent. Current HP: " + opponent.healthCount);
+		System.out.println("Deals damage of " + damageMultiplierWOF + " times current HP to the opponent. Current HP: " + opponent.healthCount);
 		case 41:
 		double damageMultiplierWOFS = 2.0;
 		int damageDealtWOFS = (int) (player.healthCount * damageMultiplierWOFS);
@@ -297,8 +320,8 @@ public static void indexAndAffect(int indexOfCombos) {
 		case 42:
 		double damageMultipliercoin = 1.5;
 		int fireDamageDealtcoin = (int) (player.healthCount * damageMultipliercoin);
-		opponentEffect.setFireDamage(fireDamageDealtcoin);
-		opponentEffect.setBurned(true);
+		opponentEffect.fireDamageCoin(fireDamageDealtcoin);
+		opponentEffect.setBurning(true);
 		System.out.println("Deals fire damage of " + damageMultipliercoin + " times current HP with burned to the opponent.");
 	
 		case 43:
