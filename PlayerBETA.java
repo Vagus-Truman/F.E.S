@@ -84,11 +84,9 @@ public class PlayerBETA {
 		return indexOfMatchingCondition;
 	}
 
-	public static void indexAndAffect(int indexOfCombos) {
+	public static void indexAndAffect(int indexOfCombos,PlayerBETA player, PlayerBETA opponent) {
 
-		PlayerBETA opponent = null;
 		EffectBETA opponentEffect = opponent.getEffect();
-		 PlayerBETA player = null;
 		EffectBETA playerEffect = player.getEffect();
 		switch (indexOfCombos) {
 
@@ -332,34 +330,69 @@ public class PlayerBETA {
 			
 			// Justice
 		case 44:
-			// cups
+			  double healingAmoutJustice = player.healthCount * 1.5; // Calculate 1.5 times current HP
+	            player.healthCount += healingAmoutJustice; 
+	            System.out.println("Player gains " + healingAmoutJustice + " HP.");
 		case 45:
-			// swords
+			double damageAmountJustice = player.healthCount * 1.5; // Calculate 1.5 times current HP worth of damage
+            opponent.healthCount -= damageAmountJustice;
+            System.out.println("Opponent takes " + damageAmountJustice + " damage.");
 		case 46:
-			// coins
+			 int damageAmountJusticeCoin = player.healthCount * 2; // Calculate 2 times current HP worth of damage
+	            opponentEffect.psychicDamage(damageAmountJusticeCoin); 
+	            opponentEffect.setStunned(true); 
+	            System.out.println("Opponent takes " + damageAmountJusticeCoin + " psychic damage and is stunned.");
 		case 47:
-			// wands
+			int damageAmountwand = player.healthCount * 2; // Calculate 2 times current HP worth of damage
+            opponentEffect.setFireDamage(damageAmountwand); 
+            opponentEffect.setBurning(true); 
+            System.out.println("Opponent takes " + damageAmountwand + " fire damage and is burned.");
+          
 			
 			// Hanged Man
 		case 48:
-			// cups
+			double healingAmountHangM = player.healthCount * 2; // Calculate 2 times current HP
+            player.healthCount += healingAmountHangM; // Deliver healing
+            System.out.println("Player gains " + healingAmountHangM + " HP.");
+  
 		case 49:
-			// swords
+			double damageAmountHangM = player.healthCount * 1.5; // Calculate 1.5 times current HP worth of damage
+            opponentEffect.setFireDamage((int) damageAmountHangM); 
+            opponentEffect.setBurning(true); 
+            System.out.println("Opponent takes " + damageAmountHangM + " fire damage and is burned.");
+
 		case 50:
-			// coins
+			double damageAmountHangMan = player.healthCount * 1.5; // Calculate 1.5 times current HP worth of damage
+            opponentEffect.setElectricDamage(damageAmountHangMan); 
+            opponentEffect.setShocked(true);
+            System.out.println("Opponent takes " + damageAmountHangMan + " electric damage and is shocked.");
+
 		case 51:
-			// wands
+			 double damageAmountWand = player.healthCount * 1.5; // Calculate 1.5 times current HP worth of damage
+	            opponentEffect.psychicDamage((int) damageAmountWand);
+	            opponentEffect.setStunned(true); 
+	            System.out.println("Opponent takes " + damageAmountWand + " psychic damage and is stunned.");
+
 			
 			// Death
 		case 52:
-			// cups
-		case 53:
-			// swords
-		case 54:
-			// coins
-		case 55:
-			// wands
+			int newHealthDeath = 99; // Set opponent's current health to 99
+            opponent.healthCount = newHealthDeath;
+            System.out.println("Opponent's health is set to " + newHealthDeath);
 
+		case 53:
+			  int newOpponentHealth = (int) (player.healthCount * 0.5); // Calculate half of player's current HP
+	            opponent.healthCount = newOpponentHealth;
+	            System.out.println("Opponent's health is set to " + newOpponentHealth);
+
+		case 54:
+			
+		case 55:
+			  int newHealthD = (int) (player.healthCount * 0.5); // Calculate half of player's current HP
+	            player.healthCount = newHealthD;
+	            System.out.println("Player's health is set to " + newHealthD);
+	            break;
+	       
 		}
 	}
 
@@ -368,7 +401,7 @@ public class PlayerBETA {
 		int cardCount = startingCount;
 
 		if (cardCount > handLimit) {
-			cardCount = handLimit;
+			cardCount = handLimit;	
 		}
 
 		return cardCount;
