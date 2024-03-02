@@ -85,7 +85,7 @@ public class Game {
 				cardsForPlayerWord.add(Cards.majorArcanaReadings(backFacingCards));
 				cardsForPlayerNumber.add(backFacingCards);
 				output.println(">> Major Arcana Number: " + cardsForPlayerNumber.get(i));
-				// new Cardbacks(backFacingCards);
+				new Cardbacks(backFacingCards);
 			}
 
 			// output.println("Card Word List: " + cardsForPlayerWord);
@@ -112,45 +112,35 @@ public class Game {
 
 				}
 
-				output.println("> Play Card? Type Y is yes");
-				while (!p1TurnOver) {
-					String userInput = "";
-					userInput = in.nextLine();
+				// rolling arcana effect
+				int minorSuit = Dice.rollDiceSuit();
 
-					if (userInput.toUpperCase().matches("Y")) {
-						// rolling arcana effect
-						int minorSuit = Dice.rollDiceSuit();
+				// output.println("Minor number " + minorSuit);
 
-						// output.println("Minor number " + minorSuit);
+				switch (minorSuit) {
 
-						switch (minorSuit) {
+				case 1:
+					output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Cups");
+					break;
+				case 2:
+					output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Swords");
+					break;
+				case 3:
+					output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Coins");
+					break;
+				case 4:
+					output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Wands");
+					break;
 
-						case 1:
-							output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Cups");
-							break;
-						case 2:
-							output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Swords");
-							break;
-						case 3:
-							output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Coins");
-							break;
-						case 4:
-							output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Wands");
-							break;
-
-						}
-
-						int indexofCombo = Player1.cardMatchAndIndex(choiceCard, minorSuit);
-						Player1.indexAndAffect(indexofCombo);
-
-						p1TurnOver = true;
-						output.println();
-						playerSwitch();
-
-					} else if (userInput.toUpperCase().matches("N")) {
-						// choose new card
-					}
 				}
+
+				int indexofCombo = Player1.cardMatchAndIndex(choiceCard, minorSuit);
+				Player1.indexAndAffect(indexofCombo);
+
+				p1TurnOver = true;
+				output.println();
+				playerSwitch();
+
 			}
 		}
 
@@ -207,7 +197,7 @@ public class Game {
 				cardsForPlayerWord.add(Cards.majorArcanaReadings(backFacingCards));
 				cardsForPlayerNumber.add(backFacingCards);
 				output.println(">> Major Arcana Number: " + cardsForPlayerNumber.get(i));
-				// new Cardbacks(backFacingCards);
+				new Cardbacks(backFacingCards);
 			}
 
 			// output.println("Card Word List: " + cardsForPlayerWord);
@@ -234,45 +224,33 @@ public class Game {
 
 				}
 
-				output.println("> Play Card? Type Y is yes");
-				while (!p2TurnOver) {
-					String userInput = "";
-					userInput = in.nextLine();
+				// rolling arcana effect
+				int minorSuit = Dice.rollDiceSuit();
 
-					if (userInput.toUpperCase().matches("Y")) {
-						// rolling arcana effect
-						int minorSuit = Dice.rollDiceSuit();
+				// output.println("Minor number " + minorSuit);
 
-						// output.println("Minor number " + minorSuit);
-
-						switch (minorSuit) {
-
-						case 1:
-							output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Cups");
-							break;
-						case 2:
-							output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Swords");
-							break;
-						case 3:
-							output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Coins");
-							break;
-						case 4:
-							output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Wands");
-							break;
-
-						}
-
-						int indexofCombo = Player2.cardMatchAndIndex(choiceCard, minorSuit);
-						Player2.indexAndAffect(indexofCombo);
-
-						p2TurnOver = true;
-						output.println();
-						playerSwitch();
-
-					} else if (userInput.toUpperCase().matches("N")) {
-						// choose new card
-					}
+				switch (minorSuit) {
+				case 1:
+					output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Cups");
+					break;
+				case 2:
+					output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Swords");
+					break;
+				case 3:
+					output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Coins");
+					break;
+				case 4:
+					output.println("Major Number: " + choiceCard + " | " + "Minor Suit: Wands");
+					break;
 				}
+
+				int indexofCombo = Player2.cardMatchAndIndex(choiceCard, minorSuit);
+				Player2.indexAndAffect(indexofCombo);
+
+				p2TurnOver = true;
+				output.println();
+				playerSwitch();
+
 			}
 		}
 
