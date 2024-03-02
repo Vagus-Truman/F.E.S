@@ -4,16 +4,13 @@
 public class Cards {
 
 	// CLASS FIELDS
+	public String majorArcana = "The Arcana is the means by which all is revealed";
 
-	public static String majorArcana(int value) {
-		String majorArcana = "The Arcana is the means by which all is revealed";
-
-		majorArcana = majorArcanaReadings(value);
-
-		return majorArcana;
+	public Cards(int value) {
+		this.majorArcana = majorArcanaReadings(value);
 	}
 
-	private static String majorArcanaReadings(int value) {
+	static String majorArcanaReadings(int value) {
 		String arcanaTitle = "";
 		String arcanaMeaning = "The Arcana is the means by which all is revealed";
 		String cupEffects = "";
@@ -22,15 +19,15 @@ public class Cards {
 		String wandEffects = "";
 
 		if (value == 0) { // the fool
-			arcanaTitle = "The Fool";
+			arcanaTitle = "The Fool 0";
 			arcanaMeaning = "To be born is to die, but it is also to live a mystery called life";
 			cupEffects = "Player is refilled to 0.5 of total HP";
 			swordEffects = "Opponent has 0.5 of current HP removed";
-			coinEffects = "Player is to draw a card from the deck";
+			coinEffects = "Opponent has same amount of HP as player removed";
 			wandEffects = "Opponent has 0.5 of total HP removed";
 
 		} else if (value == 1) { // the magician
-			arcanaTitle = "The Magician";
+			arcanaTitle = "The Magician I";
 			arcanaMeaning = "Attaining one's dream requires a stern will and unfailing determination";
 			cupEffects = "Deals psychic damage of 20 with stun";
 			swordEffects = "Deals lightning damage of 20 with shocked";
@@ -38,7 +35,7 @@ public class Cards {
 			wandEffects = "Deals fire damage of 20 with burned";
 
 		} else if (value == 2) { // the high priestess
-			arcanaTitle = "The High Priestess";
+			arcanaTitle = "The High Priestess II";
 			arcanaMeaning = "The silent voice within one's heart whispers the most profound wisdom";
 			cupEffects = "Delivers healing of 10 HP";
 			swordEffects = "Deals wind damage of 10";
@@ -46,23 +43,23 @@ public class Cards {
 			wandEffects = "Deals psychic damage of 10 with stunned";
 
 		} else if (value == 3) { // the empress
-			arcanaTitle = "The Empress";
+			arcanaTitle = "The Empress III";
 			arcanaMeaning = "Celebrate life's grandeur. Its brilliance. Its magnificence";
 			cupEffects = "Delivers HP of 25";
 			swordEffects = "Deals damage of 50";
 			coinEffects = "Deals psychic damage of 50 with stunned";
-			wandEffects = "Player has two new cards added to their hand";
+			wandEffects = "Opponent has same amount of HP as player";
 
 		} else if (value == 4) { // the emperor
-			arcanaTitle = "The Emperor";
+			arcanaTitle = "The Emperor IV";
 			arcanaMeaning = "Only courage in the face of doubt can lead one to the answer";
 			cupEffects = "Delivers HP of 25";
 			swordEffects = "Deals base damage of 25";
 			coinEffects = "Deals base fire damage of 25 with burned";
-			wandEffects = "Player has one new card added to their hand";
+			wandEffects = "Delivers HP equal to current HP";
 
 		} else if (value == 5) { // the heirophant
-			arcanaTitle = "The Heirophant";
+			arcanaTitle = "The Heirophant V";
 			arcanaMeaning = "It is indeed a precious gift to understand the forces that guide oneself";
 			cupEffects = "Delivers HP of 1.5 times current HP";
 			swordEffects = "Deals damage of 1.5 times current HP";
@@ -70,23 +67,23 @@ public class Cards {
 			wandEffects = "Deals electric damage of 1.5 times current HP with shocked";
 
 		} else if (value == 6) { // the lovers
-			arcanaTitle = "The Lovers";
+			arcanaTitle = "The Lovers VI";
 			arcanaMeaning = "There is both joy and wonder in coming to understand another";
 			cupEffects = "Delivers HP of 26";
 			swordEffects = "Deals damage of 39";
 			coinEffects = "Deals psychic damage of 39 with stunned";
-			wandEffects = "Player has one new card added to their hand";
+			wandEffects = "Fully heals player's HP";
 
 		} else if (value == 7) { // the chariot
-			arcanaTitle = "The Chariot";
+			arcanaTitle = "The Chariot VII";
 			arcanaMeaning = "One of life's greatest blessings is the freedom to pursue one's goals";
 			cupEffects = "Delivers HP of 7";
 			swordEffects = "Deals damage of 7";
 			coinEffects = "Deals psychic damage of 39 with stunned";
-			wandEffects = "Player has two new cards added to their hand";
+			wandEffects = "Fully heals player's HP";
 
 		} else if (value == 8) { // strength
-			arcanaTitle = "The Strength";
+			arcanaTitle = "The Strength VIII";
 			arcanaMeaning = "Only with strength can one endure suffering and torment";
 			cupEffects = "Delivers HP of 26";
 			swordEffects = "Deals wind damage of 26";
@@ -94,7 +91,7 @@ public class Cards {
 			wandEffects = "Deals electric damage of 26 with shocked";
 
 		} else if (value == 9) { // hermit
-			arcanaTitle = "The Hermit";
+			arcanaTitle = "The Hermit IX";
 			arcanaMeaning = "It requires great courage to look at oneself honestly, and forge one's own path";
 			cupEffects = "Delivers HP of 50";
 			swordEffects = "Deals damage of 50";
@@ -102,15 +99,15 @@ public class Cards {
 			wandEffects = "Deals wind damage of 50";
 
 		} else if (value == 10) { // wheel of fortune
-			arcanaTitle = "The Wheel Of Fortune";
+			arcanaTitle = "The Wheel Of Fortune X";
 			arcanaMeaning = "Along time exist fate, the bearer of cruelty";
 			cupEffects = "Delivers 1.5 times current HP";
 			swordEffects = "Deals 2 times current HP worth of damage";
 			coinEffects = "Deals 1.5 times current HP worth of fire damage with burned";
-			wandEffects = "Player has two new cards added to their hand";
+			wandEffects = "Delivers 1.5 times enemy's current HP";
 
 		} else if (value == 11) { // justice
-			arcanaTitle = "The Justice";
+			arcanaTitle = "Justice XI";
 			arcanaMeaning = "To find the one true path, one must seek guidance amidst uncertainty";
 			cupEffects = "Delivers 1.5 times current HP";
 			swordEffects = "Deals 1.5 times current HP worth of damage";
@@ -118,7 +115,7 @@ public class Cards {
 			wandEffects = "Deals 2 times current HP worth of fire damage with burned";
 
 		} else if (value == 12) { // hanged man
-			arcanaTitle = "The Hanged Man";
+			arcanaTitle = "The Hanged Man XII";
 			arcanaMeaning = "In the face of disaster lies opportunity for renewal";
 			cupEffects = "Delivers HP 2 times current HP";
 			swordEffects = "Deals 1.5 times current HP worth of fire damage with burned";
@@ -126,26 +123,22 @@ public class Cards {
 			wandEffects = "Deals 1.5 times current HP worth of psychic damage with stunned";
 
 		} else if (value == 13) { // death
-			arcanaTitle = "Death";
+			arcanaTitle = "Death XII";
 			arcanaMeaning = "Beyond the beaten path lies the absolute end, and a new horizon";
 			cupEffects = "Sets current health to 99, regardless of position";
 			swordEffects = "Sets enemy's HP to 0.5 of your current HP";
-			coinEffects = "Draws cards from deck until limit is reached";
+			coinEffects = "Sets both player's HP to 1";
 			wandEffects = "Sets current HP to 0.5 of current HP";
 
 		}
 
-		String[] dataCollection = {};
-		dataCollection[0] = arcanaTitle;
-		dataCollection[1] = arcanaMeaning;
-		dataCollection[2] = cupEffects;
-		dataCollection[3] = swordEffects;
-		dataCollection[4] = coinEffects;
-		dataCollection[5] = wandEffects;
-
-		return String.format("The Arcana is the means by which all is revealed. " + arcanaTitle + " | " + arcanaMeaning
-				+ "\n The Cups: " + cupEffects + "\n The Swords: " + swordEffects + "\n The Coins: " + coinEffects
-				+ "\n The Wands: " + wandEffects);
+		return String.format(
+				arcanaTitle + " | " + arcanaMeaning
+				+ "\n The Cups: " + cupEffects 
+				+ "\n The Swords: " + swordEffects 
+				+ "\n The Coins: " + coinEffects
+				+ "\n The Wands: " + wandEffects 
+				+ "\n");
 
 	}
 }
