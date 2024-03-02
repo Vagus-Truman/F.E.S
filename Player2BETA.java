@@ -6,10 +6,9 @@ public class Player2 {
 
 	// CLASS FIELDS
 	static final int baseHealth = 100;
-	private static final int startingCOunt = 5;
-	private static final int handLimit = 8;
 	public static int healthCount = baseHealth;
-	public static int cardCount = startingCOunt;
+	public static int cardCount = 5;
+	public static int effectDuration = 3;
 
 	private static final int MAJORMIN = 0;
 	private static final int MAJORMAX = 13;
@@ -20,104 +19,88 @@ public class Player2 {
 	public static boolean statusEffected = false;
 	public static String inflictedStatus = "";
 	
-	public static int playerCount(boolean turnOver) {
-
-		int currentPlayer = 1;
-		// if game start, start with player 1. if turn is done, switch players, and
-		// again and again
-		
-		if (turnOver && currentPlayer == 1) {
-			currentPlayer = 2;
-		} else if (turnOver && currentPlayer == 2) {
-			currentPlayer = 1;
-		}
-
-		return currentPlayer;
-	}
-
 	public static List<String> cardInfoAndEffect() {
-		List<Integer> cardDataRef = new ArrayList<Integer>(2);
-		List<String> cardDataCollection = new ArrayList<String>();
-
+		List<String> cardInfoData = new ArrayList<String>();
+		
 		for (int major = MAJORMIN; major <= MAJORMAX; major++) { // major arcana selection
-			cardDataRef.add(0, major);
 			for (int minor = MINORMIN; minor <= MINORMAX; minor++) { // minor arcana selection
-				cardDataRef.add(1, minor);
-
-				StringBuilder drawnCard = new StringBuilder(); // creates a string out of the given numbers
-				for (int i = cardDataRef.size() - 1; i >= 0; i--) {
-					int num = cardDataRef.get(i);
-					drawnCard.append(num);
-				}
-
+				
 				// assuming all goes well, the format of the card should be {mjArcn, mrArcn}
-				String dataString = drawnCard.toString();
-				cardDataCollection.add(dataString);
+				String dataString = "(" + major + ", " + minor + ")";
+				cardInfoData.add(dataString);
 
 			}
 		}
 
-		return cardDataCollection;
+		//System.out.println(cardInfoData);
+		return cardInfoData;
 	}
 
-	public static int cardMatchAndIndex(int majorArcana, int minorArcana, List<String> code) {
-		List<Integer> cardData = new ArrayList<Integer>(2);
-		cardData.add(majorArcana);
-		cardData.add(minorArcana);
-
-		StringBuilder selectedCard = new StringBuilder();
-
-		for (int i = cardData.size() - 1; i >= 0; i--) {
-			int num = cardData.get(i);
-			selectedCard.append(num);
-		}
-
-		String dataCard = selectedCard.toString();
-
-		int indexOfMatchingCondition = code.indexOf(dataCard);
+	public static int cardMatchAndIndex(int majorArcana, int minorArcana) {
+		String dataString = "(" + majorArcana + ", " + minorArcana + ")";
+		//System.out.println(dataString);
+		
+		int indexOfMatchingCondition = cardInfoAndEffect().indexOf(dataString);
 		return indexOfMatchingCondition;
 	}
 	
 	public Player2(int amountOfCards, int howMuchHP) {
 		this.cardCount = amountOfCards;
 		this.healthCount = howMuchHP;
-
+		
+		// counting health
+		if (healthCount > 100) {
+			healthCount = 100;
+		} 
+		
+		if (healthCount < 0) {
+			healthCount = 0;
+		}
+		
 		if (Effect.isShocked) {
 			// unable to move and takes 5 HP every turn for three turns
 			statusEffected = true;
 			inflictedStatus = "Shocked";
+			
+			for (int i = 0; i < effectDuration;) {
+				if(Player1.turnIsOver) {
+					i++;
+				}
+				
+				Player2.healthCount -= 5;
+				statusEffected = false;
+			}
+			
 		}
 		if (Effect.isBurning) {
 			// every turn takes 5 HP for three turns
 			statusEffected = true;
 			inflictedStatus = "Burned";
+			
+			for (int i = 0; i < effectDuration;) {
+				if(Player2.turnIsOver) {
+					i++;
+				}
+				
+				Player1.healthCount -= 5;
+				statusEffected = false;
+			}
 		}
 		if (Effect.isStunned) {
 			// unable to move for three turns
 			statusEffected = true;
 			inflictedStatus = "Stunned";
+			
+			for (int i = 0; i < effectDuration;) {
+				if(Player2.turnIsOver) {
+					i++;
+				}
+				
+				
+				Player1.healthCount -= 5;
+				statusEffected = false;
+			}
 		}
-
-	}
-	
-	// counting cards
-	public static int cardCounter(int startingCount, int handLimit) {
-
-		int cardCount = startingCount;
-
-		if (cardCount > handLimit) {
-			cardCount = handLimit;
-		}
-
-		return cardCount;
-	}
-
-	// counting health
-	public static int healthCounter(int baseHealth) {
-
-		int currentHealth = baseHealth;
-
-		return currentHealth;
 	}
 	
 	// considering effects
@@ -143,15 +126,21 @@ public class Player2 {
 		case 0:
 			Player2.healthCount = (int) (0.5 * Player2.baseHealth);
 			System.out.println("Player's health is refilled to " + Player2.healthCount);
+			break;
 		case 1:
 			Player1.healthCount -= (int) (0.5 * Player1.healthCount);
 			System.out.println("Player1 loses 0.5 of their current HP. Current HP: " + Player1.healthCount);
+			break;
 		case 2:
-
+			damage = Player1.healthCount;
+			Player2.healthCount -= damage;
+			System.out.println("Player2 loses the total amount of Player1's current HP");
+			break;
 		case 3:
 			damage = (int) (0.5 * Player1.baseHealth);
 			Player1.healthCount -= damage;
 			System.out.println("Player1 loses " + damage + " HP. Current HP: " + Player1.healthCount);
+			break;
 
 			// Magician
 		case 4:
@@ -159,19 +148,23 @@ public class Player2 {
 			System.out.println("Deals psychic damage of " + damage + " with stun to the Player1.");
 			Player1.setStunned();
 			System.out.println("Player1 is stunned.");
+			break;
 		case 5:
 			damage = 20;
 			Player1.healthCount -= damage;
 			Player1.setShocked();
 			System.out.println("Deals lightning damage of " + damage + " with shocked to the Player1.");
+			break;
 		case 6:
 			damage = 20;
 			Player1.healthCount -= damage;
+			break;
 		case 7:
 			damage = 20;
 			Player1.healthCount -= damage;
 			Player1.setBurned();
 			System.out.println("Deals fire damage of " + damage + " with burned to the Player1.");
+			break;
 
 			// High Priestess
 		case 8:
@@ -179,66 +172,74 @@ public class Player2 {
 			Player2.healthCount += healingAmount;
 			System.out.println(
 					"Delivers healing of " + healingAmount + " HP to the player. Current HP: " + Player2.healthCount);
+			break;
 		case 9:
 			damage = 10;
 			Player1.healthCount -= damage;
 			System.out.println("Deals wind damage of " + damage + " to the Player1.");
+			break;
 		case 10:
 			damage = 10;
 			Player1.healthCount -= damage;
 			Player1.setBurned();
 			System.out.println("Deals fire damage of " + damage + " with burned to the Player1.");
+			break;
 		case 11:
 			damage = 10;
 			Player1.healthCount -= damage;
 			Player1.setStunned();
 			System.out.println("Deals psychic damage of " + damage + " with stunned to the Player1.");
+			break;
 
 			// Empress
 		case 12:
 			int hpDelivered = 25;
 			Player2.healthCount += hpDelivered;
 			System.out.println("Delivers " + hpDelivered + " HP to the player. Current HP: " + Player2.healthCount);
+			break;
 		case 13:
 			damage = 50;
 			Player1.healthCount -= damage;
 			System.out.println(
 					"Deals damage of " + damage + " to the Player1. Current HP: " + Player1.healthCount);
+			break;
 
 		case 14:
 			damage = 60;
 			Player1.healthCount -= damage;
 			Player1.setStunned();
 			System.out.println("Deals psychic damage of " + damage + " with stunned to the Player1.");
+			break;
 
 		case 15:
-			int cardsAdded = 2;
-			Player2.cardCount += cardsAdded;
-			System.out.println("Player has " + cardsAdded + " new cards added to their hand. Current card count: "
-					+ Player2.cardCount);
+			Player1.healthCount = Player2.healthCount;
+			System.out.println("Player1's HP is equal to Player2's");
+			break;
 
 			// Emperor
 		case 16:
 			int hpDeliveredCup = 25;
 			Player2.healthCount += hpDeliveredCup;
 			System.out.println("Delivers " + hpDeliveredCup + " HP to the player. Current HP: " + Player2.healthCount);
+			break;
 		case 17:
 			damage = 25;
 			Player1.healthCount -= damage;
 			System.out.println(
 					"Deals base damage of " + damage + " to the Player1. Current HP: " + Player1.healthCount);
+			break;
 
 		case 18:
 			damage = 25;
 			Player1.healthCount -= damage;
 			Player1.setBurned();
 			System.out.println("Deals base fire damage of " + damage + " with burned to the Player1.");
+			break;
 
 		case 19:
-			int cardsAddedWand = 1;
-			Player2.cardCount += cardsAddedWand;
-			System.out.println("Player has " + cardsAddedWand + " new card added to their hand. Current card count: "
-					+ Player2.cardCount);
+			Player2.healthCount += Player2.healthCount;
+			System.out.println("Player has been healed an equal amount of their current health");
+			break;
 
 			// Heirophant
 		case 20:
@@ -249,12 +250,14 @@ public class Player2 {
 			System.out.println(
 					"Delivers healing of " + multiplier + " times current HP to the player. Current HP: "
 							+ Player2.healthCount + ". HP increased by: " + healthIncrease);
+			break;
 		case 21:
 			multiplier = 1.5;
 			damage = (int) (Player2.healthCount * multiplier);
 			Player1.healthCount -= damage;
 			System.out.println("Deals damage of " + multiplier + " times current HP to the Player1. Current HP: "
 					+ Player1.healthCount);
+			break;
 
 		case 22:
 			multiplier = 1.5;
@@ -263,6 +266,7 @@ public class Player2 {
 			Player1.setBurned();
 			System.out.println(
 					"Deals fire damage of " + multiplier + " times current HP with burned to the Player1.");
+			break;
 
 		case 23:
 			multiplier = 1.5;
@@ -271,6 +275,7 @@ public class Player2 {
 			Player1.setShocked();
 			System.out.println("Deals electric damage of " + multiplier
 					+ " times current HP with shocked to the Player1.");
+			break;
 
 			// Lovers
 		case 24:
@@ -278,11 +283,13 @@ public class Player2 {
 			Player2.healthCount += healingAmountCup;
 			System.out.println(
 					"Delivers healing of " + healingAmountCup + " HP to the player. Current HP: " + Player2.healthCount);
+			break;
 		case 25:
 			damage = 39;
 			Player1.healthCount -= damage;
 			System.out.println(
 					"Deals damage of " + damage + " to the Player1. Current HP: " + Player1.healthCount);
+			break;
 
 		case 26:
 			damage = 39;
@@ -290,11 +297,12 @@ public class Player2 {
 			Player1.setStunned();
 			System.out
 					.println("Deals psychic damage of " + damage + " with stunned to the Player1.");
+			break;
 
 		case 27:
-			Player2.cardCount += 1;
-			System.out.println("Player has " + 1 + " new card added to their hand. Current card count: "
-					+ Player2.cardCount);
+			Player2.healthCount = baseHealth;
+			System.out.println("Player has been fully healed");
+			break;
 
 			// Chariot
 		case 28:
@@ -302,22 +310,25 @@ public class Player2 {
 			Player2.healthCount += healingAmountCups;
 			System.out.println("Delivers healing of " + healingAmountCups + " HP to the player. Current HP: "
 					+ Player2.healthCount);
+			break;
 		case 29:
 			damage = 7;
 			Player1.healthCount -= damage;
 			System.out.println(
 					"Deals damage of " + damage + " to the Player1. Current HP: " + Player1.healthCount);
+			break;
 
 		case 30:
 			damage = 39;
 			Player1.healthCount -= damage;
 			Player1.setStunned();
 			System.out.println("Deals psychic damage of " + damage + " with stunned to the Player1.");
+			break;
 
 		case 31:
-			Player2.cardCount += 2;
-			System.out.println("Player has " + 2
-					+ " new cards added to their hand. Current card count: " + Player2.cardCount);
+			Player2.healthCount = baseHealth;
+			System.out.println("Player has been fully healed");
+			break;
 
 			// Strength
 		case 32:
@@ -325,20 +336,24 @@ public class Player2 {
 			Player2.healthCount += healingAmountStr;
 			System.out.println(
 					"Delivers healing of " + healingAmountStr + " HP to the player. Current HP: " + Player2.healthCount);
+			break;
 		case 33:
 			damage = 26;
 			Player1.healthCount -= damage;
 			System.out.println("Deals wind damage of " + damage + " to the Player1.");
+			break;
 		case 34:
 			damage = 26;
 			Player1.healthCount -= damage;
 			System.out
 					.println("Deals damage of " + damage + " to the Player1. Current HP: " + Player1.healthCount);
+			break;
 		case 35:
 			damage = 26;
 			Player1.healthCount -= damage;
 			Player1.setShocked();
 			System.out.println("Deals electric damage of " + damage + " with shocked to the Player1.");
+			break;
 
 			// Hermit
 		case 36:
@@ -346,23 +361,27 @@ public class Player2 {
 			Player2.healthCount += healingHermit;
 			System.out.println(
 					"Delivers healing of " + healingHermit + " HP to the player. Current HP: " + Player2.healthCount);
+			break;
 
 		case 37:
 			damage = 50;
 			Player1.healthCount -= damage;
 			System.out.println(
 					"Deals damage of " + damage + " to the Player1. Current HP: " + Player1.healthCount);
+			break;
 
 		case 38:
 			damage = 50;
 			Player1.healthCount -= damage;
 			Player1.setShocked();
 			System.out.println("Deals electric damage of " + damage + " with shocked to the Player1.");
+			break;
 
 		case 39:
 			damage = 50;
 			Player1.healthCount -= damage;
 			System.out.println("Deals wind damage of " + damage + " to the Player1.");
+			break;
 
 			// Wheel Of Fortune
 		case 40:
@@ -371,83 +390,99 @@ public class Player2 {
 			Player1.healthCount -= damage;
 			System.out.println("Deals damage of " + multiplier
 					+ " times current HP to the Player1. Current HP: " + Player1.healthCount);
+			break;
 		case 41:
 			multiplier = 2.0;
 			damage = (int) (Player2.healthCount * multiplier);
 			Player1.healthCount -= damage;
 			System.out.println("Deals damage of " + multiplier
 					+ " times current HP to the Player1. Current HP: " + Player1.healthCount);
+			break;
 		case 42:
 			multiplier = 1.5;
 			damage = (int) (Player2.healthCount * multiplier);
 			Player1.healthCount -= damage;
 			Player1.setBurned();
 			System.out.println(
-					"Deals fire damage of " + multiplier + " times current HP with burned to the Player1.");
+					"Deals fire damage of " + multiplier + " times current HP with burned to the Player1");
+			break;
 		case 43:
-			Player2.cardCount += 2;
-			System.out.println("Player has " + 2 + " new cards added to their hand. Current card count: "
-					+ Player2.cardCount);
+			multiplier = 1.5;
+			int healing = (int) (Player1.healthCount * multiplier);
+			Player2.healthCount += healing;
+			System.out.println("Delivers HP of " + multiplier + "times current HP of Player2 to Player1");
+			break;
 
 			// Justice
 		case 44:
 			double healingAmoutJustice = Player2.healthCount * 1.5; // Calculate 1.5 times current HP
 			Player2.healthCount += healingAmoutJustice;
 			System.out.println("Player gains " + healingAmoutJustice + " HP.");
+			break;
 		case 45:
 			damage = (int) (Player2.healthCount * 1.5); // Calculate 1.5 times current HP worth of damage
 			Player1.healthCount -= damage;
 			System.out.println("Opponent takes " + damage + " damage.");
+			break;
 		case 46:
 			damage = Player2.healthCount * 2; // Calculate 2 times current HP worth of damage
 			Player1.healthCount -= damage;
 			Player2.setStunned();
 			System.out.println("Opponent takes " + damage + " psychic damage and is stunned.");
+			break;
 		case 47:
 			damage = Player2.healthCount * 2; // Calculate 2 times current HP worth of damage
 			Player1.healthCount -= damage;
 			Player2.setBurned();
 			System.out.println("Opponent takes " + damage + " fire damage and is burned.");
+			break;
 
 			// Hanged Man
 		case 48:
 			double healingAmountHangM = Player2.healthCount * 2; // Calculate 2 times current HP
 			Player2.healthCount += healingAmountHangM; // Deliver healing
 			System.out.println("Player gains " + healingAmountHangM + " HP.");
+			break;
 
 		case 49:
 			damage = (int) (Player2.healthCount * 1.5); // Calculate 1.5 times current HP worth of damage
 			Player1.healthCount -= damage;
 			Player2.setBurned();
 			System.out.println("Opponent takes " + damage + " fire damage and is burned.");
+			break;
 
 		case 50:
 			damage = (int) (Player2.healthCount * 1.5); // Calculate 1.5 times current HP worth of damage
 			Player1.healthCount -= damage;
 			Player2.setShocked();
 			System.out.println("Opponent takes " + damage + " electric damage and is shocked.");
+			break;
 
 		case 51:
 			damage = (int) (Player1.healthCount * 1.5); // Calculate 1.5 times current HP worth of damage
 			Player1.healthCount -= damage;
 			Player2.setStunned();
 			System.out.println("Opponent takes " + damage + " psychic damage and is stunned.");
+			break;
 
 			// Death
 		case 52:
 			int newHealthDeath = 99; // Set opponent's current health to 99
 			Player1.healthCount = newHealthDeath;
 			System.out.println("Opponent's health is set to " + newHealthDeath);
+			break;
 
 		case 53:
 			int newOpponentHealth = (int) (Player2.healthCount * 0.5); // Calculate half of player's current HP
 			Player1.healthCount = newOpponentHealth;
 			System.out.println("Opponent's health is set to " + newOpponentHealth);
+			break;
 
 		case 54:
-			Player2.cardCount += (handLimit - Player2.cardCount);
-			System.out.println("Player has " + 1 + " new card added to their hand. Current card count: "
-					+ Player2.cardCount);
+			Player1.healthCount = 1;
+			Player2.healthCount = 1;
+			System.out.println("Both players are at 1 HP");
+			break;
 			
 		case 55:
 			int newHealthD = (int) (Player2.healthCount * 0.5); // Calculate half of player's current HP
