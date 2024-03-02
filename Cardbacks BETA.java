@@ -37,7 +37,7 @@ public class Cardbacks extends JPanel {
 
 	public static void main(String[] args) {
 		new Cardbacks();
-		new Cardbacks(13);
+		new Cardbacks(10);
 	}
 
 	class Drawing extends JComponent {
@@ -123,7 +123,7 @@ public class Cardbacks extends JPanel {
 				g2.setFont(desiredFontNumber);
 				g2.drawString("X", 185, 350);
 				g2.setFont(desiredFontTitle);
-				g2.drawString("Wheel Of Fortune", 55, 425);
+				g2.drawString("Wheel Of Fortune", 40, 425);
 				break;
 			case 11:
 				g2.setFont(desiredFontNumber);
