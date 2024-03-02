@@ -17,15 +17,6 @@ public class Dice {
 			return rand.nextInt(6) + 1; // Returns a random number between 1 and 6
 		}
 
-		// Simulate rolling multiple dice and summing up the result
-		public static int rollMultipleDice(int numDice) {
-			int sum = 0;
-			for (int i = 0; i < numDice; i++) {
-				sum += rollDice();
-			}
-			return sum;
-		}
-
 		// Roll dice to get a tarot card
 		public static String rollForTarotCard() {
 			int category = rollMultipleDice(1); // Roll 1 dice for category
