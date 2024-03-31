@@ -21,6 +21,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 
 import javax.swing.ImageIcon;
@@ -34,7 +35,7 @@ import java.awt.event.ActionListener;
 public class GameBoard extends JFrame {
 
 	private List<String> majorArcanaCards;
-	
+
 	public static boolean p1TurnOver = Player1.turnIsOver;
 	public static boolean p2TurnOver = Player2.turnIsOver;
 	public static boolean validCardSelected = false;
@@ -49,7 +50,6 @@ public class GameBoard extends JFrame {
 	private static final int indicatorHealthBarWidth = 310;
 	private static final int indicatorHealthBarHeight = 410;
 
-	private JPanel indicatorHealthBar;
 	private int currentPlayer;
 
 	private JPanel turnIndicator;
@@ -73,52 +73,52 @@ public class GameBoard extends JFrame {
 	private JButton card3;
 	private JButton card4;
 	private JButton card5;
-	
+	private ImageIcon cardBack;
+
 	private JPanel minorArcanaFull;
 	private JButton minorArcanaRoll;
+	private ImageIcon dicePic;
 	private JPanel minorArcanaRollResult;
 	private JLabel minorArcanaRollResultText;
-	
+
 	private JPanel potentialFX;
 	private JLabel potentialFXDesc;
 
 	private JPanel resultingFX;
 	private JLabel resultingFXDesc;
-	
+
 	// main things
 	private JPanel contentPane;
 	private JPanel paneLeftSide;
 	private JPanel paneCenterBeyondLeft;
+	private Timer timer;
 
-	
 	public GameBoard() {
 		this.setTitle("All Shall Be Revealed");
-		 
+
 		this.currentPlayer = Game.currentPlayer;
 		Dimension screenSize = new Dimension(1536, 960);
 		Dimension arcanaCardSize = new Dimension(CardWidth, CardLength);
 		Dimension healthBarSize = new Dimension(HpBarWidth, HpBarLength);
 		Dimension turnIndicatorUprightSize = new Dimension(TurnIndicatorWidth, TurnIndicatorHeight);
 		Dimension indicatorHealthBarSize = new Dimension(indicatorHealthBarWidth, indicatorHealthBarHeight);
-		
+
 		System.out.println("ScreenSize Width = " + screenSize.width);
 		System.out.println("ScreenSize Height = " + screenSize.height);
-		
+
 		this.contentPane = new JPanel();
+		this.contentPane.setBackground(Color.BLACK);
 		this.contentPane.setSize(screenSize);
 		this.contentPane.setLayout(null);
 		Font smallText = new Font("Monospaced", Font.PLAIN, 14);
-		Font bigText = new Font("Monospaced", Font.PLAIN, 20);
+		Font bigText = new Font("Monospaced", Font.BOLD, 20);
 		Font biggerText = new Font("Monospaced", Font.BOLD, 28);
 
 		// Left Panel
 		this.paneLeftSide = new JPanel();
 		this.paneLeftSide.setBounds(25, (screenSize.height - indicatorHealthBarSize.height) / 2,
 				indicatorHealthBarSize.width, indicatorHealthBarSize.height);
-		this.indicatorHealthBar = new JPanel();
-		this.indicatorHealthBar.setLayout(null);
-		this.indicatorHealthBar.setPreferredSize(indicatorHealthBarSize);
-		this.indicatorHealthBar.setBackground(Color.DARK_GRAY);
+		this.paneLeftSide.setBackground(Color.DARK_GRAY);
 
 		// player 1 health
 		this.player1HPCount = new JLabel();
@@ -129,18 +129,19 @@ public class GameBoard extends JFrame {
 		this.player1HPIndicator.setBounds(25, 5, healthBarSize.width, healthBarSize.height);
 		this.player1HPIndicator.setBackground(Color.BLUE);
 		this.player1HPIndicator.add(player1HPCount);
-		this.indicatorHealthBar.add(player1HPIndicator);
+		this.paneLeftSide.add(player1HPIndicator);
 
 		// turn indicators
 		this.currentPlayerTurn = new JLabel();
 		this.currentPlayerTurn.setText("<html><br/><br/><br/>Player " + this.currentPlayer + "'s Turn!<html>");
 		this.currentPlayerTurn.setFont(biggerText);
+		this.currentPlayerTurn.setForeground(Color.WHITE);
 		this.turnIndicator = new JPanel();
 		this.turnIndicator.add(currentPlayerTurn);
 		this.turnIndicator.setBackground(Color.GRAY);
 		this.turnIndicator.setBounds(10, (indicatorHealthBarSize.height - turnIndicatorUprightSize.height) / 2 - 3,
 				turnIndicatorUprightSize.width, turnIndicatorUprightSize.height);
-		this.indicatorHealthBar.add(turnIndicator);
+		this.paneLeftSide.add(turnIndicator);
 
 		// player 2 health
 		this.player2HPCount = new JLabel();
@@ -152,231 +153,257 @@ public class GameBoard extends JFrame {
 				healthBarSize.width, healthBarSize.height);
 		this.player2HPIndicator.setBackground(Color.RED);
 		this.player2HPIndicator.add(player2HPCount);
-		this.indicatorHealthBar.add(player2HPIndicator);
-
-		this.paneLeftSide.add(indicatorHealthBar);
+		this.paneLeftSide.add(player2HPIndicator);
 
 		// Beyond Left Panel
 		this.paneCenterBeyondLeft = new JPanel();
 		this.paneCenterBeyondLeft.setLayout(null);
-		this.paneCenterBeyondLeft.setBackground(Color.GRAY);
+		this.paneCenterBeyondLeft.setBackground(Color.DARK_GRAY);
 		this.paneCenterBeyondLeft.setBounds(indicatorHealthBarSize.width + 35, 15,
 				(screenSize.width - 65 - indicatorHealthBarSize.width), screenSize.height - 70);
 
 		// choosing between each minor arcana
-		this.minorArcanaRoll = new JButton();
-		this.minorArcanaRoll.setText("Cast Die");
-		this.minorArcanaRoll.setFont(biggerText);
+		this.dicePic = new ImageIcon("icons/dice.png");
+		this.minorArcanaRoll = new JButton(this.dicePic);
 		this.minorArcanaRoll.setBounds(15, (paneCenterBeyondLeft.getHeight() - ArcanaRollWidthAndHeight) / 2 - 15,
 				ArcanaRollWidthAndHeight, ArcanaRollWidthAndHeight);
 		this.paneCenterBeyondLeft.add(minorArcanaRoll);
-		
 
-			// showing the result of the minor arcana roll
-			this.minorArcanaRollResultText = new JLabel();
-			this.minorArcanaRollResultText.setForeground(Color.WHITE);
-			this.minorArcanaRollResultText.setFont(smallText);
-	
-			minorArcanaRoll.addActionListener(e -> {
-			    int minorSuit = Dice.rollDiceSuit();
-			    System.out.println("Minor Suit: " + minorSuit);
-			   
-			    if (minorSuit == 1) {
-			        minorArcanaRollResultText.setText("> Minor Suit: Cups");
-			    } else if (minorSuit == 2) {
-			        minorArcanaRollResultText.setText("> Minor Suit: Swords");
-			    } else if (minorSuit == 3) {
-			        minorArcanaRollResultText.setText("> Minor Suit: Coins");
-			    } else if (minorSuit == 4) {
-			        minorArcanaRollResultText.setText("> Minor Suit: Wands");
-			    }
-			    
-			   
-			    int selectedCardIndex = majorArcanaCards.indexOf(minorArcanaDescription.getText());
-			    
-			 
-			    int overallIndex = selectedCardIndex * 4 + (minorSuit - 1); 
-			  
-			    if (currentPlayer == 1) {
-			        
-			        if (stunLockedP1) {
-			          
-			            System.out.println(">> Player " + currentPlayer + "'s turn");
-			           
-			            if (Player2.statusEffected) {
-			                System.out.println("> Enemy HP: " + Player2.healthCount + " | " + Player2.inflictedStatus);
-			            } else {
-			                System.out.println("> Enemy HP: " + Player2.healthCount);
-			            }
-			            
-			            if (Player1.statusEffected) {
-			                System.out.println("> Your HP: " + Player1.healthCount + " | " + Player1.inflictedStatus);
-			            } else {
-			                System.out.println("> Your HP: " + Player1.healthCount);
-			            }
-			           
-			            System.out.println("Shock/Stunned is active. Turn is skipped");
-			           
-			            p1TurnOver = true;
-			         
-			           switchPlayer();
-			        
-			            p1TurnOver = false;
-			            
-			            return;
-			        }
-			       
-			        Player1.indexAndAffect(overallIndex);
-			    } else {
-			       
-			        if (stunLockedP2) {
-			          
-			            System.out.println(">> Player " + currentPlayer + "'s turn");
-			            
-			            if (Player1.statusEffected) {
-			                System.out.println("> Enemy HP: " + Player1.healthCount + " | " + Player1.inflictedStatus);
-			            } else {
-			                System.out.println("> Enemy HP: " + Player1.healthCount);
-			            }
-			   if (Player2.statusEffected) {
-			                System.out.println("> Your HP: " + Player2.healthCount + " | " + Player2.inflictedStatus);
-			            } else {
-			                System.out.println("> Your HP: " + Player2.healthCount);
-			            }
-			            
-			            System.out.println("Shock/Stunned is active. Turn is skipped");
-			         
-			            p2TurnOver = true;
-			            switchPlayer();
-			          
-			            p2TurnOver = false;
-			            
-			            return;
-			        }
-			       
-			        Player2.indexAndAffect(overallIndex);
-			    }
-			    
-			   
-			    updateHealthCount();
-			    
+		// showing the result of the minor arcana roll
+		this.minorArcanaRollResultText = new JLabel();
+		this.minorArcanaRollResultText.setForeground(Color.CYAN);
+		this.minorArcanaRollResultText.setFont(smallText);
+
+		minorArcanaRoll.addActionListener(e -> {
+			int minorSuit = Dice.rollDiceSuit();
+			System.out.println("Minor Suit: " + minorSuit);
+
+			if (minorSuit == 1) {
+				this.minorArcanaRollResultText.setText("> Result: Cups");
+			} else if (minorSuit == 2) {
+				this.minorArcanaRollResultText.setText("> Result: Swords");
+			} else if (minorSuit == 3) {
+				this.minorArcanaRollResultText.setText("> Result: Coins");
+			} else if (minorSuit == 4) {
+				this.minorArcanaRollResultText.setText("> Result: Wands");
+			} else {
+				this.minorArcanaRollResultText.setText("> Result: ");
+			}
+			
+			int selectedCardIndex = majorArcanaCards.indexOf(minorArcanaDescription.getText());
+			int overallIndex = selectedCardIndex * 4 + (minorSuit - 1);
+
+			if (currentPlayer == 1) {
+
+				if (stunLockedP1) {
+
+					System.out.println(">> Player " + currentPlayer + "'s turn");
+
+					if (Player2.statusEffected) {
+						System.out.println("> Enemy HP: " + Player2.healthCount + " | " + Player2.inflictedStatus);
+					} else {
+						System.out.println("> Enemy HP: " + Player2.healthCount);
+					}
+
+					if (Player1.statusEffected) {
+						System.out.println("> Your HP: " + Player1.healthCount + " | " + Player1.inflictedStatus);
+					} else {
+						System.out.println("> Your HP: " + Player1.healthCount);
+					}
+
+					System.out.println("Shock/Stunned is active. Turn is skipped");
+
+					p1TurnOver = true;
+
+					switchPlayer();
+
+					p1TurnOver = false;
+
+					return;
+				}
+
+				Player1.indexAndAffect(overallIndex);
+			} else {
+
+				if (stunLockedP2) {
+
+					System.out.println(">> Player " + currentPlayer + "'s turn");
+
+					if (Player1.statusEffected) {
+						System.out.println("> Enemy HP: " + Player1.healthCount + " | " + Player1.inflictedStatus);
+					} else {
+						System.out.println("> Enemy HP: " + Player1.healthCount);
+					}
+					if (Player2.statusEffected) {
+						System.out.println("> Your HP: " + Player2.healthCount + " | " + Player2.inflictedStatus);
+					} else {
+						System.out.println("> Your HP: " + Player2.healthCount);
+					}
+
+					System.out.println("Shock/Stunned is active. Turn is skipped");
+
+					p2TurnOver = true;
+					switchPlayer();
+
+					p2TurnOver = false;
+
+					return;
+				}
+
+				Player2.indexAndAffect(overallIndex);
+			}
+
+			updateHealthCount();
+			ifOneLoses();
+
 			this.minorArcanaRollResult = new JPanel();
 			this.minorArcanaRollResult.setBackground(Color.BLACK);
-			this.minorArcanaRollResult.setBounds(15, (paneCenterBeyondLeft.getHeight()) / 2 + 80, ArcanaRollWidthAndHeight,
-					40);
+			this.minorArcanaRollResult.setBounds(this.minorArcanaRoll.getX(),
+					this.minorArcanaRoll.getY() + this.minorArcanaRoll.getHeight() + 20, ArcanaRollWidthAndHeight, 40);
 			this.minorArcanaRollResult.add(minorArcanaRollResultText);
 			this.paneCenterBeyondLeft.add(minorArcanaRollResult);
-			});
-		
+		});
+
 		this.potentialFXDesc = new JLabel();
-		this.potentialFXDesc.setForeground(Color.WHITE);
+		this.potentialFXDesc.setForeground(Color.CYAN);
 		this.potentialFXDesc.setFont(smallText);
-		this.potentialFXDesc.setText(
-				"<html> >isStunned | " + Effect.isStunned
-				+ "<br/> >isBurning | " + Effect.isBurning
-				+ "<br/> >isShocked | " + Effect.isShocked + "<html>");
-		
+		this.potentialFXDesc.setText("<html> >isStunned | " + Effect.isStunned + "<br/> >isBurning | "
+				+ Effect.isBurning + "<br/> >isShocked | " + Effect.isShocked + "<html>");
+
 		this.potentialFX = new JPanel();
 		this.potentialFX.setBackground(Color.BLACK);
-		this.potentialFX.setBounds(15, (paneCenterBeyondLeft.getHeight()) / 2 + 140, ArcanaRollWidthAndHeight,
-				80);
+		this.potentialFX.setBounds(15, (paneCenterBeyondLeft.getHeight()) / 2 + 140, ArcanaRollWidthAndHeight, 80);
 		this.potentialFX.add(potentialFXDesc);
 		this.paneCenterBeyondLeft.add(potentialFX);
-		
-		
+
 		this.minorArcanaDescription = new JLabel();
+		this.minorArcanaDescription.setForeground(Color.CYAN);
 		this.minorArcanaDescription.setFont(bigText);
-		this.minorArcanaDescription.setText(Cards.majorArcanaReadings(0));
+		this.minorArcanaDescription.setText("<html><br><br><br>ALL SHALL BE REVEALED<html>");
 		this.minorArcanaFull = new JPanel();
 		this.minorArcanaFull.setBounds((minorArcanaRoll.getWidth() + 30), 15, ArcanaDescWidth, ArcanaDescLength);
-		this.minorArcanaFull.setBackground(Color.WHITE);
+		this.minorArcanaFull.setBackground(Color.BLACK);
 		this.minorArcanaFull.add(minorArcanaDescription);
 		this.paneCenterBeyondLeft.add(minorArcanaFull);
 
-		
-		this.card1 = new JButton();
-		this.card1.setText("CARD I");
+		// creating the cards
+		Random shufflingDeck = new Random();
+		int cardVictim1 = shufflingDeck.nextInt(13);
+		int cardVictim2 = shufflingDeck.nextInt(13);
+		int cardVictim3 = shufflingDeck.nextInt(13);
+		int cardVictim4 = shufflingDeck.nextInt(13);
+		int cardVictim5 = shufflingDeck.nextInt(13);
+
+		this.cardBack = new ImageIcon("icons/arcana.png");
+
+		this.card1 = new JButton(this.cardBack);
+		// this.card1.setText(cardNameMatch(cardVictim2));
 		this.card1.setBounds((minorArcanaRoll.getWidth() + 45), (paneCenterBeyondLeft.getHeight() - 15 - CardLength),
 				CardWidth, CardLength);
 		this.paneCenterBeyondLeft.add(card1);
-		this.card2 = new JButton();
-		this.card2.setText("CARD II");
-		this.card2.setBounds((minorArcanaRoll.getWidth() + 45) + (10 + CardWidth), (paneCenterBeyondLeft.getHeight() - 15 - CardLength),
-				CardWidth, CardLength);
-		this.paneCenterBeyondLeft.add(card2);
-		this.card3 = new JButton();
-		this.card3.setText("CARD III");
-		this.card3.setBounds((minorArcanaRoll.getWidth() + 45) + (10 + CardWidth) * 2, (paneCenterBeyondLeft.getHeight() - 15 - CardLength),
-				CardWidth, CardLength);
-		this.paneCenterBeyondLeft.add(card3);
-		this.card4 = new JButton();
-		this.card4.setText("CARD IV");
-		this.card4.setBounds((minorArcanaRoll.getWidth() + 45) + (10 + CardWidth) * 3, (paneCenterBeyondLeft.getHeight() - 15 - CardLength),
-				CardWidth, CardLength);
-		this.paneCenterBeyondLeft.add(card4);
-		this.card5 = new JButton();
-		this.card5.setText("CARD V");
-		this.card5.setBounds((minorArcanaRoll.getWidth() + 45) + (10 + CardWidth) * 4, (paneCenterBeyondLeft.getHeight() - 15 - CardLength),
-				CardWidth, CardLength);
-		this.paneCenterBeyondLeft.add(card5);
-		card1.addActionListener(e -> displaySelectedCardDescription(0));
-	    card2.addActionListener(e -> displaySelectedCardDescription(1));
-	    card3.addActionListener(e -> displaySelectedCardDescription(2));
-	    card4.addActionListener(e -> displaySelectedCardDescription(3));
-	    card5.addActionListener(e -> displaySelectedCardDescription(4));
-	 
-		 card1.addActionListener(e -> {
-		     applyCardEffect(0);
-		 });
-		 card2.addActionListener(e -> {
-		     applyCardEffect(1);
-		 });
-		 card3.addActionListener(e -> {
-		     applyCardEffect(2);
-		 });
-		 card4.addActionListener(e -> {
-		     applyCardEffect(3);
-		 });
-		 card5.addActionListener(e -> {
-		     applyCardEffect(4);
-		 });
-		 card1.addActionListener(e -> {
-		     applyCardEffectP2(0);
-		 });
-		 card2.addActionListener(e -> {
-		     applyCardEffectP2(1);
-		 });
-		 card3.addActionListener(e -> {
-		     applyCardEffectP2(2);
-		 });
-		 card4.addActionListener(e -> {
-		     applyCardEffectP2(3);
-		 });
-		 card5.addActionListener(e -> {
-		     applyCardEffectP2(4);
-		 });
+		card1.addActionListener(e -> {
+			displaySelectedCardDescription(cardVictim1);
+		});
 
-	  
-		 currentPlayer = 1; 
-		 updateTurnIndicator();
-		 minorArcanaRoll.addActionListener(e -> {
-		     System.out.println("Player " + currentPlayer + " rolled for a minor arcana.");
-		     switchPlayer();
-		     updateTurnIndicator();
-		 });
+		this.card2 = new JButton(this.cardBack);
+		// this.card2.setText(cardNameMatch(cardVictim2));
+		this.card2.setBounds((minorArcanaRoll.getWidth() + 45) + (10 + CardWidth),
+				(paneCenterBeyondLeft.getHeight() - 15 - CardLength), CardWidth, CardLength);
+		this.paneCenterBeyondLeft.add(card2);
+		card2.addActionListener(e -> {
+			displaySelectedCardDescription(cardVictim2);
+		});
+
+		this.card3 = new JButton(this.cardBack);
+		// this.card3.setText(cardNameMatch(cardVictim3));
+		this.card3.setBounds((minorArcanaRoll.getWidth() + 45) + (10 + CardWidth) * 2,
+				(paneCenterBeyondLeft.getHeight() - 15 - CardLength), CardWidth, CardLength);
+		this.paneCenterBeyondLeft.add(card3);
+		card3.addActionListener(e -> {
+			displaySelectedCardDescription(cardVictim3);
+		});
+
+		this.card4 = new JButton(this.cardBack);
+		// this.card4.setText(cardNameMatch(cardVictim4));
+		this.card4.setBounds((minorArcanaRoll.getWidth() + 45) + (10 + CardWidth) * 3,
+				(paneCenterBeyondLeft.getHeight() - 15 - CardLength), CardWidth, CardLength);
+		this.paneCenterBeyondLeft.add(card4);
+		card4.addActionListener(e -> {
+			displaySelectedCardDescription(cardVictim4);
+		});
+
+		this.card5 = new JButton(this.cardBack);
+		// this.card5.setText(cardNameMatch(cardVictim5));
+		this.card5.setBounds((minorArcanaRoll.getWidth() + 45) + (10 + CardWidth) * 4,
+				(paneCenterBeyondLeft.getHeight() - 15 - CardLength), CardWidth, CardLength);
+		this.paneCenterBeyondLeft.add(card5);
+		card5.addActionListener(e -> {
+			displaySelectedCardDescription(cardVictim5);
+		});
+
+		//p1
+		card1.addActionListener(e -> {
+			applyCardEffect(cardVictim1);
+			cardNumIconChange(cardVictim1, e);
+		});
+		card2.addActionListener(e -> {
+			applyCardEffect(cardVictim2);
+			cardNumIconChange(cardVictim2, e);
+		});
+		card3.addActionListener(e -> {
+			applyCardEffect(cardVictim3);
+			cardNumIconChange(cardVictim3, e);
+		});
+		card4.addActionListener(e -> {
+			applyCardEffect(cardVictim4);
+			cardNumIconChange(cardVictim4, e);
+		});
+		card5.addActionListener(e -> {
+			applyCardEffect(cardVictim5);
+			cardNumIconChange(cardVictim5, e);
+		});
 		
-		 
-		
+		//p2
+		card1.addActionListener(e -> {
+			applyCardEffectP2(cardVictim1);
+			cardNumIconChange(cardVictim1, e);
+		});
+		card2.addActionListener(e -> {
+			applyCardEffectP2(cardVictim2);
+			cardNumIconChange(cardVictim2, e);
+		});
+		card3.addActionListener(e -> {
+			applyCardEffectP2(cardVictim3);
+			cardNumIconChange(cardVictim3, e);
+		});
+		card4.addActionListener(e -> {
+			applyCardEffectP2(cardVictim4);
+			cardNumIconChange(cardVictim4, e);
+		});
+		card5.addActionListener(e -> {
+			applyCardEffectP2(cardVictim5);
+			cardNumIconChange(cardVictim5, e);
+		});
+
+		currentPlayer = 1;
+		updateTurnIndicator();
+		minorArcanaRoll.addActionListener(e -> {
+			System.out.println("Player " + currentPlayer + " rolled for a minor arcana.");
+			switchPlayer();
+			updateTurnIndicator();
+		});
+
 		this.resultingFXDesc = new JLabel();
 		this.resultingFXDesc.setForeground(Color.RED);
 		this.resultingFXDesc.setFont(biggerText);
-		this.resultingFXDesc.setText("T B D");
+		this.resultingFXDesc.setText("<html><br><br><br><br>T B D<html>");
 		this.resultingFX = new JPanel();
-		this.resultingFX.setBounds((minorArcanaRoll.getWidth() + 30), 30 + minorArcanaFull.getHeight(), ArcanaDescWidth, ArcanaDescLength + 130);
+		this.resultingFX.setBounds((minorArcanaRoll.getWidth() + 30), 30 + minorArcanaFull.getHeight(), ArcanaDescWidth,
+				ArcanaDescLength + 130);
 		this.resultingFX.setBackground(Color.BLACK);
 		this.resultingFX.add(resultingFXDesc);
 		this.paneCenterBeyondLeft.add(resultingFX);
-		
+
 		// main thing
 		this.contentPane.add(paneLeftSide);
 		this.contentPane.add(paneCenterBeyondLeft);
@@ -386,77 +413,243 @@ public class GameBoard extends JFrame {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
-		
-		
-        majorArcanaCards = new ArrayList<>();
-        
-        for (int i = 0; i < 13; i++) {
-            majorArcanaCards.add(Cards.majorArcanaReadings(i));
-        }
-        
-        displayCardsOnSlots();
-        
-        
-    }
-	 private void displayCardsOnSlots() {
-		 if (majorArcanaCards.size() >= 5) {
-	            minorArcanaDescription.setText("<html>" + majorArcanaCards.get(0) + "<br>" +
-	                                           majorArcanaCards.get(1) + "<br>" +
-	                                           majorArcanaCards.get(2) + "<br>" +
-	                                           majorArcanaCards.get(3) + "<br>" +
-	                                           majorArcanaCards.get(4) + "<html>");
-	        }
-	    }
-	 private void displaySelectedCardDescription(int index) {
-		    if (majorArcanaCards.size() > index) {
-		        minorArcanaDescription.setText(majorArcanaCards.get(index));
-		    }
+
+		majorArcanaCards = new ArrayList<>();
+
+		for (int i = 0; i < 13; i++) {
+			majorArcanaCards.add(Cards.majorArcanaReadings(i));
 		}
-	 
-	 
-	 private void shuffleCards() {
-	        Collections.shuffle(majorArcanaCards);
-	    }
-	 
-	 private void switchPlayer() {
-		    currentPlayer = (currentPlayer == 1) ? 2 : 1; 
-		    updateTurnIndicator();
-		    shuffleCards();
-		}
-	 private void updateTurnIndicator() {
-		    currentPlayerTurn.setText("<html><br/><br/><br/>Player " + currentPlayer + "'s Turn!<html>");
-		}
-	
 
-
-	 private void applyCardEffect(int cardIndex) {
-	     
-	     int majorArcana = cardIndex / 13; 
-	     int minorArcana = cardIndex % 4 + 1; 
-	     int indexOfCombos = Player1.cardMatchAndIndex(majorArcana, minorArcana);
-	     
-	     
-	     Player1.indexAndAffect(indexOfCombos);
-	    
-	 }
-	 private void applyCardEffectP2(int cardIndex) {
-	     
-	     int majorArcana = cardIndex / 13; 
-	     int minorArcana = cardIndex % 4 + 1; 
-	     int indexOfCombos = Player2.cardMatchAndIndex(majorArcana, minorArcana);
-	     
-	   
-	     Player2.indexAndAffect(indexOfCombos);
-	    
-	 }
-
- 
-	 private void updateHealthCount() {
-	     player1HPCount.setText("P1 | " + Player1.healthCount + " / 100");
-	     player2HPCount.setText("P2 | " + Player2.healthCount + " / 100");
-	 }
-
-	    public static void main(String[] args) {
-	        GameBoard app = new GameBoard();
-	    }
 	}
+
+	private void cardNumIconChange(int cardNum, ActionEvent e) {
+
+		if (cardNum == 0) {
+			ImageIcon arcanaRevealed = new ImageIcon("icons/fool.png");
+			buttonFinder(arcanaRevealed, e);
+		}
+		else if (cardNum == 1) {
+			ImageIcon arcanaRevealed = new ImageIcon("icons/magician.png");
+			buttonFinder(arcanaRevealed, e);
+		}
+		else if (cardNum == 2) {
+			ImageIcon arcanaRevealed = new ImageIcon("icons/high_priestess.png");
+			buttonFinder(arcanaRevealed, e);
+		}
+		else if (cardNum == 3) {
+			ImageIcon arcanaRevealed = new ImageIcon("icons/empress.png");
+			buttonFinder(arcanaRevealed, e);
+		}
+		else if (cardNum == 4) {
+			ImageIcon arcanaRevealed = new ImageIcon("icons/emperor.png");
+			buttonFinder(arcanaRevealed, e);
+		}
+		else if (cardNum == 5) {
+			ImageIcon arcanaRevealed = new ImageIcon("icons/heirophant.png");
+			buttonFinder(arcanaRevealed, e);
+		}
+		else if (cardNum == 6) {
+			ImageIcon arcanaRevealed = new ImageIcon("icons/lovers.png");
+			buttonFinder(arcanaRevealed, e);
+		}
+		else if (cardNum == 7) {
+			ImageIcon arcanaRevealed = new ImageIcon("icons/chariot.png");
+			buttonFinder(arcanaRevealed, e);
+		}
+		else if (cardNum == 8) {
+			ImageIcon arcanaRevealed = new ImageIcon("icons/strength.png");
+			buttonFinder(arcanaRevealed, e);
+		}
+		else if (cardNum == 9) {
+			ImageIcon arcanaRevealed = new ImageIcon("icons/hermit.png");
+			buttonFinder(arcanaRevealed, e);
+		}
+		else if (cardNum == 10) {
+			ImageIcon arcanaRevealed = new ImageIcon("icons/fortune.png");
+			buttonFinder(arcanaRevealed, e);
+		}
+		else if (cardNum == 11) {
+			ImageIcon arcanaRevealed = new ImageIcon("icons/justice.png");
+			buttonFinder(arcanaRevealed, e);
+		}
+		else if (cardNum == 12) {
+			ImageIcon arcanaRevealed = new ImageIcon("icons/hanged_man.png");
+			buttonFinder(arcanaRevealed, e);
+		}
+		else if (cardNum == 13) {
+			ImageIcon arcanaRevealed = new ImageIcon("icons/death.png");
+			buttonFinder(arcanaRevealed, e);
+		}
+	}
+
+	private void buttonFinder (ImageIcon arcanaRevealed, ActionEvent e) {
+		if (e.getSource() == card1) {
+			card1.setIcon(arcanaRevealed);
+		}
+		else if (e.getSource() == card2) {
+			card2.setIcon(arcanaRevealed);
+		}
+		else if (e.getSource() == card3) {
+			card3.setIcon(arcanaRevealed);
+		}
+		else if (e.getSource() == card4) {
+			card4.setIcon(arcanaRevealed);
+		}
+		else if (e.getSource() == card5) {
+			card5.setIcon(arcanaRevealed);
+		}
+		
+		else if (e.getSource() == minorArcanaRoll) {
+			card1.setIcon(this.cardBack);
+			card2.setIcon(this.cardBack);
+			card3.setIcon(this.cardBack);
+			card4.setIcon(this.cardBack);
+			card5.setIcon(this.cardBack);
+		}
+	}
+	
+	private String cardNameMatch(int cardNum) {
+		String cardName = "";
+
+		if (cardNum == 0) {
+			cardName = "Ø | Fool";
+		}
+		if (cardNum == 1) {
+			cardName = "I | Magician";
+		}
+		if (cardNum == 2) {
+			cardName = "II | High Priestess ";
+		}
+		if (cardNum == 3) {
+			cardName = "III | Empress";
+		}
+		if (cardNum == 4) {
+			cardName = "IV | Emperor";
+		}
+		if (cardNum == 5) {
+			cardName = "V | Heirophant";
+		}
+		if (cardNum == 6) {
+			cardName = "VI | Lovers";
+		}
+		if (cardNum == 7) {
+			cardName = "VII | Chariot";
+		}
+		if (cardNum == 8) {
+			cardName = "VIII | Strength";
+		}
+		if (cardNum == 9) {
+			cardName = "IX | Hermit";
+		}
+		if (cardNum == 10) {
+			cardName = "X | Fortune";
+		}
+		if (cardNum == 11) {
+			cardName = "XI | Justice";
+		}
+		if (cardNum == 12) {
+			cardName = "XII | Hanged Man";
+		}
+		if (cardNum == 13) {
+			cardName = "XII | Death";
+		}
+
+		return cardName;
+	}
+
+	private void displayCardsOnSlots() {
+		if (majorArcanaCards.size() >= 5) {
+			minorArcanaDescription.setText("<html>" + majorArcanaCards.get(0) + "<br>" + majorArcanaCards.get(1)
+					+ "<br>" + majorArcanaCards.get(2) + "<br>" + majorArcanaCards.get(3) + "<br>"
+					+ majorArcanaCards.get(4) + "<html>");
+		}
+	}
+
+	private void displaySelectedCardDescription(int index) {
+		if (majorArcanaCards.size() > index) {
+			minorArcanaDescription.setText(majorArcanaCards.get(index));
+		}
+	}
+
+	private void shuffleCards() {
+		Collections.shuffle(majorArcanaCards);
+	}
+
+	private void switchPlayer() {
+		currentPlayer = (currentPlayer == 1) ? 2 : 1;
+		minorArcanaDescription.setText("<html><br><br><br>ALL SHALL BE REVEALED<html>");
+		updateTurnIndicator();
+		shuffleCards();
+	}
+
+	private void updateTurnIndicator() {
+		currentPlayerTurn
+				.setText("<html><br/><br/><br/>Player " + currentPlayer + "'s Turn!<br/><br/><br/><br/><br/><html>");
+	}
+
+	private void applyCardEffect(int cardIndex) {
+
+		int majorArcana = cardIndex / 13;
+		int minorArcana = cardIndex % 4 + 1;
+		int indexOfCombos = Player1.cardMatchAndIndex(majorArcana, minorArcana);
+
+		Player1.indexAndAffect(indexOfCombos);
+
+	}
+
+	private void applyCardEffectP2(int cardIndex) {
+
+		int majorArcana = cardIndex / 13;
+		int minorArcana = cardIndex % 4 + 1;
+		int indexOfCombos = Player2.cardMatchAndIndex(majorArcana, minorArcana);
+
+		Player2.indexAndAffect(indexOfCombos);
+
+	}
+
+	private void updateHealthCount() {
+		player1HPCount.setText("P1 | " + Player1.healthCount + " / 100");
+		player2HPCount.setText("P2 | " + Player2.healthCount + " / 100");
+	}
+	
+	private void ifOneLoses() {
+		if (Player1.healthCount <= 0) {
+			resultingFXDesc.setText("PLAYER 2 WINS");
+			minorArcanaDescription.setText("PLAYER 2 WINS");
+			givePlayerTimeToRead(10);
+			
+			card1.setEnabled(false);
+			card2.setEnabled(false);
+			card3.setEnabled(false);
+			card4.setEnabled(false);
+			card5.setEnabled(false);
+			minorArcanaRoll.setEnabled(false);
+			
+		} if (Player2.healthCount <= 0) {
+			resultingFXDesc.setText("PLAYER 1 WINS");
+			minorArcanaDescription.setText("PLAYER 1 WINS");
+			givePlayerTimeToRead(10);
+			
+			card1.setEnabled(false);
+			card2.setEnabled(false);
+			card3.setEnabled(false);
+			card4.setEnabled(false);
+			card5.setEnabled(false);
+			minorArcanaRoll.setEnabled(false);
+		}
+	}
+	
+	public void givePlayerTimeToRead(int delay) {
+		delay *= 100;
+		try {
+			Thread.sleep(delay);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
+	}
+	
+	public static void main(String[] args) {
+		GameBoard app = new GameBoard();
+	}
+}
