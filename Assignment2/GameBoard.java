@@ -254,6 +254,13 @@ public class GameBoard extends JFrame {
 			}
 
 			updateHealthCount();
+			
+			this.card1.setIcon(this.cardBack);
+			this.card2.setIcon(this.cardBack);
+			this.card3.setIcon(this.cardBack);
+			this.card4.setIcon(this.cardBack);
+			this.card5.setIcon(this.cardBack);
+			
 			ifOneLoses();
 
 			this.minorArcanaRollResult = new JPanel();
@@ -424,137 +431,98 @@ public class GameBoard extends JFrame {
 
 	private void cardNumIconChange(int cardNum, ActionEvent e) {
 
-		if (cardNum == 0) {
-			ImageIcon arcanaRevealed = new ImageIcon("icons/fool.png");
-			buttonFinder(arcanaRevealed, e);
-		}
-		else if (cardNum == 1) {
-			ImageIcon arcanaRevealed = new ImageIcon("icons/magician.png");
-			buttonFinder(arcanaRevealed, e);
-		}
-		else if (cardNum == 2) {
-			ImageIcon arcanaRevealed = new ImageIcon("icons/high_priestess.png");
-			buttonFinder(arcanaRevealed, e);
-		}
-		else if (cardNum == 3) {
-			ImageIcon arcanaRevealed = new ImageIcon("icons/empress.png");
-			buttonFinder(arcanaRevealed, e);
-		}
-		else if (cardNum == 4) {
-			ImageIcon arcanaRevealed = new ImageIcon("icons/emperor.png");
-			buttonFinder(arcanaRevealed, e);
-		}
-		else if (cardNum == 5) {
-			ImageIcon arcanaRevealed = new ImageIcon("icons/heirophant.png");
-			buttonFinder(arcanaRevealed, e);
-		}
-		else if (cardNum == 6) {
-			ImageIcon arcanaRevealed = new ImageIcon("icons/lovers.png");
-			buttonFinder(arcanaRevealed, e);
-		}
-		else if (cardNum == 7) {
-			ImageIcon arcanaRevealed = new ImageIcon("icons/chariot.png");
-			buttonFinder(arcanaRevealed, e);
-		}
-		else if (cardNum == 8) {
-			ImageIcon arcanaRevealed = new ImageIcon("icons/strength.png");
-			buttonFinder(arcanaRevealed, e);
-		}
-		else if (cardNum == 9) {
-			ImageIcon arcanaRevealed = new ImageIcon("icons/hermit.png");
-			buttonFinder(arcanaRevealed, e);
-		}
-		else if (cardNum == 10) {
-			ImageIcon arcanaRevealed = new ImageIcon("icons/fortune.png");
-			buttonFinder(arcanaRevealed, e);
-		}
-		else if (cardNum == 11) {
-			ImageIcon arcanaRevealed = new ImageIcon("icons/justice.png");
-			buttonFinder(arcanaRevealed, e);
-		}
-		else if (cardNum == 12) {
-			ImageIcon arcanaRevealed = new ImageIcon("icons/hanged_man.png");
-			buttonFinder(arcanaRevealed, e);
-		}
-		else if (cardNum == 13) {
-			ImageIcon arcanaRevealed = new ImageIcon("icons/death.png");
-			buttonFinder(arcanaRevealed, e);
+		switch(cardNum) {
+		
+			case 0:
+				ImageIcon arcanaRevealed0 = new ImageIcon("icons/fool.png");
+				buttonFinder(arcanaRevealed0, e);
+				break;
+			case 1:
+				ImageIcon arcanaRevealed1 = new ImageIcon("icons/magician.png");
+				buttonFinder(arcanaRevealed1, e);
+				break;
+			case 2:
+				ImageIcon arcanaRevealed2 = new ImageIcon("icons/high_priestess.png");
+				buttonFinder(arcanaRevealed2, e);
+				break;
+			case 3:
+				ImageIcon arcanaRevealed3 = new ImageIcon("icons/empress.png");
+				buttonFinder(arcanaRevealed3, e);
+				break;
+			case 4:
+				ImageIcon arcanaRevealed4 = new ImageIcon("icons/emperor.png");
+				buttonFinder(arcanaRevealed4, e);
+				break;
+			case 5:
+				ImageIcon arcanaRevealed5 = new ImageIcon("icons/heirophant.png");
+				buttonFinder(arcanaRevealed5, e);
+				break;
+			case 6:
+				ImageIcon arcanaRevealed6 = new ImageIcon("icons/lovers.png");
+				buttonFinder(arcanaRevealed6, e);
+				break;
+			case 7:
+				ImageIcon arcanaRevealed7 = new ImageIcon("icons/chariot.png");
+				buttonFinder(arcanaRevealed7, e);
+				break;
+			case 8:
+				ImageIcon arcanaRevealed8 = new ImageIcon("icons/strength.png");
+				buttonFinder(arcanaRevealed8, e);
+				break;
+			case 9:
+				ImageIcon arcanaRevealed9 = new ImageIcon("icons/hermit.png");
+				buttonFinder(arcanaRevealed9, e);
+				break;
+			case 10:
+				ImageIcon arcanaRevealed10 = new ImageIcon("icons/fortune.png");
+				buttonFinder(arcanaRevealed10, e);
+				break;
+			case 11:
+				ImageIcon arcanaRevealed11 = new ImageIcon("icons/justice.png");
+				buttonFinder(arcanaRevealed11, e);
+				break;
+			case 12:
+				ImageIcon arcanaRevealed12 = new ImageIcon("icons/hanged_man.png");
+				buttonFinder(arcanaRevealed12, e);
+				break;
+			case 13:
+				ImageIcon arcanaRevealed13 = new ImageIcon("icons/death.png");
+				buttonFinder(arcanaRevealed13, e);
+				break;	
+		
 		}
 	}
 
 	private void buttonFinder (ImageIcon arcanaRevealed, ActionEvent e) {
 		if (e.getSource() == card1) {
-			card1.setIcon(arcanaRevealed);
-		}
-		else if (e.getSource() == card2) {
-			card2.setIcon(arcanaRevealed);
-		}
-		else if (e.getSource() == card3) {
-			card3.setIcon(arcanaRevealed);
-		}
-		else if (e.getSource() == card4) {
-			card4.setIcon(arcanaRevealed);
-		}
-		else if (e.getSource() == card5) {
-			card5.setIcon(arcanaRevealed);
+			this.card1.setIcon(arcanaRevealed);
+		} else if (e.getSource() != card1) {
+			this.card1.setIcon(this.cardBack);
 		}
 		
-		else if (e.getSource() == minorArcanaRoll) {
-			card1.setIcon(this.cardBack);
-			card2.setIcon(this.cardBack);
-			card3.setIcon(this.cardBack);
-			card4.setIcon(this.cardBack);
-			card5.setIcon(this.cardBack);
+		if (e.getSource() == card2) {
+			this.card2.setIcon(arcanaRevealed);
+		} else if (e.getSource() != card2) {
+			this.card2.setIcon(this.cardBack);
 		}
-	}
-	
-	private String cardNameMatch(int cardNum) {
-		String cardName = "";
-
-		if (cardNum == 0) {
-			cardName = "Ø | Fool";
+		
+		if (e.getSource() == card3) {
+			this.card3.setIcon(arcanaRevealed);
+		} else if (e.getSource() != card3) {
+			this.card3.setIcon(this.cardBack);
 		}
-		if (cardNum == 1) {
-			cardName = "I | Magician";
+		
+		if (e.getSource() == card4) {
+			this.card4.setIcon(arcanaRevealed);
+		} else if (e.getSource() != card4) {
+			this.card4.setIcon(this.cardBack);
 		}
-		if (cardNum == 2) {
-			cardName = "II | High Priestess ";
+		
+		if (e.getSource() == card5) {
+			this.card5.setIcon(arcanaRevealed);
+		} else if (e.getSource() != card5) {
+			this.card5.setIcon(this.cardBack);
 		}
-		if (cardNum == 3) {
-			cardName = "III | Empress";
-		}
-		if (cardNum == 4) {
-			cardName = "IV | Emperor";
-		}
-		if (cardNum == 5) {
-			cardName = "V | Heirophant";
-		}
-		if (cardNum == 6) {
-			cardName = "VI | Lovers";
-		}
-		if (cardNum == 7) {
-			cardName = "VII | Chariot";
-		}
-		if (cardNum == 8) {
-			cardName = "VIII | Strength";
-		}
-		if (cardNum == 9) {
-			cardName = "IX | Hermit";
-		}
-		if (cardNum == 10) {
-			cardName = "X | Fortune";
-		}
-		if (cardNum == 11) {
-			cardName = "XI | Justice";
-		}
-		if (cardNum == 12) {
-			cardName = "XII | Hanged Man";
-		}
-		if (cardNum == 13) {
-			cardName = "XII | Death";
-		}
-
-		return cardName;
 	}
 
 	private void displayCardsOnSlots() {
