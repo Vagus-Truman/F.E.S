@@ -102,6 +102,14 @@ public class Player1 {
 			Player1.setHealthCount(Player1.getHealthCount() + healOrDamage);
 		}
 	}
+	
+	public static void healthRegulator (int healthCount) {
+		if (healthCount <= 0) {
+			Player1.setHealthCount(0);
+		} else if (healthCount >= 100) {
+			Player1.setHealthCount(100);
+		}
+	}
 
 	// considering effects
 	public static int getHealthCount() {
