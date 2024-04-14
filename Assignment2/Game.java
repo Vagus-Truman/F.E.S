@@ -42,16 +42,16 @@ public class Game {
 	// endgame scenario
 	public static void isThereAWinnerYet() {
 		// PLAYER1 WINS
-		if (Player2.healthCount == 0 || Player2.healthCount < 0) {
-			System.out.println("> Player 1 HP " + Player1.healthCount + " | Player 2 HP " + Player2.healthCount);
+		if (Player2.getHealthCount() == 0 || Player2.getHealthCount() < 0) {
+			System.out.println("> Player 1 HP " + Player1.getHealthCount() + " | Player 2 HP " + Player2.getHealthCount());
 			System.out.println("> Player 2 is defeated. Player 1 wins!");
 			isThereAWinner = true;
 			System.exit(0);
 
 		}
 		// PLAYER2 WINS
-		if (Player1.healthCount == 0 || Player1.healthCount < 0) {
-			System.out.println("> Player 1 HP " + Player1.healthCount + " | Player 2 HP " + Player2.healthCount);
+		if (Player1.getHealthCount() == 0 || Player1.getHealthCount() < 0) {
+			System.out.println("> Player 1 HP " + Player1.getHealthCount() + " | Player 2 HP " + Player2.getHealthCount());
 			System.out.println("Player 1 is defeated. Player 2 wins!");
 			isThereAWinner = true;
 			System.exit(0);
@@ -95,17 +95,17 @@ public class Game {
 
 					// Player2 HP and status
 					if (Player2.statusEffected == true) {
-						enemyStatus = "> Enemy HP: " + Player2.healthCount + " | " + Player2.inflictedStatus;
+						enemyStatus = "> Enemy HP: " + Player2.getHealthCount() + " | " + Player2.inflictedStatus;
 					} else {
-						enemyStatus = "> Enemy HP: " + Player2.healthCount;
+						enemyStatus = "> Enemy HP: " + Player2.getHealthCount();
 					}
 					output.println(enemyStatus);
 
 					// Player1 HP and status
 					if (Player1.statusEffected == true) {
-						playerStatus = "> Your HP: " + Player1.healthCount + " | " + Player1.inflictedStatus;
+						playerStatus = "> Your HP: " + Player1.getHealthCount() + " | " + Player1.inflictedStatus;
 					} else {
-						playerStatus = "> Your HP: " + Player1.healthCount;
+						playerStatus = "> Your HP: " + Player1.getHealthCount();
 					}
 					output.println(playerStatus);
 
@@ -118,7 +118,7 @@ public class Game {
 						cardsForPlayerNumber.add(backFacingCards);
 						output.println(cardsForPlayerWord.get(i));
 						output.println();
-						new Cardbacks(backFacingCards);
+						//new Cardbacks(backFacingCards);
 					}
 
 					// output.println("Card Word List: " + cardsForPlayerWord);
@@ -183,17 +183,17 @@ public class Game {
 
 					// Player2 HP and status
 					if (Player2.statusEffected == true) {
-						enemyStatus = "> Enemy HP: " + Player2.healthCount + " | " + Player2.inflictedStatus;
+						enemyStatus = "> Enemy HP: " + Player2.getHealthCount() + " | " + Player2.inflictedStatus;
 					} else {
-						enemyStatus = "> Enemy HP: " + Player2.healthCount;
+						enemyStatus = "> Enemy HP: " + Player2.getHealthCount();
 					}
 					output.println(enemyStatus);
 
 					// Player1 HP and status
 					if (Player1.statusEffected == true) {
-						playerStatus = "> Your HP: " + Player1.healthCount + " | " + Player1.inflictedStatus;
+						playerStatus = "> Your HP: " + Player1.getHealthCount() + " | " + Player1.inflictedStatus;
 					} else {
-						playerStatus = "> Your HP: " + Player1.healthCount;
+						playerStatus = "> Your HP: " + Player1.getHealthCount();
 					}
 					output.println(playerStatus);
 
@@ -211,17 +211,17 @@ public class Game {
 
 					// Player1 HP and status
 					if (Player1.statusEffected == true) {
-						enemyStatus = "> Enemy HP: " + Player1.healthCount + " | " + Player1.inflictedStatus;
+						enemyStatus = "> Enemy HP: " + Player1.getHealthCount() + " | " + Player1.inflictedStatus;
 					} else {
-						enemyStatus = "> Enemy HP: " + Player1.healthCount;
+						enemyStatus = "> Enemy HP: " + Player1.getHealthCount();
 					}
 					output.println(enemyStatus);
 
 					// Player2 HP and status
 					if (Player2.statusEffected == true) {
-						playerStatus = "> Your HP: " + Player2.healthCount + " | " + Player2.inflictedStatus;
+						playerStatus = "> Your HP: " + Player2.getHealthCount() + " | " + Player2.inflictedStatus;
 					} else {
-						playerStatus = "> Your HP: " + Player2.healthCount;
+						playerStatus = "> Your HP: " + Player2.getHealthCount();
 					}
 					output.println(playerStatus);
 
@@ -234,7 +234,7 @@ public class Game {
 						cardsForPlayerNumber.add(backFacingCards);
 						output.println(cardsForPlayerWord.get(i));
 						output.println();
-						new Cardbacks(backFacingCards);
+						//new Cardbacks(backFacingCards);
 					}
 
 					// output.println("Card Word List: " + cardsForPlayerWord);
@@ -297,17 +297,17 @@ public class Game {
 
 					// Player1 HP and status
 					if (Player1.statusEffected == true) {
-						enemyStatus = "> Enemy HP: " + Player1.healthCount + " | " + Player1.inflictedStatus;
+						enemyStatus = "> Enemy HP: " + Player1.getHealthCount() + " | " + Player1.inflictedStatus;
 					} else {
-						enemyStatus = "> Enemy HP: " + Player1.healthCount;
+						enemyStatus = "> Enemy HP: " + Player1.getHealthCount();
 					}
 					output.println(enemyStatus);
 
 					// Player2 HP and status
 					if (Player2.statusEffected == true) {
-						playerStatus = "> Your HP: " + Player2.healthCount + " | " + Player2.inflictedStatus;
+						playerStatus = "> Your HP: " + Player2.getHealthCount() + " | " + Player2.inflictedStatus;
 					} else {
-						playerStatus = "> Your HP: " + Player2.healthCount;
+						playerStatus = "> Your HP: " + Player2.getHealthCount();
 					}
 					output.println(playerStatus);
 
