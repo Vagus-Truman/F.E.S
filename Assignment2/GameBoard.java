@@ -25,6 +25,8 @@ public class GameBoard extends JFrame {
 	public static boolean stunLockedP1 = Player1.statusEffected;
 	public static boolean stunLockedP2 = Player2.statusEffected;
 	public static boolean isThereAWinner = false;
+	private String effectOfCards;
+
 	// left side data
 	private static final int HpBarWidth = 260;
 	private static final int HpBarLength = 40;
@@ -95,6 +97,7 @@ public class GameBoard extends JFrame {
 		Font smallText = new Font("Monospaced", Font.PLAIN, 14);
 		Font bigText = new Font("Monospaced", Font.BOLD, 20);
 		Font biggerText = new Font("Monospaced", Font.BOLD, 28);
+		this.effectOfCards = new String("All Shall Be Revealed");
 
 		// Left Panel
 		this.paneLeftSide = new JPanel();
@@ -157,6 +160,8 @@ public class GameBoard extends JFrame {
 		this.minorArcanaRollResultText.setFont(smallText);
 
 		minorArcanaRoll.addActionListener(e -> {
+
+			givePlayerTimeToRead(5);
 			int minorSuit = Dice.rollDiceSuit();
 			System.out.println("Minor Suit: " + minorSuit);
 
@@ -171,7 +176,7 @@ public class GameBoard extends JFrame {
 			} else {
 				this.minorArcanaRollResultText.setText("> Result: ");
 			}
-			
+
 			int selectedCardIndex = majorArcanaCards.indexOf(minorArcanaDescription.getText());
 			int overallIndex = selectedCardIndex * 4 + (minorSuit - 1);
 
@@ -236,13 +241,13 @@ public class GameBoard extends JFrame {
 			}
 
 			updateHealthCount();
-			
+
 			this.card1.setIcon(this.cardBack);
 			this.card2.setIcon(this.cardBack);
 			this.card3.setIcon(this.cardBack);
 			this.card4.setIcon(this.cardBack);
 			this.card5.setIcon(this.cardBack);
-			
+
 			ifOneLoses();
 
 			this.minorArcanaRollResult = new JPanel();
@@ -330,47 +335,77 @@ public class GameBoard extends JFrame {
 			displaySelectedCardDescription(cardVictim5);
 		});
 
-		//p1
+		// p1
 		card1.addActionListener(e -> {
+			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim1);
+			Player1.healthRegulator(Player1.getHealthCount());
+			this.effectOfCards = cardFX(cardVictim1);
 			cardNumIconChange(cardVictim1, e);
 		});
 		card2.addActionListener(e -> {
+			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim2);
+			Player1.healthRegulator(Player1.getHealthCount());
+			this.effectOfCards = cardFX(cardVictim2);
 			cardNumIconChange(cardVictim2, e);
 		});
 		card3.addActionListener(e -> {
+			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim3);
+			Player1.healthRegulator(Player1.getHealthCount());
+			this.effectOfCards = cardFX(cardVictim3);
 			cardNumIconChange(cardVictim3, e);
 		});
 		card4.addActionListener(e -> {
+			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim4);
+			Player1.healthRegulator(Player1.getHealthCount());
+			this.effectOfCards = cardFX(cardVictim4);
 			cardNumIconChange(cardVictim4, e);
 		});
 		card5.addActionListener(e -> {
+			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim5);
+			Player1.healthRegulator(Player1.getHealthCount());
+			this.effectOfCards = cardFX(cardVictim5);
 			cardNumIconChange(cardVictim5, e);
 		});
-		
-		//p2
+
+		// p2
 		card1.addActionListener(e -> {
-			applyCardEffectP2(cardVictim1);
+			givePlayerTimeToRead(1);
+			applyCardEffect(cardVictim1);
+			Player2.healthRegulator(Player2.getHealthCount());
+			this.effectOfCards = cardFX(cardVictim1);
 			cardNumIconChange(cardVictim1, e);
 		});
 		card2.addActionListener(e -> {
-			applyCardEffectP2(cardVictim2);
+			givePlayerTimeToRead(1);
+			applyCardEffect(cardVictim2);
+			Player2.healthRegulator(Player2.getHealthCount());
+			this.effectOfCards = cardFX(cardVictim2);
 			cardNumIconChange(cardVictim2, e);
 		});
 		card3.addActionListener(e -> {
-			applyCardEffectP2(cardVictim3);
+			givePlayerTimeToRead(1);
+			applyCardEffect(cardVictim3);
+			Player2.healthRegulator(Player2.getHealthCount());
+			this.effectOfCards = cardFX(cardVictim3);
 			cardNumIconChange(cardVictim3, e);
 		});
 		card4.addActionListener(e -> {
-			applyCardEffectP2(cardVictim4);
+			givePlayerTimeToRead(1);
+			applyCardEffect(cardVictim4);
+			Player2.healthRegulator(Player2.getHealthCount());
+			this.effectOfCards = cardFX(cardVictim4);
 			cardNumIconChange(cardVictim4, e);
 		});
 		card5.addActionListener(e -> {
-			applyCardEffectP2(cardVictim5);
+			givePlayerTimeToRead(1);
+			applyCardEffect(cardVictim5);
+			Player2.healthRegulator(Player2.getHealthCount());
+			this.effectOfCards = cardFX(cardVictim5);
 			cardNumIconChange(cardVictim5, e);
 		});
 
@@ -385,12 +420,9 @@ public class GameBoard extends JFrame {
 		this.resultingFXDesc = new JLabel();
 		this.resultingFXDesc.setForeground(Color.RED);
 		this.resultingFXDesc.setFont(biggerText);
-		
-		if (currentPlayer == 1) {
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + Player1.effectFromCards + "<html>");
-		}
-		
-		
+
+		this.resultingFXDesc.setText("<html><br><br><br><br>" + this.effectOfCards + "<html>");
+
 		this.resultingFX = new JPanel();
 		this.resultingFX.setBounds((minorArcanaRoll.getWidth() + 30), 30 + minorArcanaFull.getHeight(), ArcanaDescWidth,
 				ArcanaDescLength + 130);
@@ -418,93 +450,93 @@ public class GameBoard extends JFrame {
 
 	private void cardNumIconChange(int cardNum, ActionEvent e) {
 
-		switch(cardNum) {
-		
-			case 0:
-				ImageIcon arcanaRevealed0 = new ImageIcon("icons/fool.png");
-				buttonFinder(arcanaRevealed0, e);
-				break;
-			case 1:
-				ImageIcon arcanaRevealed1 = new ImageIcon("icons/magician.png");
-				buttonFinder(arcanaRevealed1, e);
-				break;
-			case 2:
-				ImageIcon arcanaRevealed2 = new ImageIcon("icons/high_priestess.png");
-				buttonFinder(arcanaRevealed2, e);
-				break;
-			case 3:
-				ImageIcon arcanaRevealed3 = new ImageIcon("icons/empress.png");
-				buttonFinder(arcanaRevealed3, e);
-				break;
-			case 4:
-				ImageIcon arcanaRevealed4 = new ImageIcon("icons/emperor.png");
-				buttonFinder(arcanaRevealed4, e);
-				break;
-			case 5:
-				ImageIcon arcanaRevealed5 = new ImageIcon("icons/heirophant.png");
-				buttonFinder(arcanaRevealed5, e);
-				break;
-			case 6:
-				ImageIcon arcanaRevealed6 = new ImageIcon("icons/lovers.png");
-				buttonFinder(arcanaRevealed6, e);
-				break;
-			case 7:
-				ImageIcon arcanaRevealed7 = new ImageIcon("icons/chariot.png");
-				buttonFinder(arcanaRevealed7, e);
-				break;
-			case 8:
-				ImageIcon arcanaRevealed8 = new ImageIcon("icons/strength.png");
-				buttonFinder(arcanaRevealed8, e);
-				break;
-			case 9:
-				ImageIcon arcanaRevealed9 = new ImageIcon("icons/hermit.png");
-				buttonFinder(arcanaRevealed9, e);
-				break;
-			case 10:
-				ImageIcon arcanaRevealed10 = new ImageIcon("icons/fortune.png");
-				buttonFinder(arcanaRevealed10, e);
-				break;
-			case 11:
-				ImageIcon arcanaRevealed11 = new ImageIcon("icons/justice.png");
-				buttonFinder(arcanaRevealed11, e);
-				break;
-			case 12:
-				ImageIcon arcanaRevealed12 = new ImageIcon("icons/hanged_man.png");
-				buttonFinder(arcanaRevealed12, e);
-				break;
-			case 13:
-				ImageIcon arcanaRevealed13 = new ImageIcon("icons/death.png");
-				buttonFinder(arcanaRevealed13, e);
-				break;	
-		
+		switch (cardNum) {
+
+		case 0:
+			ImageIcon arcanaRevealed0 = new ImageIcon("icons/fool.png");
+			buttonFinder(arcanaRevealed0, e);
+			break;
+		case 1:
+			ImageIcon arcanaRevealed1 = new ImageIcon("icons/magician.png");
+			buttonFinder(arcanaRevealed1, e);
+			break;
+		case 2:
+			ImageIcon arcanaRevealed2 = new ImageIcon("icons/high_priestess.png");
+			buttonFinder(arcanaRevealed2, e);
+			break;
+		case 3:
+			ImageIcon arcanaRevealed3 = new ImageIcon("icons/empress.png");
+			buttonFinder(arcanaRevealed3, e);
+			break;
+		case 4:
+			ImageIcon arcanaRevealed4 = new ImageIcon("icons/emperor.png");
+			buttonFinder(arcanaRevealed4, e);
+			break;
+		case 5:
+			ImageIcon arcanaRevealed5 = new ImageIcon("icons/heirophant.png");
+			buttonFinder(arcanaRevealed5, e);
+			break;
+		case 6:
+			ImageIcon arcanaRevealed6 = new ImageIcon("icons/lovers.png");
+			buttonFinder(arcanaRevealed6, e);
+			break;
+		case 7:
+			ImageIcon arcanaRevealed7 = new ImageIcon("icons/chariot.png");
+			buttonFinder(arcanaRevealed7, e);
+			break;
+		case 8:
+			ImageIcon arcanaRevealed8 = new ImageIcon("icons/strength.png");
+			buttonFinder(arcanaRevealed8, e);
+			break;
+		case 9:
+			ImageIcon arcanaRevealed9 = new ImageIcon("icons/hermit.png");
+			buttonFinder(arcanaRevealed9, e);
+			break;
+		case 10:
+			ImageIcon arcanaRevealed10 = new ImageIcon("icons/fortune.png");
+			buttonFinder(arcanaRevealed10, e);
+			break;
+		case 11:
+			ImageIcon arcanaRevealed11 = new ImageIcon("icons/justice.png");
+			buttonFinder(arcanaRevealed11, e);
+			break;
+		case 12:
+			ImageIcon arcanaRevealed12 = new ImageIcon("icons/hanged_man.png");
+			buttonFinder(arcanaRevealed12, e);
+			break;
+		case 13:
+			ImageIcon arcanaRevealed13 = new ImageIcon("icons/death.png");
+			buttonFinder(arcanaRevealed13, e);
+			break;
+
 		}
 	}
 
-	private void buttonFinder (ImageIcon arcanaRevealed, ActionEvent e) {
+	private void buttonFinder(ImageIcon arcanaRevealed, ActionEvent e) {
 		if (e.getSource() == card1) {
 			this.card1.setIcon(arcanaRevealed);
 		} else if (e.getSource() != card1) {
 			this.card1.setIcon(this.cardBack);
 		}
-		
+
 		if (e.getSource() == card2) {
 			this.card2.setIcon(arcanaRevealed);
 		} else if (e.getSource() != card2) {
 			this.card2.setIcon(this.cardBack);
 		}
-		
+
 		if (e.getSource() == card3) {
 			this.card3.setIcon(arcanaRevealed);
 		} else if (e.getSource() != card3) {
 			this.card3.setIcon(this.cardBack);
 		}
-		
+
 		if (e.getSource() == card4) {
 			this.card4.setIcon(arcanaRevealed);
 		} else if (e.getSource() != card4) {
 			this.card4.setIcon(this.cardBack);
 		}
-		
+
 		if (e.getSource() == card5) {
 			this.card5.setIcon(arcanaRevealed);
 		} else if (e.getSource() != card5) {
@@ -566,25 +598,26 @@ public class GameBoard extends JFrame {
 		player1HPCount.setText("P1 | " + Player1.getHealthCount() + " / 100");
 		player2HPCount.setText("P2 | " + Player2.getHealthCount() + " / 100");
 	}
-	
+
 	private void ifOneLoses() {
 		if (Player1.getHealthCount() <= 0) {
 			resultingFXDesc.setText("PLAYER 2 WINS");
 			minorArcanaDescription.setText("PLAYER 2 WINS");
 			givePlayerTimeToRead(10);
-			
+
 			card1.setEnabled(false);
 			card2.setEnabled(false);
 			card3.setEnabled(false);
 			card4.setEnabled(false);
 			card5.setEnabled(false);
 			minorArcanaRoll.setEnabled(false);
-			
-		} if (Player2.getHealthCount() <= 0) {
+
+		}
+		if (Player2.getHealthCount() <= 0) {
 			resultingFXDesc.setText("PLAYER 1 WINS");
 			minorArcanaDescription.setText("PLAYER 1 WINS");
 			givePlayerTimeToRead(10);
-			
+
 			card1.setEnabled(false);
 			card2.setEnabled(false);
 			card3.setEnabled(false);
@@ -593,7 +626,7 @@ public class GameBoard extends JFrame {
 			minorArcanaRoll.setEnabled(false);
 		}
 	}
-	
+
 	public void givePlayerTimeToRead(int delay) {
 		delay *= 100;
 		try {
@@ -601,9 +634,238 @@ public class GameBoard extends JFrame {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		};
+		}
+		;
 	}
-	
+
+	public String cardFX(int cardIndex) {
+		int majorArcana = cardIndex / 13;
+		int minorArcana = cardIndex % 4 + 1;
+		int indexOfCombos = Player1.cardMatchAndIndex(majorArcana, minorArcana);
+		String crdFX = "";
+
+		switch (indexOfCombos) {
+
+		// Fool
+		case 0:
+			crdFX = "Player is refilled to 0.5 of total HP";
+			break;
+		case 1:
+			crdFX = "Opponent has 0.5 of current HP removed";
+			break;
+		case 2:
+			crdFX = "Opponent has same amount of HP as player removed";
+			break;
+		case 3:
+			crdFX = "Opponent has 0.5 of total HP removed";
+			break;
+
+		// Magician
+		case 4:
+			crdFX = "Deals psychic damage of 20 with stun";
+			break;
+		case 5:
+			crdFX = "Deals lightning damage of 20 with shocked";
+			break;
+		case 6:
+			crdFX = "Deals wind damage of 20";
+			break;
+		case 7:
+			crdFX = "Deals fire damage of 20 with burned";
+			break;
+
+		// High Priestess
+		case 8:
+			crdFX = "Delivers healing of 10 HP";
+			break;
+		case 9:
+			crdFX = "Deals wind damage of 10";
+			break;
+		case 10:
+			crdFX = "Deals fire damage of 10 with burned";
+			break;
+		case 11:
+			crdFX = "Deals psychic damage of 10 with stunned";
+			break;
+
+		// Empress
+		case 12:
+			crdFX = "Delivers HP of 25";
+			break;
+		case 13:
+			crdFX = "Deals damage of 50";
+			break;
+
+		case 14:
+			crdFX = "Deals psychic damage of 50 with stunned";
+			break;
+
+		case 15:
+			crdFX = "Opponent has same amount of HP as player";
+			break;
+
+		// Emperor
+		case 16:
+			crdFX = "Delivers HP of 25";
+			break;
+		case 17:
+			crdFX = "Deals base damage of 25";
+			break;
+
+		case 18:
+			crdFX = "Deals base fire damage of 25 with burned";
+			break;
+
+		case 19:
+			crdFX = "Delivers HP equal to current HP";
+			break;
+
+		// Heirophant
+		case 20:
+			crdFX = "Delivers HP of 1.5 times current HP";
+			break;
+		case 21:
+			crdFX = "Deals damage of 1.5 times current HP";
+			break;
+
+		case 22:
+			crdFX = "Deals fire damage of 1.5 times current HP with burned";
+			break;
+
+		case 23:
+			crdFX = "Deals electric damage of 1.5 times current HP with shocked";
+			break;
+
+		// Lovers
+		case 24:
+			crdFX = "Delivers HP of 26";
+			break;
+		case 25:
+			crdFX = "Deals damage of 39";
+			break;
+
+		case 26:
+			crdFX = "Deals psychic damage of 39 with stunned";
+			break;
+
+		case 27:
+			crdFX = "Fully heals player's HP";
+			break;
+
+		// Chariot
+		case 28:
+			crdFX = "Delivers HP of 7";
+			break;
+		case 29:
+			crdFX = "Deals damage of 7";
+			break;
+
+		case 30:
+			crdFX = "Deals psychic damage of 39 with stunned";
+			break;
+
+		case 31:
+			crdFX = "Fully heals player's HP";
+			break;
+
+		// Strength
+		case 32:
+			crdFX = "Delivers HP of 26";
+			break;
+		case 33:
+			crdFX = "Deals wind damage of 26";
+			break;
+		case 34:
+			crdFX = "Deals damage of 26";
+			break;
+		case 35:
+			crdFX = "Deals electric damage of 26 with shocked";
+			break;
+
+		// Hermit
+		case 36:
+			crdFX = "Delivers HP of 50";
+			break;
+
+		case 37:
+			crdFX = "Deals damage of 50";
+			break;
+
+		case 38:
+			crdFX = "Deals electric damage of 50 with shocked";
+			break;
+
+		case 39:
+			crdFX = "Deals wind damage of 50";
+			break;
+
+		// Wheel Of Fortune
+		case 40:
+			crdFX = "Delivers 1.5 times current HP";
+			break;
+
+		case 41:
+			crdFX = "Deals 2 times current HP worth of damage";
+			break;
+		case 42:
+			crdFX = "Deals 1.5 times current HP worth of fire damage with burned";
+			break;
+		case 43:
+			crdFX = "Delivers 1.5 times enemy's current HP";
+			break;
+
+		// Justice
+		case 44:
+			crdFX = "Delivers 1.5 times current HP";
+			break;
+		case 45:
+			crdFX = "Deals 1.5 times current HP worth of damage";
+			break;
+		case 46:
+			crdFX = "Deals 2 times current HP worth of psychic damage with stunned";
+			break;
+		case 47:
+			crdFX = "Deals 2 times current HP worth of fire damage with burned";
+			break;
+
+		// Hanged Man
+		case 48:
+			crdFX = "Delivers HP 2 times current HP";
+			break;
+
+		case 49:
+			crdFX = "Deals 1.5 times current HP worth of fire damage with burned";
+			break;
+
+		case 50:
+			crdFX = "Deals 1.5 times current HP worth of electric damage with shocked";
+			break;
+
+		case 51:
+			crdFX = "Deals 1.5 times current HP worth of psychic damage with stunned";
+			break;
+
+		// Death
+		case 52:
+			crdFX = "Sets current health to 99";
+			break;
+
+		case 53:
+			crdFX = "Sets enemy's HP to 0.5 of your current HP";
+			break;
+
+		case 54:
+			crdFX = "Sets both player's HP to 1";
+			break;
+
+		case 55:
+			crdFX = "Sets current HP to 0.5 of current HP";
+			break;
+
+		}
+		return crdFX;
+	}
+
 	public static void main(String[] args) {
 		GameBoard app = new GameBoard();
 	}
