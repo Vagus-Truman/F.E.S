@@ -1,23 +1,8 @@
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.plaf.basic.BasicButtonListener;
-import javax.swing.BorderFactory;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,9 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-@SuppressWarnings({ "unused", "serial" })
 public class GameBoard extends JFrame {
 
 	private List<String> majorArcanaCards;
@@ -91,7 +74,6 @@ public class GameBoard extends JFrame {
 	private JPanel contentPane;
 	private JPanel paneLeftSide;
 	private JPanel paneCenterBeyondLeft;
-	private Timer timer;
 
 	public GameBoard() {
 		this.setTitle("All Shall Be Revealed");
@@ -122,7 +104,7 @@ public class GameBoard extends JFrame {
 
 		// player 1 health
 		this.player1HPCount = new JLabel();
-		this.player1HPCount.setText("P1 | " + Player1.healthCount + " / 100");
+		this.player1HPCount.setText("P1 | " + Player1.getHealthCount() + " / 100");
 		this.player1HPCount.setFont(bigText);
 		this.player1HPCount.setForeground(Color.WHITE);
 		this.player1HPIndicator = new JPanel();
@@ -145,7 +127,7 @@ public class GameBoard extends JFrame {
 
 		// player 2 health
 		this.player2HPCount = new JLabel();
-		this.player2HPCount.setText("P2 | " + Player2.healthCount + " / 100");
+		this.player2HPCount.setText("P2 | " + Player2.getHealthCount() + " / 100");
 		this.player2HPCount.setFont(bigText);
 		this.player2HPCount.setForeground(Color.WHITE);
 		this.player2HPIndicator = new JPanel();
@@ -200,15 +182,15 @@ public class GameBoard extends JFrame {
 					System.out.println(">> Player " + currentPlayer + "'s turn");
 
 					if (Player2.statusEffected) {
-						System.out.println("> Enemy HP: " + Player2.healthCount + " | " + Player2.inflictedStatus);
+						System.out.println("> Enemy HP: " + Player2.getHealthCount() + " | " + Player2.inflictedStatus);
 					} else {
-						System.out.println("> Enemy HP: " + Player2.healthCount);
+						System.out.println("> Enemy HP: " + Player2.getHealthCount());
 					}
 
 					if (Player1.statusEffected) {
-						System.out.println("> Your HP: " + Player1.healthCount + " | " + Player1.inflictedStatus);
+						System.out.println("> Your HP: " + Player1.getHealthCount() + " | " + Player1.inflictedStatus);
 					} else {
-						System.out.println("> Your HP: " + Player1.healthCount);
+						System.out.println("> Your HP: " + Player1.getHealthCount());
 					}
 
 					System.out.println("Shock/Stunned is active. Turn is skipped");
@@ -230,14 +212,14 @@ public class GameBoard extends JFrame {
 					System.out.println(">> Player " + currentPlayer + "'s turn");
 
 					if (Player1.statusEffected) {
-						System.out.println("> Enemy HP: " + Player1.healthCount + " | " + Player1.inflictedStatus);
+						System.out.println("> Enemy HP: " + Player1.getHealthCount() + " | " + Player1.inflictedStatus);
 					} else {
-						System.out.println("> Enemy HP: " + Player1.healthCount);
+						System.out.println("> Enemy HP: " + Player1.getHealthCount());
 					}
 					if (Player2.statusEffected) {
-						System.out.println("> Your HP: " + Player2.healthCount + " | " + Player2.inflictedStatus);
+						System.out.println("> Your HP: " + Player2.getHealthCount() + " | " + Player2.inflictedStatus);
 					} else {
-						System.out.println("> Your HP: " + Player2.healthCount);
+						System.out.println("> Your HP: " + Player2.getHealthCount());
 					}
 
 					System.out.println("Shock/Stunned is active. Turn is skipped");
@@ -403,7 +385,12 @@ public class GameBoard extends JFrame {
 		this.resultingFXDesc = new JLabel();
 		this.resultingFXDesc.setForeground(Color.RED);
 		this.resultingFXDesc.setFont(biggerText);
-		this.resultingFXDesc.setText("<html><br><br><br><br>T B D<html>");
+		
+		if (currentPlayer == 1) {
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + Player1.effectFromCards + "<html>");
+		}
+		
+		
 		this.resultingFX = new JPanel();
 		this.resultingFX.setBounds((minorArcanaRoll.getWidth() + 30), 30 + minorArcanaFull.getHeight(), ArcanaDescWidth,
 				ArcanaDescLength + 130);
@@ -576,12 +563,12 @@ public class GameBoard extends JFrame {
 	}
 
 	private void updateHealthCount() {
-		player1HPCount.setText("P1 | " + Player1.healthCount + " / 100");
-		player2HPCount.setText("P2 | " + Player2.healthCount + " / 100");
+		player1HPCount.setText("P1 | " + Player1.getHealthCount() + " / 100");
+		player2HPCount.setText("P2 | " + Player2.getHealthCount() + " / 100");
 	}
 	
 	private void ifOneLoses() {
-		if (Player1.healthCount <= 0) {
+		if (Player1.getHealthCount() <= 0) {
 			resultingFXDesc.setText("PLAYER 2 WINS");
 			minorArcanaDescription.setText("PLAYER 2 WINS");
 			givePlayerTimeToRead(10);
@@ -593,7 +580,7 @@ public class GameBoard extends JFrame {
 			card5.setEnabled(false);
 			minorArcanaRoll.setEnabled(false);
 			
-		} if (Player2.healthCount <= 0) {
+		} if (Player2.getHealthCount() <= 0) {
 			resultingFXDesc.setText("PLAYER 1 WINS");
 			minorArcanaDescription.setText("PLAYER 1 WINS");
 			givePlayerTimeToRead(10);
