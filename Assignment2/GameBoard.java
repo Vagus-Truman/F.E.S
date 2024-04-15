@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.Timer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,6 +14,7 @@ import javax.swing.JLabel;
 
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class GameBoard extends JFrame {
 
 	private List<String> majorArcanaCards;
@@ -25,7 +25,6 @@ public class GameBoard extends JFrame {
 	public static boolean stunLockedP1 = Player1.statusEffected;
 	public static boolean stunLockedP2 = Player2.statusEffected;
 	public static boolean isThereAWinner = false;
-	private String effectOfCards;
 
 	// left side data
 	private static final int HpBarWidth = 260;
@@ -97,7 +96,6 @@ public class GameBoard extends JFrame {
 		Font smallText = new Font("Monospaced", Font.PLAIN, 14);
 		Font bigText = new Font("Monospaced", Font.BOLD, 20);
 		Font biggerText = new Font("Monospaced", Font.BOLD, 28);
-		this.effectOfCards = new String("All Shall Be Revealed");
 
 		// Left Panel
 		this.paneLeftSide = new JPanel();
@@ -209,7 +207,10 @@ public class GameBoard extends JFrame {
 					return;
 				}
 
+				cardFX(overallIndex);
+				givePlayerTimeToRead(5);
 				Player1.indexAndAffect(overallIndex);
+
 			} else {
 
 				if (stunLockedP2) {
@@ -237,6 +238,8 @@ public class GameBoard extends JFrame {
 					return;
 				}
 
+				cardFX(overallIndex);
+				givePlayerTimeToRead(5);
 				Player2.indexAndAffect(overallIndex);
 			}
 
@@ -338,74 +341,64 @@ public class GameBoard extends JFrame {
 		// p1
 		card1.addActionListener(e -> {
 			givePlayerTimeToRead(1);
-			applyCardEffect(cardVictim1);
+			applyCardEffect(cardVictim1, currentPlayer);
 			Player1.healthRegulator(Player1.getHealthCount());
-			this.effectOfCards = cardFX(cardVictim1);
 			cardNumIconChange(cardVictim1, e);
 		});
 		card2.addActionListener(e -> {
 			givePlayerTimeToRead(1);
-			applyCardEffect(cardVictim2);
+			applyCardEffect(cardVictim2, currentPlayer);
 			Player1.healthRegulator(Player1.getHealthCount());
-			this.effectOfCards = cardFX(cardVictim2);
 			cardNumIconChange(cardVictim2, e);
 		});
 		card3.addActionListener(e -> {
 			givePlayerTimeToRead(1);
-			applyCardEffect(cardVictim3);
+			applyCardEffect(cardVictim3, currentPlayer);
 			Player1.healthRegulator(Player1.getHealthCount());
-			this.effectOfCards = cardFX(cardVictim3);
 			cardNumIconChange(cardVictim3, e);
 		});
 		card4.addActionListener(e -> {
 			givePlayerTimeToRead(1);
-			applyCardEffect(cardVictim4);
+			applyCardEffect(cardVictim4, currentPlayer);
 			Player1.healthRegulator(Player1.getHealthCount());
-			this.effectOfCards = cardFX(cardVictim4);
 			cardNumIconChange(cardVictim4, e);
 		});
 		card5.addActionListener(e -> {
 			givePlayerTimeToRead(1);
-			applyCardEffect(cardVictim5);
+			applyCardEffect(cardVictim5, currentPlayer);
 			Player1.healthRegulator(Player1.getHealthCount());
-			this.effectOfCards = cardFX(cardVictim5);
 			cardNumIconChange(cardVictim5, e);
 		});
 
 		// p2
 		card1.addActionListener(e -> {
 			givePlayerTimeToRead(1);
-			applyCardEffect(cardVictim1);
+			applyCardEffect(cardVictim1, currentPlayer);
 			Player2.healthRegulator(Player2.getHealthCount());
-			this.effectOfCards = cardFX(cardVictim1);
 			cardNumIconChange(cardVictim1, e);
 		});
 		card2.addActionListener(e -> {
 			givePlayerTimeToRead(1);
-			applyCardEffect(cardVictim2);
+			applyCardEffect(cardVictim2, currentPlayer);
 			Player2.healthRegulator(Player2.getHealthCount());
-			this.effectOfCards = cardFX(cardVictim2);
 			cardNumIconChange(cardVictim2, e);
 		});
 		card3.addActionListener(e -> {
 			givePlayerTimeToRead(1);
-			applyCardEffect(cardVictim3);
+			applyCardEffect(cardVictim3, currentPlayer);
 			Player2.healthRegulator(Player2.getHealthCount());
-			this.effectOfCards = cardFX(cardVictim3);
 			cardNumIconChange(cardVictim3, e);
 		});
 		card4.addActionListener(e -> {
 			givePlayerTimeToRead(1);
-			applyCardEffect(cardVictim4);
+			applyCardEffect(cardVictim4, currentPlayer);
 			Player2.healthRegulator(Player2.getHealthCount());
-			this.effectOfCards = cardFX(cardVictim4);
 			cardNumIconChange(cardVictim4, e);
 		});
 		card5.addActionListener(e -> {
 			givePlayerTimeToRead(1);
-			applyCardEffect(cardVictim5);
+			applyCardEffect(cardVictim5, currentPlayer);
 			Player2.healthRegulator(Player2.getHealthCount());
-			this.effectOfCards = cardFX(cardVictim5);
 			cardNumIconChange(cardVictim5, e);
 		});
 
@@ -421,11 +414,11 @@ public class GameBoard extends JFrame {
 		this.resultingFXDesc.setForeground(Color.RED);
 		this.resultingFXDesc.setFont(biggerText);
 
-		this.resultingFXDesc.setText("<html><br><br><br><br>" + this.effectOfCards + "<html>");
+		this.resultingFXDesc.setText("<html><br><br><br><br>All Shall Be Revealed<html>");
 
 		this.resultingFX = new JPanel();
-		this.resultingFX.setBounds((minorArcanaRoll.getWidth() + 30), 30 + minorArcanaFull.getHeight(), ArcanaDescWidth,
-				ArcanaDescLength + 130);
+		this.resultingFX.setBounds((minorArcanaRoll.getWidth() + 30), 30 + minorArcanaFull.getHeight(), 
+				ArcanaDescWidth, ArcanaDescLength + 130);
 		this.resultingFX.setBackground(Color.BLACK);
 		this.resultingFX.add(resultingFXDesc);
 		this.paneCenterBeyondLeft.add(resultingFX);
@@ -544,6 +537,7 @@ public class GameBoard extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void displayCardsOnSlots() {
 		if (majorArcanaCards.size() >= 5) {
 			minorArcanaDescription.setText("<html>" + majorArcanaCards.get(0) + "<br>" + majorArcanaCards.get(1)
@@ -574,23 +568,18 @@ public class GameBoard extends JFrame {
 				.setText("<html><br/><br/><br/>Player " + currentPlayer + "'s Turn!<br/><br/><br/><br/><br/><html>");
 	}
 
-	private void applyCardEffect(int cardIndex) {
+	private void applyCardEffect(int cardIndex, int playerNumber) {
 
 		int majorArcana = cardIndex / 13;
 		int minorArcana = cardIndex % 4 + 1;
-		int indexOfCombos = Player1.cardMatchAndIndex(majorArcana, minorArcana);
 
-		Player1.indexAndAffect(indexOfCombos);
-
-	}
-
-	private void applyCardEffectP2(int cardIndex) {
-
-		int majorArcana = cardIndex / 13;
-		int minorArcana = cardIndex % 4 + 1;
-		int indexOfCombos = Player2.cardMatchAndIndex(majorArcana, minorArcana);
-
-		Player2.indexAndAffect(indexOfCombos);
+		if (playerNumber == 1) {
+			int indexOfCombosP1 = Player1.cardMatchAndIndex(majorArcana, minorArcana);
+			Player1.indexAndAffect(indexOfCombosP1);
+		} else if (playerNumber == 2) {
+			int indexOfCombosP2 = Player2.cardMatchAndIndex(majorArcana, minorArcana);
+			Player1.indexAndAffect(indexOfCombosP2);
+		}
 
 	}
 
@@ -638,234 +627,229 @@ public class GameBoard extends JFrame {
 		;
 	}
 
-	public String cardFX(int cardIndex) {
-		int majorArcana = cardIndex / 13;
-		int minorArcana = cardIndex % 4 + 1;
-		int indexOfCombos = Player1.cardMatchAndIndex(majorArcana, minorArcana);
-		String crdFX = "";
-
-		switch (indexOfCombos) {
+	public void cardFX(int overallIndex) {
+		switch (overallIndex) {
 
 		// Fool
 		case 0:
-			crdFX = "Player is refilled to 0.5 of total HP";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Player is refilled to 0.5 of total HP" + "<html>");
 			break;
 		case 1:
-			crdFX = "Opponent has 0.5 of current HP removed";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Opponent has 0.5 of current HP removed"  + "<html>");
 			break;
 		case 2:
-			crdFX = "Opponent has same amount of HP as player removed";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Opponent has same amount of HP as player removed"+ "<html>");
 			break;
 		case 3:
-			crdFX = "Opponent has 0.5 of total HP removed";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Opponent has 0.5 of total HP removed"+ "<html>");
 			break;
 
 		// Magician
 		case 4:
-			crdFX = "Deals psychic damage of 20 with stun";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 20 with stun"+ "<html>");
 			break;
 		case 5:
-			crdFX = "Deals lightning damage of 20 with shocked";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals lightning damage of 20 with shocked"+ "<html>");
 			break;
 		case 6:
-			crdFX = "Deals wind damage of 20";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 20"+ "<html>");
 			break;
 		case 7:
-			crdFX = "Deals fire damage of 20 with burned";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals fire damage of 20 with burned"+ "<html>");
 			break;
 
 		// High Priestess
 		case 8:
-			crdFX = "Delivers healing of 10 HP";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers healing of 10 HP"+ "<html>");
 			break;
 		case 9:
-			crdFX = "Deals wind damage of 10";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 10"+ "<html>");
 			break;
 		case 10:
-			crdFX = "Deals fire damage of 10 with burned";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals fire damage of 10 with burned"+ "<html>");
 			break;
 		case 11:
-			crdFX = "Deals psychic damage of 10 with stunned";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 10 with stunned"+ "<html>");
 			break;
 
 		// Empress
 		case 12:
-			crdFX = "Delivers HP of 25";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 25"+ "<html>");
 			break;
 		case 13:
-			crdFX = "Deals damage of 50";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 50"+ "<html>");
 			break;
 
 		case 14:
-			crdFX = "Deals psychic damage of 50 with stunned";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 50 with stunned"+ "<html>");
 			break;
 
 		case 15:
-			crdFX = "Opponent has same amount of HP as player";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Opponent has same amount of HP as player"+ "<html>");
 			break;
 
 		// Emperor
 		case 16:
-			crdFX = "Delivers HP of 25";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 25"+ "<html>");
 			break;
 		case 17:
-			crdFX = "Deals base damage of 25";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals base damage of 25"+ "<html>");
 			break;
 
 		case 18:
-			crdFX = "Deals base fire damage of 25 with burned";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals base fire damage of 25 with burned"+ "<html>");
 			break;
 
 		case 19:
-			crdFX = "Delivers HP equal to current HP";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP equal to current HP"+ "<html>");
 			break;
 
 		// Heirophant
 		case 20:
-			crdFX = "Delivers HP of 1.5 times current HP";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 1.5 times current HP"+ "<html>");
 			break;
 		case 21:
-			crdFX = "Deals damage of 1.5 times current HP";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 1.5 times current HP"+ "<html>");
 			break;
 
 		case 22:
-			crdFX = "Deals fire damage of 1.5 times current HP with burned";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals fire damage of 1.5 times current HP with burned"+ "<html>");
 			break;
 
 		case 23:
-			crdFX = "Deals electric damage of 1.5 times current HP with shocked";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals electric damage of 1.5 times current HP with shocked"+ "<html>");
 			break;
 
 		// Lovers
 		case 24:
-			crdFX = "Delivers HP of 26";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 26"+ "<html>");
 			break;
 		case 25:
-			crdFX = "Deals damage of 39";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 39"+ "<html>");
 			break;
 
 		case 26:
-			crdFX = "Deals psychic damage of 39 with stunned";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 39 with stunned"+ "<html>");
 			break;
 
 		case 27:
-			crdFX = "Fully heals player's HP";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Fully heals player's HP"+ "<html>");
 			break;
 
 		// Chariot
 		case 28:
-			crdFX = "Delivers HP of 7";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 7"+ "<html>");
 			break;
 		case 29:
-			crdFX = "Deals damage of 7";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 7"+ "<html>");
 			break;
 
 		case 30:
-			crdFX = "Deals psychic damage of 39 with stunned";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 39 with stunned"+ "<html>");
 			break;
 
 		case 31:
-			crdFX = "Fully heals player's HP";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Fully heals player's HP"+ "<html>");
 			break;
 
 		// Strength
 		case 32:
-			crdFX = "Delivers HP of 26";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 26"+ "<html>");
 			break;
 		case 33:
-			crdFX = "Deals wind damage of 26";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 26"+ "<html>");
 			break;
 		case 34:
-			crdFX = "Deals damage of 26";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 26"+ "<html>");
 			break;
 		case 35:
-			crdFX = "Deals electric damage of 26 with shocked";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals electric damage of 26 with shocked"+ "<html>");
 			break;
 
 		// Hermit
 		case 36:
-			crdFX = "Delivers HP of 50";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 50"+ "<html>");
 			break;
 
 		case 37:
-			crdFX = "Deals damage of 50";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 50"+ "<html>");
 			break;
 
 		case 38:
-			crdFX = "Deals electric damage of 50 with shocked";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals electric damage of 50 with shocked"+ "<html>");
 			break;
 
 		case 39:
-			crdFX = "Deals wind damage of 50";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 50"+ "<html>");
 			break;
 
 		// Wheel Of Fortune
 		case 40:
-			crdFX = "Delivers 1.5 times current HP";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers 1.5 times current HP"+ "<html>");
 			break;
 
 		case 41:
-			crdFX = "Deals 2 times current HP worth of damage";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 2 times current HP worth of damage"+ "<html>");
 			break;
 		case 42:
-			crdFX = "Deals 1.5 times current HP worth of fire damage with burned";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of fire damage with burned"+ "<html>");
 			break;
 		case 43:
-			crdFX = "Delivers 1.5 times enemy's current HP";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers 1.5 times enemy's current HP"+ "<html>");
 			break;
 
 		// Justice
 		case 44:
-			crdFX = "Delivers 1.5 times current HP";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers 1.5 times current HP"+ "<html>");
 			break;
 		case 45:
-			crdFX = "Deals 1.5 times current HP worth of damage";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of damage"+ "<html>");
 			break;
 		case 46:
-			crdFX = "Deals 2 times current HP worth of psychic damage with stunned";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 2 times current HP worth of psychic damage with stunned"+ "<html>");
 			break;
 		case 47:
-			crdFX = "Deals 2 times current HP worth of fire damage with burned";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 2 times current HP worth of fire damage with burned"+ "<html>");
 			break;
 
 		// Hanged Man
 		case 48:
-			crdFX = "Delivers HP 2 times current HP";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP 2 times current HP"+ "<html>");
 			break;
 
 		case 49:
-			crdFX = "Deals 1.5 times current HP worth of fire damage with burned";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of fire damage with burned"+ "<html>");
 			break;
 
 		case 50:
-			crdFX = "Deals 1.5 times current HP worth of electric damage with shocked";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of electric damage with shocked"+ "<html>");
 			break;
 
 		case 51:
-			crdFX = "Deals 1.5 times current HP worth of psychic damage with stunned";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of psychic damage with stunned"+ "<html>");
 			break;
 
 		// Death
 		case 52:
-			crdFX = "Sets current health to 99";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Sets current health to 99"+ "<html>");
 			break;
 
 		case 53:
-			crdFX = "Sets enemy's HP to 0.5 of your current HP";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Sets enemy's HP to 0.5 of your current HP"+ "<html>");
 			break;
 
 		case 54:
-			crdFX = "Sets both player's HP to 1";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Sets both player's HP to 1"+ "<html>");
 			break;
 
 		case 55:
-			crdFX = "Sets current HP to 0.5 of current HP";
+			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Sets current HP to 0.5 of current HP"+ "<html>");
 			break;
 
 		}
-		return crdFX;
 	}
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		GameBoard app = new GameBoard();
 	}
