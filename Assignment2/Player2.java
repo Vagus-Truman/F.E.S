@@ -1,4 +1,5 @@
 
+
 // it should be stated now that the board game will be based on a simple card combat system using dice to determine results
 import java.util.*;
 
@@ -159,22 +160,22 @@ public class Player2 {
 
 		// Magician
 		case 4:
-			effectFromCards = "Deals psychic damage of 20 with stun";
-			Player1.healthController(20, true);
+			effectFromCards = "Deals psychic damage of 10 with stun";
+			Player1.healthController(10, true);
 			Player1.setStunned();
 			break;
 		case 5:
-			effectFromCards = "Deals lightning damage of 20 with shocked";
-			Player1.healthController(20, true);
+			effectFromCards = "Deals lightning damage of 10 with shocked";
+			Player1.healthController(10, true);
 			Player1.setShocked();
 			break;
 		case 6:
-			effectFromCards = "Deals wind damage of 20";
-			Player1.healthController(20, true);
+			effectFromCards = "Deals wind damage of 10";
+			Player1.healthController(10, true);
 			break;
 		case 7:
-			effectFromCards = "Deals fire damage of 20 with burned";
-			Player1.healthController(20, true);
+			effectFromCards = "Deals fire damage of 10 with burned";
+			Player1.healthController(10, true);
 			Player1.setBurned();
 			break;
 
@@ -188,13 +189,13 @@ public class Player2 {
 			Player1.healthController(10, true);
 			break;
 		case 10:
-			effectFromCards = "Deals fire damage of 10 with burned";
-			Player1.healthController(10, true);
+			effectFromCards = "Deals fire damage of 7 with burned";
+			Player1.healthController(7, true);
 			Player1.setBurned();
 			break;
 		case 11:
-			effectFromCards = "Deals psychic damage of 10 with stunned";
-			Player1.healthController(10, true);
+			effectFromCards = "Deals psychic damage of 7 with stunned";
+			Player1.healthController(7, true);
 			Player1.setStunned();
 			break;
 
@@ -204,13 +205,13 @@ public class Player2 {
 			healthController(25, false);
 			break;
 		case 13:
-			effectFromCards = "Deals damage of 50";
-			Player1.healthController(50, true);
+			effectFromCards = "Deals damage of 25";
+			Player1.healthController(25, true);
 			break;
 
 		case 14:
-			effectFromCards = "Deals psychic damage of 50 with stunned";
-			Player1.healthController(60, true);
+			effectFromCards = "Deals psychic damage of 25 with stunned";
+			Player1.healthController(25, true);
 			Player1.setStunned();
 			break;
 
@@ -225,13 +226,13 @@ public class Player2 {
 			healthController(25, false);
 			break;
 		case 17:
-			effectFromCards = "Deals base damage of 25";
-			Player1.healthController(25, true);
+			effectFromCards = "Deals base damage of 15";
+			Player1.healthController(15, true);
 			break;
 
 		case 18:
-			effectFromCards = "Deals base fire damage of 25 with burned";
-			Player1.healthController(25, true);
+			effectFromCards = "Deals base fire damage of 15 with burned";
+			Player1.healthController(15, true);
 			Player1.setBurned();
 			break;
 
@@ -246,19 +247,19 @@ public class Player2 {
 			healthController((int) (Player2.getHealthCount() * 1.5), false);
 			break;
 		case 21:
-			effectFromCards = "Deals damage of 1.5 times current HP";
-			Player1.healthController((int) (Player2.getHealthCount() * 1.5), true);
+			effectFromCards = "Deals damage of 0.7 times current HP";
+			Player1.healthController((int) (Player2.getHealthCount() * 0.7), true);
 			break;
 
 		case 22:
-			effectFromCards = "Deals fire damage of 1.5 times current HP with burned";
-			Player1.healthController((int) (Player2.getHealthCount() * 1.5), true);
+			effectFromCards = "Deals fire damage of 0.7 times current HP with burned";
+			Player1.healthController((int) (Player2.getHealthCount() * 0.7), true);
 			Player1.setBurned();
 			break;
 
 		case 23:
-			effectFromCards = "Deals electric damage of 1.5 times current HP with shocked";
-			Player1.healthController((int) (Player2.getHealthCount() * 1.5), true);
+			effectFromCards = "Deals electric damage of 0.7 times current HP with shocked";
+			Player1.healthController((int) (Player2.getHealthCount() * 0.7), true);
 			Player1.setShocked();
 			break;
 
@@ -268,13 +269,13 @@ public class Player2 {
 			healthController(26, false);
 			break;
 		case 25:
-			effectFromCards = "Deals damage of 39";
-			Player1.healthController(39, true);
+			effectFromCards = "Deals damage of 29";
+			Player1.healthController(29, true);
 			break;
 
 		case 26:
-			effectFromCards = "Deals psychic damage of 39 with stunned";
-			Player1.healthController(39, true);
+			effectFromCards = "Deals psychic damage of 29 with stunned";
+			Player1.healthController(29, true);
 			Player1.setStunned();
 			break;
 
@@ -294,8 +295,8 @@ public class Player2 {
 			break;
 
 		case 30:
-			effectFromCards = "Deals psychic damage of 39 with stunned";
-			Player1.healthController(39, true);
+			effectFromCards = "Deals psychic damage of 29 with stunned";
+			Player1.healthController(29, true);
 			Player1.setStunned();
 			break;
 
@@ -310,39 +311,39 @@ public class Player2 {
 			healthController(26, false);
 			break;
 		case 33:
-			effectFromCards = "Deals wind damage of 26";
-			Player1.healthController(26, true);
+			effectFromCards = "Deals wind damage of 16";
+			Player1.healthController(16, true);
 			break;
 		case 34:
-			effectFromCards = "Deals damage of 26";
-			Player1.healthController(26, true);
+			effectFromCards = "Deals damage of 16";
+			Player1.healthController(16, true);
 			break;
 		case 35:
-			effectFromCards = "Deals electric damage of 26 with shocked";
-			Player1.healthController(26, true);
+			effectFromCards = "Deals electric damage of 16 with shocked";
+			Player1.healthController(16, true);
 			Player1.setShocked();
 			break;
 
 		// Hermit
 		case 36:
-			effectFromCards = "Delivers HP of 50";
-			healthController(50, false);
+			effectFromCards = "Delivers HP of 35";
+			healthController(35, false);
 			break;
 
 		case 37:
-			effectFromCards = "Deals damage of 50";
-			Player1.healthController(50, true);
+			effectFromCards = "Deals damage of 25";
+			Player1.healthController(25, true);
 			break;
 
 		case 38:
-			effectFromCards = "Deals electric damage of 50 with shocked";
-			Player1.healthController(50, true);
+			effectFromCards = "Deals electric damage of 25 with shocked";
+			Player1.healthController(25, true);
 			Player1.setShocked();
 			break;
 
 		case 39:
-			effectFromCards = "Deals wind damage of 50";
-			Player1.healthController(50, true);
+			effectFromCards = "Deals wind damage of 30";
+			Player1.healthController(30, true);
 			break;
 
 		// Wheel Of Fortune
@@ -352,12 +353,12 @@ public class Player2 {
 			break;
 
 		case 41:
-			effectFromCards = "Deals 2 times current HP worth of damage";
-			Player1.healthController((Player2.getHealthCount() * 2), true);
+			effectFromCards = "Deals 1.3 times current HP worth of damage";
+			Player1.healthController((int)(Player2.getHealthCount() * 1.3), true);
 			break;
 		case 42:
-			effectFromCards = "Deals 1.5 times current HP worth of fire damage with burned";
-			Player1.healthController((int)(Player2.getHealthCount() * 1.5), true);
+			effectFromCards = "Deals 1.2 times current HP worth of fire damage with burned";
+			Player1.healthController((int)(Player2.getHealthCount() * 1.2), true);
 			Player1.setBurned();
 			break;
 		case 43:
@@ -371,17 +372,17 @@ public class Player2 {
 			healthController((int)(Player2.getHealthCount() * 1.5), false);
 			break;
 		case 45:
-			effectFromCards = "Deals 1.5 times current HP worth of damage";
-			Player1.healthController((int)(Player2.getHealthCount() * 1.5), true);
+			effectFromCards = "Deals 1.2 times current HP worth of damage";
+			Player1.healthController((int)(Player2.getHealthCount() * 1.2), true);
 			break;
 		case 46:
-			effectFromCards = "Deals 2 times current HP worth of psychic damage with stunned";
-			Player1.healthController((Player2.getHealthCount() * 2), true);
+			effectFromCards = "Deals 1.3 times current HP worth of psychic damage with stunned";
+			Player1.healthController((int)(Player2.getHealthCount() * 1.3), true);
 			Player1.setStunned();
 			break;
 		case 47:
-			effectFromCards = "Deals 2 times current HP worth of fire damage with burned";
-			Player1.healthController((Player2.getHealthCount() * 2), true);
+			effectFromCards = "Deals 1.3 times current HP worth of fire damage with burned";
+			Player1.healthController((int)(Player2.getHealthCount() * 1.3), true);
 			Player1.setBurned();
 			break;
 
@@ -392,20 +393,20 @@ public class Player2 {
 			break;
 
 		case 49:
-			effectFromCards = "Deals 1.5 times current HP worth of fire damage with burned";
-			Player1.healthController((int)(Player2.getHealthCount() * 1.5), true);
+			effectFromCards = "Deals 1.2 times current HP worth of fire damage with burned";
+			Player1.healthController((int)(Player2.getHealthCount() *1.2 ), true);
 			Player1.setBurned();
 			break;
 
 		case 50:
-			effectFromCards = "Deals 1.5 times current HP worth of electric damage with shocked";
-			Player1.healthController((int)(Player2.getHealthCount() * 1.5), true);
+			effectFromCards = "Deals 1.2 times current HP worth of electric damage with shocked";
+			Player1.healthController((int)(Player2.getHealthCount() *1.2 ), true);
 			Player1.setShocked();
 			break;
 
 		case 51:
-			effectFromCards = "Deals 1.5 times current HP worth of psychic damage with stunned";
-			Player1.healthController((int)(Player2.getHealthCount() * 1.5), true);
+			effectFromCards = "Deals 1.2 times current HP worth of psychic damage with stunned";
+			Player1.healthController((int)(Player2.getHealthCount() *1.2 ), true);
 			Player1.setStunned();
 			break;
 
