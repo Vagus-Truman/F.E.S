@@ -7,7 +7,7 @@ public class Player2 {
 
 	// CLASS FIELDS
 	private static final int BASE_HP = 100;
-	public static int healthCount;
+	public static int healthCount = BASE_HP;
 	
 	public static int cardCount = 5;
 	public static int effectDuration = 3;
