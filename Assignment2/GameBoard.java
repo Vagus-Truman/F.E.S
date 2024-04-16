@@ -21,6 +21,7 @@ public class GameBoard extends JFrame {
 
 	public static boolean p1TurnOver = Player1.turnIsOver;
 	public static boolean p2TurnOver = Player2.turnIsOver;
+	public static int currentPlayer = 0;
 	public static boolean validCardSelected = false;
 	public static boolean stunLockedP1 = Player1.statusEffected;
 	public static boolean stunLockedP2 = Player2.statusEffected;
@@ -33,8 +34,6 @@ public class GameBoard extends JFrame {
 	private static final int TurnIndicatorHeight = 300;
 	private static final int indicatorHealthBarWidth = 310;
 	private static final int indicatorHealthBarHeight = 410;
-
-	private int currentPlayer;
 
 	private JPanel turnIndicator;
 	private JLabel currentPlayerTurn;
@@ -75,11 +74,13 @@ public class GameBoard extends JFrame {
 	private JPanel contentPane;
 	private JPanel paneLeftSide;
 	private JPanel paneCenterBeyondLeft;
+	
+	public int cardIndex;
+	public int diceIndex;
 
 	public GameBoard() {
 		this.setTitle("All Shall Be Revealed");
 
-		this.currentPlayer = Game.currentPlayer;
 		Dimension screenSize = new Dimension(1536, 960);
 		Dimension arcanaCardSize = new Dimension(CardWidth, CardLength);
 		Dimension healthBarSize = new Dimension(HpBarWidth, HpBarLength);
@@ -116,7 +117,7 @@ public class GameBoard extends JFrame {
 
 		// turn indicators
 		this.currentPlayerTurn = new JLabel();
-		this.currentPlayerTurn.setText("<html><br/><br/><br/>Player " + this.currentPlayer + "'s Turn!<html>");
+		this.currentPlayerTurn.setText("<html><br/><br/><br/>Player " + currentPlayer + "'s Turn!<html>");
 		this.currentPlayerTurn.setFont(biggerText);
 		this.currentPlayerTurn.setForeground(Color.WHITE);
 		this.turnIndicator = new JPanel();
@@ -160,23 +161,23 @@ public class GameBoard extends JFrame {
 		minorArcanaRoll.addActionListener(e -> {
 
 			givePlayerTimeToRead(5);
-			int minorSuit = Dice.rollDiceSuit();
-			System.out.println("Minor Suit: " + minorSuit);
+			setCardIndex(Dice.rollDiceSuit());
+			System.out.println("Minor Suit: " + this.diceIndex);
 
-			if (minorSuit == 1) {
+			if (this.diceIndex == 1) {
 				this.minorArcanaRollResultText.setText("> Result: Cups");
-			} else if (minorSuit == 2) {
+			} else if (this.diceIndex == 2) {
 				this.minorArcanaRollResultText.setText("> Result: Swords");
-			} else if (minorSuit == 3) {
+			} else if (this.diceIndex == 3) {
 				this.minorArcanaRollResultText.setText("> Result: Coins");
-			} else if (minorSuit == 4) {
+			} else if (this.diceIndex == 4) {
 				this.minorArcanaRollResultText.setText("> Result: Wands");
 			} else {
 				this.minorArcanaRollResultText.setText("> Result: ");
 			}
 
 			int selectedCardIndex = majorArcanaCards.indexOf(minorArcanaDescription.getText());
-			int overallIndex = selectedCardIndex * 4 + (minorSuit - 1);
+			int overallIndex = selectedCardIndex * 4 + (this.diceIndex - 1);
 
 			if (currentPlayer == 1) {
 
@@ -199,17 +200,15 @@ public class GameBoard extends JFrame {
 					System.out.println("Shock/Stunned is active. Turn is skipped");
 
 					p1TurnOver = true;
-
 					switchPlayer();
-
 					p1TurnOver = false;
 
 					return;
 				}
 
-				cardFX(overallIndex);
+				cardFX(getCardIndex(), getDiceIndex());
 				givePlayerTimeToRead(5);
-				Player1.indexAndAffect(overallIndex);
+				Player1.indexAndAffect(getCardIndex(), getDiceIndex());
 
 			} else {
 
@@ -238,9 +237,9 @@ public class GameBoard extends JFrame {
 					return;
 				}
 
-				cardFX(overallIndex);
+				cardFX(getCardIndex(), getDiceIndex());
 				givePlayerTimeToRead(5);
-				Player2.indexAndAffect(overallIndex);
+				Player2.indexAndAffect(getCardIndex(), getDiceIndex());
 			}
 
 			updateHealthCount();
@@ -537,15 +536,27 @@ public class GameBoard extends JFrame {
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private void displayCardsOnSlots() {
-		if (majorArcanaCards.size() >= 5) {
-			minorArcanaDescription.setText("<html>" + majorArcanaCards.get(0) + "<br>" + majorArcanaCards.get(1)
-					+ "<br>" + majorArcanaCards.get(2) + "<br>" + majorArcanaCards.get(3) + "<br>"
-					+ majorArcanaCards.get(4) + "<html>");
-		}
+	public static void defaultRoutine() {
+		playerSwitch();
+		validCardSelected = false;
 	}
 
+	public int getCardIndex() {
+		return cardIndex;
+	}
+
+	public void setCardIndex(int cardIndex) {
+		this.cardIndex = cardIndex;
+	}
+
+	public int getDiceIndex() {
+		return diceIndex;
+	}
+
+	public void setDiceIndex(int diceIndex) {
+		this.diceIndex = diceIndex;
+	}
+	
 	private void displaySelectedCardDescription(int index) {
 		if (majorArcanaCards.size() > index) {
 			minorArcanaDescription.setText(majorArcanaCards.get(index));
@@ -570,15 +581,10 @@ public class GameBoard extends JFrame {
 
 	private void applyCardEffect(int cardIndex, int playerNumber) {
 
-		int majorArcana = cardIndex / 13;
-		int minorArcana = cardIndex % 4 + 1;
-
 		if (playerNumber == 1) {
-			int indexOfCombosP1 = Player1.cardMatchAndIndex(majorArcana, minorArcana);
-			Player1.indexAndAffect(indexOfCombosP1);
+			Player1.indexAndAffect(cardIndex, playerNumber);
 		} else if (playerNumber == 2) {
-			int indexOfCombosP2 = Player2.cardMatchAndIndex(majorArcana, minorArcana);
-			Player1.indexAndAffect(indexOfCombosP2);
+			Player1.indexAndAffect(cardIndex, playerNumber);
 		}
 
 	}
@@ -615,6 +621,16 @@ public class GameBoard extends JFrame {
 			minorArcanaRoll.setEnabled(false);
 		}
 	}
+	
+	
+	
+	public static void playerSwitch() {
+		if (p1TurnOver == true && currentPlayer == 1) {
+			currentPlayer = 2;
+		} else if (p2TurnOver == true && currentPlayer == 2) {
+			currentPlayer = 1;
+		}
+	}
 
 	public void givePlayerTimeToRead(int delay) {
 		delay *= 100;
@@ -627,226 +643,252 @@ public class GameBoard extends JFrame {
 		;
 	}
 
-	public void cardFX(int overallIndex) {
-		switch (overallIndex) {
+	public void cardFX(int indexMajor, int indexMinor) {
+		switch (indexMajor) {
 
 		// Fool
 		case 0:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Player is refilled to 0.5 of total HP" + "<html>");
-			break;
-		case 1:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Opponent has 0.5 of current HP removed"  + "<html>");
-			break;
-		case 2:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Opponent has same amount of HP as player removed"+ "<html>");
-			break;
-		case 3:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Opponent has 0.5 of total HP removed"+ "<html>");
-			break;
-
+			switch(indexMinor) {
+			case 1:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Player is refilled to 0.5 of total HP" + "<html>");
+				break;
+			case 2:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Opponent has 0.5 of current HP removed"  + "<html>");
+				break;
+			case 3:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Opponent has same amount of HP as player removed"+ "<html>");
+				break;
+			case 4:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Opponent has 0.5 of total HP removed"+ "<html>");
+				break;
+			}
+			
 		// Magician
-		case 4:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 20 with stun"+ "<html>");
-			break;
-		case 5:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals lightning damage of 20 with shocked"+ "<html>");
-			break;
-		case 6:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 20"+ "<html>");
-			break;
-		case 7:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals fire damage of 20 with burned"+ "<html>");
-			break;
+		case 1:
+			switch(indexMinor) {
+			case 1:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 20 with stun"+ "<html>");
+				break;
+			case 2:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals lightning damage of 20 with shocked"+ "<html>");
+				break;
+			case 3:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 20"+ "<html>");
+				break;
+			case 4:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals fire damage of 20 with burned"+ "<html>");
+				break;
+			} break;
 
 		// High Priestess
-		case 8:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers healing of 10 HP"+ "<html>");
-			break;
-		case 9:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 10"+ "<html>");
-			break;
-		case 10:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals fire damage of 10 with burned"+ "<html>");
-			break;
-		case 11:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 10 with stunned"+ "<html>");
-			break;
+		case 2:
+			switch(indexMinor) {
+			case 1:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers healing of 10 HP"+ "<html>");
+				break;
+			case 2:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 10"+ "<html>");
+				break;
+			case 3:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals fire damage of 10 with burned"+ "<html>");
+				break;
+			case 4:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 10 with stunned"+ "<html>");
+				break;
+			} break;
 
 		// Empress
-		case 12:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 25"+ "<html>");
-			break;
-		case 13:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 50"+ "<html>");
-			break;
-
-		case 14:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 50 with stunned"+ "<html>");
-			break;
-
-		case 15:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Opponent has same amount of HP as player"+ "<html>");
-			break;
+		case 3:
+			switch(indexMinor) {
+			case 1:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 25"+ "<html>");
+				break;
+			case 2:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 50"+ "<html>");
+				break;
+			case 3:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 50 with stunned"+ "<html>");
+				break;
+			case 5:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Opponent has same amount of HP as player"+ "<html>");
+				break;
+			} break;
 
 		// Emperor
-		case 16:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 25"+ "<html>");
-			break;
-		case 17:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals base damage of 25"+ "<html>");
-			break;
-
-		case 18:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals base fire damage of 25 with burned"+ "<html>");
-			break;
-
-		case 19:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP equal to current HP"+ "<html>");
-			break;
+		case 4:
+			switch(indexMinor) {
+			case 1:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 25"+ "<html>");
+				break;
+			case 2:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals base damage of 25"+ "<html>");
+				break;
+			case 3:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals base fire damage of 25 with burned"+ "<html>");
+				break;
+			case 4:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP equal to current HP"+ "<html>");
+				break;
+			} break;
 
 		// Heirophant
-		case 20:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 1.5 times current HP"+ "<html>");
-			break;
-		case 21:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 1.5 times current HP"+ "<html>");
-			break;
-
-		case 22:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals fire damage of 1.5 times current HP with burned"+ "<html>");
-			break;
-
-		case 23:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals electric damage of 1.5 times current HP with shocked"+ "<html>");
-			break;
-
+		case 5:
+			switch(indexMinor) {
+			case 1:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 1.5 times current HP"+ "<html>");
+				break;
+			case 2:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 1.5 times current HP"+ "<html>");
+				break;
+			case 3:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals fire damage of 1.5 times current HP with burned"+ "<html>");
+				break;
+			case 4:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals electric damage of 1.5 times current HP with shocked"+ "<html>");
+				break;
+			} break;
+		
 		// Lovers
-		case 24:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 26"+ "<html>");
-			break;
-		case 25:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 39"+ "<html>");
-			break;
-
-		case 26:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 39 with stunned"+ "<html>");
-			break;
-
-		case 27:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Fully heals player's HP"+ "<html>");
-			break;
+		case 6:
+			switch(indexMinor) {
+			case 1:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 26"+ "<html>");
+				break;
+			case 2:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 39"+ "<html>");
+				break;
+			case 3:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 39 with stunned"+ "<html>");
+				break;
+			case 4:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Fully heals player's HP"+ "<html>");
+				break;
+			} break;
 
 		// Chariot
-		case 28:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 7"+ "<html>");
-			break;
-		case 29:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 7"+ "<html>");
-			break;
-
-		case 30:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 39 with stunned"+ "<html>");
-			break;
-
-		case 31:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Fully heals player's HP"+ "<html>");
-			break;
-
+		case 7:
+			switch(indexMinor) {
+			case 1:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 7"+ "<html>");
+				break;
+			case 2:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 7"+ "<html>");
+				break;
+			case 3:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals psychic damage of 39 with stunned"+ "<html>");
+				break;
+			case 4:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Fully heals player's HP"+ "<html>");
+				break;
+			} break;
+			
 		// Strength
-		case 32:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 26"+ "<html>");
-			break;
-		case 33:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 26"+ "<html>");
-			break;
-		case 34:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 26"+ "<html>");
-			break;
-		case 35:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals electric damage of 26 with shocked"+ "<html>");
-			break;
+		case 8:
+			switch(indexMinor) {
+			case 1:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 26"+ "<html>");
+				break;
+			case 2:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 26"+ "<html>");
+				break;
+			case 3:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 26"+ "<html>");
+				break;
+			case 4:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals electric damage of 26 with shocked"+ "<html>");
+				break;
+			} break;
 
 		// Hermit
-		case 36:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 50"+ "<html>");
-			break;
-
-		case 37:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 50"+ "<html>");
-			break;
-
-		case 38:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals electric damage of 50 with shocked"+ "<html>");
-			break;
-
-		case 39:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 50"+ "<html>");
-			break;
+		case 9:
+			switch(indexMinor) {
+			case 1:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 50"+ "<html>");
+				break;
+			case 2:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 50"+ "<html>");
+				break;
+			case 3:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals electric damage of 50 with shocked"+ "<html>");
+				break;
+			case 4:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 50"+ "<html>");
+				break;
+			} break;
 
 		// Wheel Of Fortune
-		case 40:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers 1.5 times current HP"+ "<html>");
-			break;
-
-		case 41:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 2 times current HP worth of damage"+ "<html>");
-			break;
-		case 42:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of fire damage with burned"+ "<html>");
-			break;
-		case 43:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers 1.5 times enemy's current HP"+ "<html>");
-			break;
-
+		case 10:
+			switch(indexMinor) {
+			case 1:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers 1.5 times current HP"+ "<html>");
+				break;
+			case 2:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 2 times current HP worth of damage"+ "<html>");
+				break;
+			case 3:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of fire damage with burned"+ "<html>");
+				break;
+			case 4:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers 1.5 times enemy's current HP"+ "<html>");
+				break;
+			} break;
+			
 		// Justice
-		case 44:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers 1.5 times current HP"+ "<html>");
-			break;
-		case 45:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of damage"+ "<html>");
-			break;
-		case 46:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 2 times current HP worth of psychic damage with stunned"+ "<html>");
-			break;
-		case 47:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 2 times current HP worth of fire damage with burned"+ "<html>");
-			break;
+		case 11:
+			switch(indexMinor) {
+			case 1:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers 1.5 times current HP"+ "<html>");
+				break;
+			case 2:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of damage"+ "<html>");
+				break;
+			case 3:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 2 times current HP worth of psychic damage with stunned"+ "<html>");
+				break;
+			case 4:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 2 times current HP worth of fire damage with burned"+ "<html>");
+				break;
+			} break;
 
 		// Hanged Man
-		case 48:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP 2 times current HP"+ "<html>");
-			break;
-
-		case 49:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of fire damage with burned"+ "<html>");
-			break;
-
-		case 50:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of electric damage with shocked"+ "<html>");
-			break;
-
-		case 51:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of psychic damage with stunned"+ "<html>");
-			break;
-
+		case 12:
+			switch(indexMinor) {
+			case 1:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP 2 times current HP"+ "<html>");
+				break;
+			case 2:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of fire damage with burned"+ "<html>");
+				break;
+			case 3:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of electric damage with shocked"+ "<html>");
+				break;
+			case 4:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of psychic damage with stunned"+ "<html>");
+				break;
+			} break;
+			
 		// Death
-		case 52:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Sets current health to 99"+ "<html>");
-			break;
-
-		case 53:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Sets enemy's HP to 0.5 of your current HP"+ "<html>");
-			break;
-
-		case 54:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Sets both player's HP to 1"+ "<html>");
-			break;
-
-		case 55:
-			this.resultingFXDesc.setText("<html><br><br><br><br>" + "Sets current HP to 0.5 of current HP"+ "<html>");
-			break;
+		case 13:
+			switch(indexMinor) {
+			case 1:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Sets current health to 99"+ "<html>");
+				break;
+			case 2:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Sets enemy's HP to 0.5 of your current HP"+ "<html>");
+				break;
+			case 3:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Sets both player's HP to 1"+ "<html>");
+				break;
+			case 4:
+				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Sets current HP to 0.5 of current HP"+ "<html>");
+				break;
+			} break;
+			
+		
 
 		}
+		
+		System.out.println(resultingFXDesc.toString());
 	}
 
 	@SuppressWarnings("unused")
