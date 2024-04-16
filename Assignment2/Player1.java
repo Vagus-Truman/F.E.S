@@ -5,8 +5,8 @@ import java.util.*;
 public class Player1 {
 
 	// CLASS FIELDS
-	private static final int baseHealth = 100;
-	private static int healthCount = baseHealth;
+	private static final int BASE_HP = 100;
+	private static int healthCount;
 
 	public static int cardCount = 5;
 	public static int effectDuration = 3;
@@ -38,17 +38,7 @@ public class Player1 {
 		return cardInfoData;
 	}
 
-	public static int cardMatchAndIndex(int majorArcana, int minorArcana) {
-		String dataString = "(" + majorArcana + ", " + minorArcana + ")";
-		// System.out.println(dataString);
-
-		int indexOfMatchingCondition = cardInfoAndEffect().indexOf(dataString);
-		return indexOfMatchingCondition;
-	}
-
-	public Player1(int amountOfCards, int howMuchHP) {
-		this.healthCount = howMuchHP;
-
+	public Player1() {
 		if (Effect.isShocked) {
 			// unable to move and takes 5 HP every turn for three turns
 			statusEffected = true;
@@ -132,302 +122,330 @@ public class Player1 {
 		Effect.isBurning = true;
 	}
 
-	public static void indexAndAffect(int indexOfCombos) {
-		switch (indexOfCombos) {
+	public static void indexAndAffect(int indexMajor, int indexMinor) {
+		switch (indexMajor) {
 
 		// Fool
 		case 0:
-			effectFromCards = "Player is refilled to 0.5 of total HP";
-			healthController((int) (0.5 * Player1.baseHealth), false);
-			break;
-		case 1:
-			effectFromCards = "Opponent has 0.5 of current HP removed";
-			Player2.healthController((int) (0.5 * Player2.getHealthCount()), true);
-			break;
-		case 2:
-			effectFromCards = "Opponent has same amount of HP as player removed";
-			Player2.healthController(Player1.getHealthCount(), true);
-			break;
-		case 3:
-			effectFromCards = "Opponent has 0.5 of total HP removed";
-			Player2.healthController(50, true);
-			break;
+			switch (indexMinor) {
+			case 1:
+				effectFromCards = "Player is refilled to 0.5 of total HP";
+				healthController((int) (0.5 * Player1.BASE_HP), false);
+				break;
+			case 2:
+				effectFromCards = "Opponent has 0.5 of current HP removed";
+				Player2.healthController((int) (0.5 * Player2.getHealthCount()), true);
+				break;
+			case 3:
+				effectFromCards = "Opponent has same amount of HP as player removed";
+				Player2.healthController(Player1.getHealthCount(), true);
+				break;
+			case 4:
+				effectFromCards = "Opponent has 0.5 of total HP removed";
+				Player2.healthController(50, true);
+				break;
+			} break;
 
 		// Magician
-		case 4:
-			effectFromCards = "Deals psychic damage of 10 with stun";
-			Player2.healthController(10, true);
-			Player2.setStunned();
-			break;
-		case 5:
-			effectFromCards = "Deals lightning damage of 10 with shocked";
-			Player2.healthController(10, true);
-			Player2.setShocked();
-			break;
-		case 6:
-			effectFromCards = "Deals wind damage of 10";
-			Player2.healthController(10, true);
-			break;
-		case 7:
-			effectFromCards = "Deals fire damage of 10 with burned";
-			Player2.healthController(10, true);
-			Player2.setBurned();
-			break;
+		case 1:
+			switch (indexMinor) {
+			case 1:
+				effectFromCards = "Deals psychic damage of 20 with stun";
+				Player2.healthController(20, true);
+				Player2.setStunned();
+				break;
+			case 2:
+				effectFromCards = "Deals lightning damage of 20 with shocked";
+				Player2.healthController(20, true);
+				Player2.setShocked();
+				break;
+			case 3:
+				effectFromCards = "Deals wind damage of 20";
+				Player2.healthController(20, true);
+				break;
+			case 4:
+				effectFromCards = "Deals fire damage of 20 with burned";
+				Player2.healthController(20, true);
+				Player2.setBurned();
+				break;
+			} break;
+		
 
 		// High Priestess
-		case 8:
-			effectFromCards = "Delivers healing of 10 HP";
-			healthController(10, false);
-			break;
-		case 9:
-			effectFromCards = "Deals wind damage of 10";
-			Player2.healthController(10, true);
-			break;
-		case 10:
-			effectFromCards = "Deals fire damage of 7 with burned";
-			Player2.healthController(7, true);
-			Player2.setBurned();
-			break;
-		case 11:
-			effectFromCards = "Deals psychic damage of 7 with stunned";
-			Player2.healthController(7, true);
-			Player2.setStunned();
-			break;
+		case 2:
+			switch (indexMinor) {
+			case 1:
+				effectFromCards = "Delivers healing of 10 HP";
+				healthController(10, false);
+				break;
+			case 2:
+				effectFromCards = "Deals wind damage of 10";
+				Player2.healthController(10, true);
+				break;
+			case 3:
+				effectFromCards = "Deals fire damage of 10 with burned";
+				Player2.healthController(10, true);
+				Player2.setBurned();
+				break;
+			case 4:
+				effectFromCards = "Deals psychic damage of 10 with stunned";
+				Player2.healthController(10, true);
+				Player2.setStunned();
+				break;
+			} break;
 
 		// Empress
-		case 12:
-			effectFromCards = "Delivers HP of 25";
-			healthController(25, false);
-			break;
-		case 13:
-			effectFromCards = "Deals damage of 25";
-			Player2.healthController(25, true);
-			break;
-
-		case 14:
-			effectFromCards = "Deals psychic damage of 25 with stunned";
-			Player2.healthController(25, true);
-			Player2.setStunned();
-			break;
-
-		case 15:
-			effectFromCards = "Opponent has same amount of HP as player";
-			Player2.setHealthCount(Player1.getHealthCount());
-			break;
+		case 3:
+			switch (indexMinor) {
+			case 1:
+				effectFromCards = "Delivers HP of 25";
+				healthController(25, false);
+				break;
+			case 2:
+				effectFromCards = "Deals damage of 50";
+				Player2.healthController(50, true);
+				break;
+			case 3:
+				effectFromCards = "Deals psychic damage of 50 with stunned";
+				Player2.healthController(60, true);
+				Player2.setStunned();
+				break;
+			case 4:
+				effectFromCards = "Opponent has same amount of HP as player";
+				Player2.setHealthCount(Player1.getHealthCount());
+				break;
+			} break;
+		
 
 		// Emperor
-		case 16:
-			effectFromCards = "Delivers HP of 25";
-			healthController(25, false);
-			break;
-		case 17:
-			effectFromCards = "Deals base damage of 15";
-			Player2.healthController(15, true);
-			break;
-
-		case 18:
-			effectFromCards = "Deals base fire damage of 15 with burned";
-			Player2.healthController(15, true);
-			Player2.setBurned();
-			break;
-
-		case 19:
-			effectFromCards = "Delivers HP equal to current HP";
-			healthController(Player1.getHealthCount(), false);
-			break;
+		case 4:
+			switch (indexMinor) {
+			case 1:
+				effectFromCards = "Delivers HP of 25";
+				healthController(25, false);
+				break;
+			case 2:
+				effectFromCards = "Deals base damage of 25";
+				Player2.healthController(25, true);
+				break;
+			case 3:
+				effectFromCards = "Deals base fire damage of 25 with burned";
+				Player2.healthController(25, true);
+				Player2.setBurned();
+				break;
+			case 4:
+				effectFromCards = "Delivers HP equal to current HP";
+				healthController(Player1.getHealthCount(), false);
+				break;
+			} break;
 
 		// Heirophant
-		case 20:
-			effectFromCards = "Delivers HP of 1.5 times current HP";
-			healthController((int) (Player1.getHealthCount() * 1.5), false);
-			break;
-		case 21:
-			effectFromCards = "Deals damage of 0.7 times current HP";
-			Player2.healthController((int) (Player1.getHealthCount() * 0.7), true);
-			break;
-
-		case 22:
-			effectFromCards = "Deals fire damage of 0.7 times current HP with burned";
-			Player2.healthController((int) (Player1.getHealthCount() * 0.7), true);
-			Player2.setBurned();
-			break;
-
-		case 23:
-			effectFromCards = "Deals electric damage of 0.7 times current HP with shocked";
-			Player2.healthController((int) (Player1.getHealthCount() * 0.7), true);
-			Player2.setShocked();
-			break;
+		case 5:
+			switch (indexMinor) {
+			case 1:
+				effectFromCards = "Delivers HP of 1.5 times current HP";
+				healthController((int) (Player1.getHealthCount() * 1.5), false);
+				break;
+			case 2:
+				effectFromCards = "Deals damage of 1.5 times current HP";
+				Player2.healthController((int) (Player1.getHealthCount() * 1.5), true);
+				break;
+			case 3:
+				effectFromCards = "Deals fire damage of 1.5 times current HP with burned";
+				Player2.healthController((int) (Player1.getHealthCount() * 1.5), true);
+				Player2.setBurned();
+				break;
+			case 4:
+				effectFromCards = "Deals electric damage of 1.5 times current HP with shocked";
+				Player2.healthController((int) (Player1.getHealthCount() * 1.5), true);
+				Player2.setShocked();
+				break;
+			} break;
 
 		// Lovers
-		case 24:
-			effectFromCards = "Delivers HP of 26";
-			healthController(26, false);
-			break;
-		case 25:
-			effectFromCards = "Deals damage of 29";
-			Player2.healthController(29, true);
-			break;
-
-		case 26:
-			effectFromCards = "Deals psychic damage of 29 with stunned";
-			Player2.healthController(29, true);
-			Player2.setStunned();
-			break;
-
-		case 27:
-			effectFromCards = "Fully heals player's HP";
-			Player1.setHealthCount(baseHealth);
-			break;
+		case 6:
+			switch (indexMinor) {
+			case 1:
+				effectFromCards = "Delivers HP of 26";
+				healthController(26, false);
+				break;
+			case 2:
+				effectFromCards = "Deals damage of 39";
+				Player2.healthController(39, true);
+				break;
+			case 3:
+				effectFromCards = "Deals psychic damage of 39 with stunned";
+				Player2.healthController(39, true);
+				Player2.setStunned();
+				break;
+			case 4:
+				effectFromCards = "Fully heals player's HP";
+				Player1.setHealthCount(BASE_HP);
+				break;
+			} break;
 
 		// Chariot
-		case 28:
-			effectFromCards = "Delivers HP of 7";
-			healthController(7, false);
-			break;
-		case 29:
-			effectFromCards = "Deals damage of 7";
-			Player2.healthController(7, true);
-			break;
-
-		case 30:
-			effectFromCards = "Deals psychic damage of 29 with stunned";
-			Player2.healthController(29, true);
-			Player2.setStunned();
-			break;
-
-		case 31:
-			effectFromCards = "Fully heals player's HP";
-			Player1.setHealthCount(baseHealth);
-			break;
+		case 7:
+			switch (indexMinor) {
+			case 1:
+				effectFromCards = "Delivers HP of 7";
+				healthController(7, false);
+				break;
+			case 2:
+				effectFromCards = "Deals damage of 7";
+				Player2.healthController(7, true);
+				break;
+			case 3:
+				effectFromCards = "Deals psychic damage of 39 with stunned";
+				Player2.healthController(39, true);
+				Player2.setStunned();
+				break;
+			case 4:
+				effectFromCards = "Fully heals player's HP";
+				Player1.setHealthCount(BASE_HP);
+				break;
+			} break;
 
 		// Strength
-		case 32:
-			effectFromCards = "Delivers HP of 26";
-			healthController(26, false);
-			break;
-		case 33:
-			effectFromCards = "Deals wind damage of 16";
-			Player2.healthController(16, true);
-			break;
-		case 34:
-			effectFromCards = "Deals damage of 16";
-			Player2.healthController(16, true);
-			break;
-		case 35:
-			effectFromCards = "Deals electric damage of 16 with shocked";
-			Player2.healthController(16, true);
-			Player2.setShocked();
-			break;
+		case 8:
+			switch (indexMinor) {
+			case 1:
+				effectFromCards = "Delivers HP of 26";
+				healthController(26, false);
+				break;
+			case 2:
+				effectFromCards = "Deals wind damage of 26";
+				Player2.healthController(26, true);
+				break;
+			case 3:
+				effectFromCards = "Deals damage of 26";
+				Player2.healthController(26, true);
+				break;
+			case 4:
+				effectFromCards = "Deals electric damage of 26 with shocked";
+				Player2.healthController(26, true);
+				Player2.setShocked();
+				break;
+			} break;
 
 		// Hermit
-		case 36:
-			effectFromCards = "Delivers HP of 50";
-			healthController(50, false);
-			break;
-
-		case 37:
-			effectFromCards = "Deals damage of 25";
-			Player2.healthController(25, true);
-			break;
-
-		case 38:
-			effectFromCards = "Deals electric damage of 25 with shocked";
-			Player2.healthController(25, true);
-			Player2.setShocked();
-			break;
-
-		case 39:
-			effectFromCards = "Deals wind damage of 30";
-			Player2.healthController(30, true);
-			break;
-
+		case 9:
+			switch (indexMinor) {
+			case 1:
+				effectFromCards = "Delivers HP of 50";
+				healthController(50, false);
+				break;
+			case 2:
+				effectFromCards = "Deals damage of 50";
+				Player2.healthController(50, true);
+				break;
+			case 3:
+				effectFromCards = "Deals electric damage of 50 with shocked";
+				Player2.healthController(50, true);
+				Player2.setShocked();
+				break;
+			case 4:
+				effectFromCards = "Deals wind damage of 50";
+				Player2.healthController(50, true);
+				break;
+			} break;
+			
 		// Wheel Of Fortune
-		case 40:
-			effectFromCards = "Delivers 1.5 times current HP";
-			healthController((int)(Player1.getHealthCount() * 1.5), false);
-			break;
-
-		case 41:
-			effectFromCards = "Deals 1.3 times current HP worth of damage";
-			Player2.healthController((int)(Player1.getHealthCount() * 1.3), true);
-			break;
-		case 42:
-			effectFromCards = "Deals 1.2 times current HP worth of fire damage with burned";
-			Player2.healthController((int)(Player1.getHealthCount() * 1.2), true);
-			Player2.setBurned();
-			break;
-		case 43:
-			effectFromCards = "Delivers 1.5 times enemy's current HP";
-			healthController((int)(Player2.getHealthCount() * 1.5), false);
-			break;
+		case 10:
+			switch (indexMinor) {
+			case 1:
+				effectFromCards = "Delivers 1.5 times current HP";
+				healthController((int)(Player1.getHealthCount() * 1.5), false);
+				break;
+			case 2:
+				effectFromCards = "Deals 2 times current HP worth of damage";
+				Player2.healthController((Player1.getHealthCount() * 2), true);
+				break;
+			case 3:
+				effectFromCards = "Deals 1.5 times current HP worth of fire damage with burned";
+				Player2.healthController((int)(Player1.getHealthCount() * 1.5), true);
+				Player2.setBurned();
+				break;
+			case 4:
+				effectFromCards = "Delivers 1.5 times enemy's current HP";
+				healthController((int)(Player2.getHealthCount() * 1.5), false);
+				break;
+			} break;
 
 		// Justice
-		case 44:
-			effectFromCards = "Delivers 1.5 times current HP";
-			healthController((int)(Player1.getHealthCount() * 1.5), false);
-			break;
-		case 45:
-			effectFromCards = "Deals 1.5 times current HP worth of damage";
-			Player2.healthController((int)(Player1.getHealthCount() * 1.5), true);
-			break;
-		case 46:
-			effectFromCards = "Deals 1.3 times current HP worth of psychic damage with stunned";
-			Player2.healthController((int)(Player1.getHealthCount() * 1.3), true);
-			Player2.setStunned();
-			break;
-		case 47:
-			effectFromCards = "Deals 1.3 times current HP worth of fire damage with burned";
-			Player2.healthController((int)(Player1.getHealthCount() * 1.5), true);
-			Player2.setBurned();
-			break;
+		case 11:
+			switch (indexMinor) {
+			case 1:
+				effectFromCards = "Delivers 1.5 times current HP";
+				healthController((int)(Player1.getHealthCount() * 1.5), false);
+				break;
+			case 2:
+				effectFromCards = "Deals 1.5 times current HP worth of damage";
+				Player2.healthController((int)(Player1.getHealthCount() * 1.5), true);
+				break;
+			case 3:
+				effectFromCards = "Deals 2 times current HP worth of psychic damage with stunned";
+				Player2.healthController((Player1.getHealthCount() * 2), true);
+				Player2.setStunned();
+				break;
+			case 4:
+				effectFromCards = "Deals 2 times current HP worth of fire damage with burned";
+				Player2.healthController((Player1.getHealthCount() * 2), true);
+				Player2.setBurned();
+				break;
+			} break;
 
 		// Hanged Man
-		case 48:
-			effectFromCards = "Delivers HP 2 times current HP";
-			healthController((Player1.getHealthCount() * 2), false);
-			break;
+		case 12:
+			switch (indexMinor) {
+			case 1:
+				effectFromCards = "Delivers HP 2 times current HP";
+				healthController((Player1.getHealthCount() * 2), false);
+				break;
 
-		case 49:
-			effectFromCards = "Deals 1.2 times current HP worth of fire damage with burned";
-			Player2.healthController((int)(Player1.getHealthCount() * 1.2), true);
-			Player2.setBurned();
-			break;
+			case 2:
+				effectFromCards = "Deals 1.5 times current HP worth of fire damage with burned";
+				Player2.healthController((int)(Player1.getHealthCount() * 1.5), true);
+				Player2.setBurned();
+				break;
 
-		case 50:
-			effectFromCards = "Deals 1.2 times current HP worth of electric damage with shocked";
-			Player2.healthController((int)(Player1.getHealthCount() * 1.2), true);
-			Player2.setShocked();
-			break;
+			case 3:
+				effectFromCards = "Deals 1.5 times current HP worth of electric damage with shocked";
+				Player2.healthController((int)(Player1.getHealthCount() * 1.5), true);
+				Player2.setShocked();
+				break;
 
-		case 51:
-			effectFromCards = "Deals 1.2 times current HP worth of psychic damage with stunned";
-			Player2.healthController((int)(Player1.getHealthCount() * 1.2), true);
-			Player2.setStunned();
-			break;
-
+			case 4:
+				effectFromCards = "Deals 1.5 times current HP worth of psychic damage with stunned";
+				Player2.healthController((int)(Player1.getHealthCount() * 1.5), true);
+				Player2.setStunned();
+				break;
+			} break;
+			
 		// Death
-		case 52:
-			effectFromCards = "Sets current health to 99";
-			Player1.setHealthCount(99);
-			break;
-
-		case 53:
-			effectFromCards = "Sets enemy's HP to 0.5 of your current HP";
-			Player2.setHealthCount((int)(Player1.getHealthCount() * 0.5));
-			break;
-
-		case 54:
-			effectFromCards = "Sets both player's HP to 1";
-			Player1.setHealthCount(1);
-			Player2.setHealthCount(1);
-			break;
-
-		case 55:
-			effectFromCards = "Sets current HP to 0.5 of current HP";
-			Player1.setHealthCount((int) (Player1.getHealthCount() * 0.5));
-			break;
-
+		case 13:
+			switch (indexMinor) {
+			case 1:
+				effectFromCards = "Sets current health to 99";
+				Player1.setHealthCount(99);
+				break;
+			case 2:
+				effectFromCards = "Sets enemy's HP to 0.5 of your current HP";
+				Player2.setHealthCount((int)(Player1.getHealthCount() * 0.5));
+				break;
+			case 3:
+				effectFromCards = "Sets both player's HP to 1";
+				Player1.setHealthCount(1);
+				Player2.setHealthCount(1);
+				break;
+			case 4:
+				effectFromCards = "Sets current HP to 0.5 of current HP";
+				Player1.setHealthCount((int) (Player1.getHealthCount() * 0.5));
+				break;
+			} break;
 		}
+		
+		System.out.println("Player 1:" + effectFromCards);
 	}
 
 	public static void main(String[] args) {
