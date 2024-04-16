@@ -341,30 +341,35 @@ public class GameBoard extends JFrame {
 		card1.addActionListener(e -> {
 			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim1, currentPlayer);
+			setCardIndex(cardVictim1);
 			Player1.healthRegulator(Player1.getHealthCount());
 			cardNumIconChange(cardVictim1, e);
 		});
 		card2.addActionListener(e -> {
 			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim2, currentPlayer);
+			setCardIndex(cardVictim2);
 			Player1.healthRegulator(Player1.getHealthCount());
 			cardNumIconChange(cardVictim2, e);
 		});
 		card3.addActionListener(e -> {
 			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim3, currentPlayer);
+			setCardIndex(cardVictim3);
 			Player1.healthRegulator(Player1.getHealthCount());
 			cardNumIconChange(cardVictim3, e);
 		});
 		card4.addActionListener(e -> {
 			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim4, currentPlayer);
+			setCardIndex(cardVictim4);
 			Player1.healthRegulator(Player1.getHealthCount());
 			cardNumIconChange(cardVictim4, e);
 		});
 		card5.addActionListener(e -> {
 			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim5, currentPlayer);
+			setCardIndex(cardVictim5);
 			Player1.healthRegulator(Player1.getHealthCount());
 			cardNumIconChange(cardVictim5, e);
 		});
@@ -373,30 +378,35 @@ public class GameBoard extends JFrame {
 		card1.addActionListener(e -> {
 			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim1, currentPlayer);
+			setCardIndex(cardVictim1);
 			Player2.healthRegulator(Player2.getHealthCount());
 			cardNumIconChange(cardVictim1, e);
 		});
 		card2.addActionListener(e -> {
 			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim2, currentPlayer);
+			setCardIndex(cardVictim2);
 			Player2.healthRegulator(Player2.getHealthCount());
 			cardNumIconChange(cardVictim2, e);
 		});
 		card3.addActionListener(e -> {
 			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim3, currentPlayer);
+			setCardIndex(cardVictim3);
 			Player2.healthRegulator(Player2.getHealthCount());
 			cardNumIconChange(cardVictim3, e);
 		});
 		card4.addActionListener(e -> {
 			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim4, currentPlayer);
+			setCardIndex(cardVictim4);
 			Player2.healthRegulator(Player2.getHealthCount());
 			cardNumIconChange(cardVictim4, e);
 		});
 		card5.addActionListener(e -> {
 			givePlayerTimeToRead(1);
 			applyCardEffect(cardVictim5, currentPlayer);
+			setCardIndex(cardVictim5);
 			Player2.healthRegulator(Player2.getHealthCount());
 			cardNumIconChange(cardVictim5, e);
 		});
@@ -893,6 +903,6 @@ public class GameBoard extends JFrame {
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		GameBoard app = new GameBoard();
+		//GameBoard app = new GameBoard();
 	}
 }
