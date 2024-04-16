@@ -85,7 +85,6 @@ public class GameBoard extends JFrame {
 		this.setTitle("All Shall Be Revealed");
 
 		Dimension screenSize = new Dimension(1536, 960);
-		Dimension arcanaCardSize = new Dimension(CardWidth, CardLength);
 		Dimension healthBarSize = new Dimension(HpBarWidth, HpBarLength);
 		Dimension turnIndicatorUprightSize = new Dimension(TurnIndicatorWidth, TurnIndicatorHeight);
 		Dimension indicatorHealthBarSize = new Dimension(indicatorHealthBarWidth, indicatorHealthBarHeight);
@@ -165,10 +164,14 @@ public class GameBoard extends JFrame {
 			diceRollSoundPlay();
 			givePlayerTimeToRead(5);
 
+			// FFS
 			int minorSuit = Dice.rollDiceSuit();
 			System.out.println("Minor Suit: " + minorSuit);
 			setCardIndex(minorSuit);
 
+			System.out.println("Card Number | " + getCardIndex());
+			System.out.println("Minor Number | " + getDiceIndex());
+			
 			if (getDiceIndex() == 1) {
 				this.minorArcanaRollResultText.setText("> Result: Cups");
 			} else if (getDiceIndex() == 2) {
@@ -208,6 +211,7 @@ public class GameBoard extends JFrame {
 					return;
 				}
 
+				// FFS
 				cardFX(getCardIndex(), getDiceIndex());
 				givePlayerTimeToRead(5);
 				Player1.indexAndAffect(getCardIndex(), getDiceIndex());
@@ -239,6 +243,7 @@ public class GameBoard extends JFrame {
 					return;
 				}
 
+				// FFS
 				cardFX(getCardIndex(), getDiceIndex());
 				givePlayerTimeToRead(5);
 				Player2.indexAndAffect(getCardIndex(), getDiceIndex());
@@ -344,51 +349,72 @@ public class GameBoard extends JFrame {
 			givePlayerTimeToRead(1);
 			cardFlipSoundPlay();
 			
-			applyCardEffect(cardVictim1, currentPlayer);
-			setCardIndex(cardVictim1);
+			// FFS
+			int cardTrueNumber = cardVictim1;
+			
+			applyCardEffect(cardTrueNumber, currentPlayer);
+			setCardIndex(cardTrueNumber);
 			Player1.healthRegulator(Player1.getHealthCount());
 			Player2.healthRegulator(Player2.getHealthCount());
-			cardNumIconChange(cardVictim1, e);
+			cardNumIconChange(cardTrueNumber, e);
+			System.out.println("True Number of Card = " + getCardIndex());
 		});
 		card2.addActionListener(e -> {
 			givePlayerTimeToRead(1);
 			cardFlipSoundPlay();
+
+			// FFS
+			int cardTrueNumber = cardVictim2;
 			
-			applyCardEffect(cardVictim2, currentPlayer);
-			setCardIndex(cardVictim2);
+			applyCardEffect(cardTrueNumber, currentPlayer);
+			setCardIndex(cardTrueNumber);
 			Player1.healthRegulator(Player1.getHealthCount());
 			Player2.healthRegulator(Player2.getHealthCount());
-			cardNumIconChange(cardVictim2, e);
+			cardNumIconChange(cardTrueNumber, e);
+			System.out.println("True Number of Card = " + getCardIndex());
 		});
 		card3.addActionListener(e -> {
 			givePlayerTimeToRead(1);
 			cardFlipSoundPlay();
+
+			// FFS
+			int cardTrueNumber = cardVictim3;
 			
-			applyCardEffect(cardVictim3, currentPlayer);
-			setCardIndex(cardVictim3);
+			applyCardEffect(cardTrueNumber, currentPlayer);
+			setCardIndex(cardTrueNumber);
 			Player1.healthRegulator(Player1.getHealthCount());
 			Player2.healthRegulator(Player2.getHealthCount());
-			cardNumIconChange(cardVictim3, e);
+			cardNumIconChange(cardTrueNumber, e);
+			System.out.println("True Number of Card = " + getCardIndex());
 		});
 		card4.addActionListener(e -> {
 			givePlayerTimeToRead(1);
 			cardFlipSoundPlay();
+
+			// FFS
+			int cardTrueNumber = cardVictim4;
 			
-			applyCardEffect(cardVictim4, currentPlayer);
-			setCardIndex(cardVictim4);
+			applyCardEffect(cardTrueNumber, currentPlayer);
+			setCardIndex(cardTrueNumber);
 			Player1.healthRegulator(Player1.getHealthCount());
 			Player2.healthRegulator(Player2.getHealthCount());
-			cardNumIconChange(cardVictim4, e);
+			cardNumIconChange(cardTrueNumber, e);
+			System.out.println("True Number of Card = " + getCardIndex());
 		});
 		card5.addActionListener(e -> {
 			givePlayerTimeToRead(1);
 			cardFlipSoundPlay();
+
+			// FFS
+			int cardTrueNumber = cardVictim5;
 			
-			applyCardEffect(cardVictim5, currentPlayer);
-			setCardIndex(cardVictim5);
+			applyCardEffect(cardTrueNumber, currentPlayer);
+			setCardIndex(cardTrueNumber);
+			
 			Player1.healthRegulator(Player1.getHealthCount());
 			Player2.healthRegulator(Player2.getHealthCount());
-			cardNumIconChange(cardVictim5, e);
+			cardNumIconChange(cardTrueNumber, e);
+			System.out.println("True Number of Card = " + getCardIndex());
 		});
 
 		currentPlayer = 1;
@@ -403,7 +429,7 @@ public class GameBoard extends JFrame {
 		this.resultingFXDesc.setForeground(Color.RED);
 		this.resultingFXDesc.setFont(biggerText);
 
-		this.resultingFXDesc.setText("<html><br><br><br><br>All Shall Be Revealed<html>");
+		resultingFXDesc.setText("<html><br><br><br><br>All Shall Be Revealed<html>");
 
 		this.resultingFX = new JPanel();
 		this.resultingFX.setBounds((minorArcanaRoll.getWidth() + 30), 30 + minorArcanaFull.getHeight(), ArcanaDescWidth,
@@ -671,7 +697,7 @@ public class GameBoard extends JFrame {
 						.setText("<html><br><br><br><br>" + "Opponent has 0.5 of current HP removed" + "<html>");
 				break;
 			case 3:
-				this.resultingFXDesc.setText(
+				resultingFXDesc.setText(
 						"<html><br><br><br><br>" + "Opponent has same amount of HP as player removed" + "<html>");
 				break;
 			case 4:
@@ -692,7 +718,7 @@ public class GameBoard extends JFrame {
 						.setText("<html><br><br><br><br>" + "Deals lightning damage of 20 with shocked" + "<html>");
 				break;
 			case 3:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 20" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 20" + "<html>");
 				break;
 			case 4:
 				this.resultingFXDesc
@@ -705,10 +731,10 @@ public class GameBoard extends JFrame {
 		case 2:
 			switch (indexMinor) {
 			case 1:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers healing of 10 HP" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers healing of 10 HP" + "<html>");
 				break;
 			case 2:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 10" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 10" + "<html>");
 				break;
 			case 3:
 				this.resultingFXDesc
@@ -725,10 +751,10 @@ public class GameBoard extends JFrame {
 		case 3:
 			switch (indexMinor) {
 			case 1:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 25" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 25" + "<html>");
 				break;
 			case 2:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 50" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 50" + "<html>");
 				break;
 			case 3:
 				this.resultingFXDesc
@@ -745,17 +771,17 @@ public class GameBoard extends JFrame {
 		case 4:
 			switch (indexMinor) {
 			case 1:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 25" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 25" + "<html>");
 				break;
 			case 2:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals base damage of 25" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Deals base damage of 25" + "<html>");
 				break;
 			case 3:
 				this.resultingFXDesc
 						.setText("<html><br><br><br><br>" + "Deals base fire damage of 25 with burned" + "<html>");
 				break;
 			case 4:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP equal to current HP" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP equal to current HP" + "<html>");
 				break;
 			}
 			break;
@@ -772,11 +798,11 @@ public class GameBoard extends JFrame {
 						.setText("<html><br><br><br><br>" + "Deals damage of 1.5 times current HP" + "<html>");
 				break;
 			case 3:
-				this.resultingFXDesc.setText(
+				resultingFXDesc.setText(
 						"<html><br><br><br><br>" + "Deals fire damage of 1.5 times current HP with burned" + "<html>");
 				break;
 			case 4:
-				this.resultingFXDesc.setText("<html><br><br><br><br>"
+				resultingFXDesc.setText("<html><br><br><br><br>"
 						+ "Deals electric damage of 1.5 times current HP with shocked" + "<html>");
 				break;
 			}
@@ -786,17 +812,17 @@ public class GameBoard extends JFrame {
 		case 6:
 			switch (indexMinor) {
 			case 1:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 26" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 26" + "<html>");
 				break;
 			case 2:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 39" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 39" + "<html>");
 				break;
 			case 3:
 				this.resultingFXDesc
 						.setText("<html><br><br><br><br>" + "Deals psychic damage of 39 with stunned" + "<html>");
 				break;
 			case 4:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Fully heals player's HP" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Fully heals player's HP" + "<html>");
 				break;
 			}
 			break;
@@ -805,17 +831,17 @@ public class GameBoard extends JFrame {
 		case 7:
 			switch (indexMinor) {
 			case 1:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 7" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 7" + "<html>");
 				break;
 			case 2:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 7" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 7" + "<html>");
 				break;
 			case 3:
 				this.resultingFXDesc
 						.setText("<html><br><br><br><br>" + "Deals psychic damage of 39 with stunned" + "<html>");
 				break;
 			case 4:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Fully heals player's HP" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Fully heals player's HP" + "<html>");
 				break;
 			}
 			break;
@@ -824,13 +850,13 @@ public class GameBoard extends JFrame {
 		case 8:
 			switch (indexMinor) {
 			case 1:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 26" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 26" + "<html>");
 				break;
 			case 2:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 26" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 26" + "<html>");
 				break;
 			case 3:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 26" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 26" + "<html>");
 				break;
 			case 4:
 				this.resultingFXDesc
@@ -843,17 +869,17 @@ public class GameBoard extends JFrame {
 		case 9:
 			switch (indexMinor) {
 			case 1:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 50" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP of 50" + "<html>");
 				break;
 			case 2:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 50" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Deals damage of 50" + "<html>");
 				break;
 			case 3:
 				this.resultingFXDesc
 						.setText("<html><br><br><br><br>" + "Deals electric damage of 50 with shocked" + "<html>");
 				break;
 			case 4:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 50" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Deals wind damage of 50" + "<html>");
 				break;
 			}
 			break;
@@ -862,14 +888,14 @@ public class GameBoard extends JFrame {
 		case 10:
 			switch (indexMinor) {
 			case 1:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers 1.5 times current HP" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers 1.5 times current HP" + "<html>");
 				break;
 			case 2:
 				this.resultingFXDesc
 						.setText("<html><br><br><br><br>" + "Deals 2 times current HP worth of damage" + "<html>");
 				break;
 			case 3:
-				this.resultingFXDesc.setText("<html><br><br><br><br>"
+				resultingFXDesc.setText("<html><br><br><br><br>"
 						+ "Deals 1.5 times current HP worth of fire damage with burned" + "<html>");
 				break;
 			case 4:
@@ -883,18 +909,18 @@ public class GameBoard extends JFrame {
 		case 11:
 			switch (indexMinor) {
 			case 1:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers 1.5 times current HP" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers 1.5 times current HP" + "<html>");
 				break;
 			case 2:
 				this.resultingFXDesc
 						.setText("<html><br><br><br><br>" + "Deals 1.5 times current HP worth of damage" + "<html>");
 				break;
 			case 3:
-				this.resultingFXDesc.setText("<html><br><br><br><br>"
+				resultingFXDesc.setText("<html><br><br><br><br>"
 						+ "Deals 2 times current HP worth of psychic damage with stunned" + "<html>");
 				break;
 			case 4:
-				this.resultingFXDesc.setText("<html><br><br><br><br>"
+				resultingFXDesc.setText("<html><br><br><br><br>"
 						+ "Deals 2 times current HP worth of fire damage with burned" + "<html>");
 				break;
 			}
@@ -904,18 +930,18 @@ public class GameBoard extends JFrame {
 		case 12:
 			switch (indexMinor) {
 			case 1:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP 2 times current HP" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Delivers HP 2 times current HP" + "<html>");
 				break;
 			case 2:
-				this.resultingFXDesc.setText("<html><br><br><br><br>"
+				resultingFXDesc.setText("<html><br><br><br><br>"
 						+ "Deals 1.5 times current HP worth of fire damage with burned" + "<html>");
 				break;
 			case 3:
-				this.resultingFXDesc.setText("<html><br><br><br><br>"
+				resultingFXDesc.setText("<html><br><br><br><br>"
 						+ "Deals 1.5 times current HP worth of electric damage with shocked" + "<html>");
 				break;
 			case 4:
-				this.resultingFXDesc.setText("<html><br><br><br><br>"
+				resultingFXDesc.setText("<html><br><br><br><br>"
 						+ "Deals 1.5 times current HP worth of psychic damage with stunned" + "<html>");
 				break;
 			}
@@ -925,17 +951,17 @@ public class GameBoard extends JFrame {
 		case 13:
 			switch (indexMinor) {
 			case 1:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Sets current health to 99" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Sets current health to 99" + "<html>");
 				break;
 			case 2:
-				this.resultingFXDesc
+				resultingFXDesc
 						.setText("<html><br><br><br><br>" + "Sets enemy's HP to 0.5 of your current HP" + "<html>");
 				break;
 			case 3:
-				this.resultingFXDesc.setText("<html><br><br><br><br>" + "Sets both player's HP to 1" + "<html>");
+				resultingFXDesc.setText("<html><br><br><br><br>" + "Sets both player's HP to 1" + "<html>");
 				break;
 			case 4:
-				this.resultingFXDesc
+				resultingFXDesc
 						.setText("<html><br><br><br><br>" + "Sets current HP to 0.5 of current HP" + "<html>");
 				break;
 			}
