@@ -11,7 +11,7 @@ b. Project Description:
    The game is played until one player's health reaches zero. 
    The project includes classes for Player 1 and Player 2, as well as a main class to run the game.
 
-   To use the project, simply run the . Follow the prompts to play the game, taking turns to select cards and apply their effects. 
+   To use the project, simply run the PlayMeDotExe. Follow the prompts to play the game, taking turns to select cards and apply their effects. 
    The game will continue until one player's health is depleted.
 
  c. Resources/Inspiration:
