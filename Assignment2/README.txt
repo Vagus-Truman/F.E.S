@@ -17,4 +17,9 @@ b. Project Description:
  c. Resources/Inspiration:
    -Java documentation and tutorials for learning Java programming concepts.
    - Existing Tartot Card Reading providing the damage/ healing stats and the descriptions.
+   ^^^https://www.kickstarter.com/projects/jamesreads/the-visions-project
+
    - Persona / Shin Megami Tensei games for inspiration on combat systems, and thematic elements.
+ 
+  sounds------> https://freesound.org/people/nettimato/sounds/353975/ 
+   sounds------> https://freesound.org/people/el_boss/sounds/571576/
