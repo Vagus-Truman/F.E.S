@@ -204,8 +204,8 @@ public class Player1 {
 				healthController(25, false);
 				break;
 			case 2:
-				effectFromCards = "Deals damage of 25";
-				Player2.healthController(25, true);
+				effectFromCards = "Deals damage of 15";
+				Player2.healthController(15, true);
 				break;
 			case 3:
 				effectFromCards = "Deals psychic damage of 30 with stunned";
