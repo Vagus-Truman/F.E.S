@@ -19,7 +19,8 @@ b. Project Description:
    - Existing Tartot Card Reading providing the damage/ healing stats and the descriptions.
    assets use-----> https://www.kickstarter.com/projects/jamesreads/the-visions-project
        assets use-----> https://www.pinterest.ca/pin/516647388480806850/
-   - Atlus,Persona / Shin Megami Tensei games for inspiration on combat systems, and thematic elements.
+
+  - Shin Megami Tensei: Persona, created by Atlus Co., Ltd., for inspiration on combat systems, and thematic elements
  
   sounds------> https://freesound.org/people/nettimato/sounds/353975/ 
    sounds------> https://freesound.org/people/el_boss/sounds/571576/
