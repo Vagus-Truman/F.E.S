@@ -4,9 +4,7 @@ import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import java.io.File;
 import javax.sound.sampled.AudioSystem;
@@ -28,7 +26,6 @@ public class GameBoard extends JFrame {
 	public static boolean validCardSelected = false;
 	public static boolean stunLockedP1 = Player1.statusEffected;
 	public static boolean stunLockedP2 = Player2.statusEffected;
-	public static boolean isThereAWinner = false;
 
 	// left side data
 	private static final int HpBarWidth = 260;
@@ -80,6 +77,12 @@ public class GameBoard extends JFrame {
 
 	private int cardIndex;
 	private int diceIndex;
+	
+	private int cardVictim1;
+	private int cardVictim2;
+	private int cardVictim3;
+	private int cardVictim4;
+	private int cardVictim5;
 
 	public GameBoard() {
 		this.setTitle("All Shall Be Revealed");
@@ -88,7 +91,7 @@ public class GameBoard extends JFrame {
 		Dimension healthBarSize = new Dimension(HpBarWidth, HpBarLength);
 		Dimension turnIndicatorUprightSize = new Dimension(TurnIndicatorWidth, TurnIndicatorHeight);
 		Dimension indicatorHealthBarSize = new Dimension(indicatorHealthBarWidth, indicatorHealthBarHeight);
-
+		
 		//System.out.println("ScreenSize Width = " + screenSize.width);
 		//System.out.println("ScreenSize Height = " + screenSize.height);
 
@@ -248,7 +251,6 @@ public class GameBoard extends JFrame {
 			}
 
 			updateHealthCount();
-
 			this.card1.setIcon(this.cardBack);
 			this.card2.setIcon(this.cardBack);
 			this.card3.setIcon(this.cardBack);
@@ -256,6 +258,7 @@ public class GameBoard extends JFrame {
 			this.card5.setIcon(this.cardBack);
 
 			ifOneLoses();
+			shuffleingTheDeck();
 
 			this.minorArcanaRollResult = new JPanel();
 			this.minorArcanaRollResult.setBackground(Color.BLACK);
@@ -287,14 +290,7 @@ public class GameBoard extends JFrame {
 		this.minorArcanaFull.add(minorArcanaDescription);
 		this.paneCenterBeyondLeft.add(minorArcanaFull);
 
-		// creating the cards
-		Random shufflingDeck = new Random();
-		int cardVictim1 = shufflingDeck.nextInt(13);
-		int cardVictim2 = shufflingDeck.nextInt(13);
-		int cardVictim3 = shufflingDeck.nextInt(13);
-		int cardVictim4 = shufflingDeck.nextInt(13);
-		int cardVictim5 = shufflingDeck.nextInt(13);
-
+		shuffleingTheDeck();
 		this.cardBack = new ImageIcon("icons/arcana.png");
 
 		this.card1 = new JButton(this.cardBack);
@@ -303,7 +299,7 @@ public class GameBoard extends JFrame {
 				CardWidth, CardLength);
 		this.paneCenterBeyondLeft.add(card1);
 		card1.addActionListener(e -> {
-			displaySelectedCardDescription(cardVictim1);
+			displaySelectedCardDescription(this.cardVictim1);
 		});
 
 		this.card2 = new JButton(this.cardBack);
@@ -312,7 +308,7 @@ public class GameBoard extends JFrame {
 				(paneCenterBeyondLeft.getHeight() - 15 - CardLength), CardWidth, CardLength);
 		this.paneCenterBeyondLeft.add(card2);
 		card2.addActionListener(e -> {
-			displaySelectedCardDescription(cardVictim2);
+			displaySelectedCardDescription(this.cardVictim2);
 		});
 
 		this.card3 = new JButton(this.cardBack);
@@ -321,7 +317,7 @@ public class GameBoard extends JFrame {
 				(paneCenterBeyondLeft.getHeight() - 15 - CardLength), CardWidth, CardLength);
 		this.paneCenterBeyondLeft.add(card3);
 		card3.addActionListener(e -> {
-			displaySelectedCardDescription(cardVictim3);
+			displaySelectedCardDescription(this.cardVictim3);
 		});
 
 		this.card4 = new JButton(this.cardBack);
@@ -330,7 +326,7 @@ public class GameBoard extends JFrame {
 				(paneCenterBeyondLeft.getHeight() - 15 - CardLength), CardWidth, CardLength);
 		this.paneCenterBeyondLeft.add(card4);
 		card4.addActionListener(e -> {
-			displaySelectedCardDescription(cardVictim4);
+			displaySelectedCardDescription(this.cardVictim4);
 		});
 
 		this.card5 = new JButton(this.cardBack);
@@ -339,7 +335,7 @@ public class GameBoard extends JFrame {
 				(paneCenterBeyondLeft.getHeight() - 15 - CardLength), CardWidth, CardLength);
 		this.paneCenterBeyondLeft.add(card5);
 		card5.addActionListener(e -> {
-			displaySelectedCardDescription(cardVictim5);
+			displaySelectedCardDescription(this.cardVictim5);
 		});
 
 		// card actions and consequences
@@ -348,7 +344,7 @@ public class GameBoard extends JFrame {
 			cardFlipSoundPlay();
 			
 			// FFS
-			int cardTrueNumber = cardVictim1;
+			int cardTrueNumber = this.cardVictim1;
 			
 			applyCardEffect(cardTrueNumber, currentPlayer);
 			setCardIndex(cardTrueNumber);
@@ -362,7 +358,7 @@ public class GameBoard extends JFrame {
 			cardFlipSoundPlay();
 
 			// FFS
-			int cardTrueNumber = cardVictim2;
+			int cardTrueNumber = this.cardVictim2;
 			
 			applyCardEffect(cardTrueNumber, currentPlayer);
 			setCardIndex(cardTrueNumber);
@@ -376,7 +372,7 @@ public class GameBoard extends JFrame {
 			cardFlipSoundPlay();
 
 			// FFS
-			int cardTrueNumber = cardVictim3;
+			int cardTrueNumber = this.cardVictim3;
 			
 			applyCardEffect(cardTrueNumber, currentPlayer);
 			setCardIndex(cardTrueNumber);
@@ -390,7 +386,7 @@ public class GameBoard extends JFrame {
 			cardFlipSoundPlay();
 
 			// FFS
-			int cardTrueNumber = cardVictim4;
+			int cardTrueNumber = this.cardVictim4;
 			
 			applyCardEffect(cardTrueNumber, currentPlayer);
 			setCardIndex(cardTrueNumber);
@@ -404,7 +400,7 @@ public class GameBoard extends JFrame {
 			cardFlipSoundPlay();
 
 			// FFS
-			int cardTrueNumber = cardVictim5;
+			int cardTrueNumber = this.cardVictim5;
 			
 			applyCardEffect(cardTrueNumber, currentPlayer);
 			setCardIndex(cardTrueNumber);
@@ -448,7 +444,7 @@ public class GameBoard extends JFrame {
 
 		majorArcanaCards = new ArrayList<>();
 
-		for (int i = 0; i < 13; i++) {
+		for (int i = 0; i <= 13; i++) {
 			majorArcanaCards.add(Cards.majorArcanaReadings(i));
 		}
 
@@ -576,16 +572,19 @@ public class GameBoard extends JFrame {
 			minorArcanaDescription.setText(majorArcanaCards.get(index));
 		}
 	}
-
-	private void shuffleCards() {
-		Collections.shuffle(majorArcanaCards);
+	
+	private void shuffleingTheDeck() {
+		this.cardVictim1 = Dice.rollCard();
+		this.cardVictim2 = Dice.rollCard();
+		this.cardVictim3 = Dice.rollCard();
+		this.cardVictim4 = Dice.rollCard();
+		this.cardVictim5 = Dice.rollCard();
 	}
 
 	private void switchPlayer() {
 		currentPlayer = (currentPlayer == 1) ? 2 : 1;
 		minorArcanaDescription.setText("<html><br><br><br>ALL SHALL BE REVEALED<html>");
 		updateTurnIndicator();
-		shuffleCards();
 	}
 
 	private void updateTurnIndicator() {
@@ -660,10 +659,13 @@ public class GameBoard extends JFrame {
 	}
 
 	public static void playerSwitch() {
-		if (p1TurnOver == true && currentPlayer == 1) {
+		if (p1TurnOver && !p2TurnOver && currentPlayer == 1) {
 			currentPlayer = 2;
-		} else if (p2TurnOver == true && currentPlayer == 2) {
+			p2TurnOver = true;
+			
+		} else if (!p1TurnOver && p2TurnOver && currentPlayer == 2) {
 			currentPlayer = 1;
+			p1TurnOver = true;
 		}
 	}
 
