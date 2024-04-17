@@ -29,10 +29,10 @@ public class Cards {
 		} else if (value == 1) { // the magician
 			arcanaTitle = "The Magician I";
 			arcanaMeaning = "Attaining one's dream requires a stern will and unfailing determination";
-			cupEffects = "Deals psychic damage of 20 with stun";
-			swordEffects = "Deals lightning damage of 20 with shocked";
-			coinEffects = "Deals wind damage of 20";
-			wandEffects = "Deals fire damage of 20 with burned";
+			cupEffects = "Deals psychic damage of 10 with stun";
+			swordEffects = "Deals lightning damage of 10 with shocked";
+			coinEffects = "Deals wind damage of 10";
+			wandEffects = "Deals fire damage of 10 with burned";
 
 		} else if (value == 2) { // the high priestess
 			arcanaTitle = "The High Priestess II";
@@ -46,32 +46,32 @@ public class Cards {
 			arcanaTitle = "The Empress III";
 			arcanaMeaning = "Celebrate life's grandeur. Its brilliance. Its magnificence";
 			cupEffects = "Delivers HP of 25";
-			swordEffects = "Deals damage of 50";
-			coinEffects = "Deals psychic damage of 50 with stunned";
+			swordEffects = "Deals damage of 25";
+			coinEffects = "Deals psychic damage of 25 with stunned";
 			wandEffects = "Opponent has same amount of HP as player";
 
 		} else if (value == 4) { // the emperor
 			arcanaTitle = "The Emperor IV";
 			arcanaMeaning = "Only courage in the face of doubt can lead one to the answer";
 			cupEffects = "Delivers HP of 25";
-			swordEffects = "Deals base damage of 25";
-			coinEffects = "Deals base fire damage of 25 with burned";
+			swordEffects = "Deals base damage of 15";
+			coinEffects = "Deals base fire damage of 15 with burned";
 			wandEffects = "Delivers HP equal to current HP";
 
 		} else if (value == 5) { // the heirophant
 			arcanaTitle = "The Heirophant V";
 			arcanaMeaning = "It is indeed a precious gift to understand the forces that guide oneself";
 			cupEffects = "Delivers HP of 1.5 times current HP";
-			swordEffects = "Deals damage of 1.5 times current HP";
-			coinEffects = "Deals fire damage of 1.5 times current HP with burned";
-			wandEffects = "Deals electric damage of 1.5 times current HP with shocked";
+			swordEffects = "Deals damage of 1.3 times current HP";
+			coinEffects = "Deals fire damage of 1.3 times current HP with burned";
+			wandEffects = "Deals electric damage of 1.3 times current HP with shocked";
 
 		} else if (value == 6) { // the lovers
 			arcanaTitle = "The Lovers VI";
 			arcanaMeaning = "There is both joy and wonder in coming to understand another";
 			cupEffects = "Delivers HP of 26";
-			swordEffects = "Deals damage of 39";
-			coinEffects = "Deals psychic damage of 39 with stunned";
+			swordEffects = "Deals damage of 19";
+			coinEffects = "Deals psychic damage of 19 with stunned";
 			wandEffects = "Fully heals player's HP";
 
 		} else if (value == 7) { // the chariot
@@ -79,48 +79,48 @@ public class Cards {
 			arcanaMeaning = "One of life's greatest blessings is the freedom to pursue one's goals";
 			cupEffects = "Delivers HP of 7";
 			swordEffects = "Deals damage of 7";
-			coinEffects = "Deals psychic damage of 39 with stunned";
+			coinEffects = "Deals psychic damage of 19 with stunned";
 			wandEffects = "Fully heals player's HP";
 
 		} else if (value == 8) { // strength
 			arcanaTitle = "The Strength VIII";
 			arcanaMeaning = "Only with strength can one endure suffering and torment";
 			cupEffects = "Delivers HP of 26";
-			swordEffects = "Deals wind damage of 26";
-			coinEffects = "Deals damage of 26";
-			wandEffects = "Deals electric damage of 26 with shocked";
+			swordEffects = "Deals wind damage of 16";
+			coinEffects = "Deals damage of 16";
+			wandEffects = "Deals electric damage of 16 with shocked";
 
 		} else if (value == 9) { // hermit
 			arcanaTitle = "The Hermit IX";
 			arcanaMeaning = "It requires great courage to look at oneself honestly, and forge one's own path";
 			cupEffects = "Delivers HP of 50";
-			swordEffects = "Deals damage of 50";
-			coinEffects = "Deals electric damage of 50 with shocked";
-			wandEffects = "Deals wind damage of 50";
+			swordEffects = "Deals damage of 25";
+			coinEffects = "Deals electric damage of 25 with shocked";
+			wandEffects = "Deals wind damage of 25";
 
 		} else if (value == 10) { // wheel of fortune
 			arcanaTitle = "The Wheel Of Fortune X";
 			arcanaMeaning = "Along time exist fate, the bearer of cruelty";
-			cupEffects = "Delivers 1.5 times current HP";
-			swordEffects = "Deals 2 times current HP worth of damage";
-			coinEffects = "Deals 1.5 times current HP worth of fire damage with burned";
-			wandEffects = "Delivers 1.5 times enemy's current HP";
+			cupEffects = "Delivers 1.3 times current HP";
+			swordEffects = "Deals 1.2 times current HP worth of damage";
+			coinEffects = "Deals 1.3 times current HP worth of fire damage with burned";
+			wandEffects = "Delivers 1.3 times enemy's current HP";
 
 		} else if (value == 11) { // justice
 			arcanaTitle = "Justice XI";
 			arcanaMeaning = "To find the one true path, one must seek guidance amidst uncertainty";
-			cupEffects = "Delivers 1.5 times current HP";
-			swordEffects = "Deals 1.5 times current HP worth of damage";
-			coinEffects = "Deals 2 times current HP worth of psychic damage with stunned";
-			wandEffects = "Deals 2 times current HP worth of fire damage with burned";
+			cupEffects = "Delivers 1.3 times current HP";
+			swordEffects = "Deals 1.3 times current HP worth of damage";
+			coinEffects = "Deals 1.3 times current HP worth of psychic damage with stunned";
+			wandEffects = "Deals 1.3 times current HP worth of fire damage with burned";
 
 		} else if (value == 12) { // hanged man
 			arcanaTitle = "The Hanged Man XII";
 			arcanaMeaning = "In the face of disaster lies opportunity for renewal";
-			cupEffects = "Delivers HP 2 times current HP";
-			swordEffects = "Deals 1.5 times current HP worth of fire damage with burned";
-			coinEffects = "Deals 1.5 times current HP worth of electric damage with shocked";
-			wandEffects = "Deals 1.5 times current HP worth of psychic damage with stunned";
+			cupEffects = "Delivers HP 1.2 times current HP";
+			swordEffects = "Deals 1.3 times current HP worth of fire damage with burned";
+			coinEffects = "Deals 1.3 times current HP worth of electric damage with shocked";
+			wandEffects = "Deals 1.3 times current HP worth of psychic damage with stunned";
 
 		} else if (value == 13) { // death
 			arcanaTitle = "Death XII";
